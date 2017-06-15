@@ -1,0 +1,78 @@
+{
+  "name": "ts-checker-webpack-plugin",
+  "version": "0.0.0",
+  "description": "",
+  "keywords": [],
+  "main": "dist/TsCheckerWebpackPlugin.js",
+  "typings": "dist/types/TsCheckerWebpackPlugin.d.ts",
+  "files": [
+    "dist"
+  ],
+  "author": "Jan-André Zinser",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "scripts": {
+    "lint": "tslint -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
+    "prebuild": "rimraf dist",
+    "build": "tsc",
+    "start": "tsc --watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:prod": "npm run lint && npm run test -- --coverage --no-cache",
+    "deploy-docs": "ts-node tools/gh-pages-publish",
+    "report-coverage": "cat ./coverage/lcov.info | coveralls",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "{src,test,tools}/**/*.ts": [
+      "prettier --trailing-comma es5 --write",
+      "git add"
+    ]
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "mapCoverage": true,
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 70,
+        "functions": 70,
+        "lines": 70,
+        "statements": 70
+      }
+    }
+  },
+  "devDependencies": {
+    "@types/jest": "^19.2.4",
+    "@types/node": "^7.0.29",
+    "@types/webpack": "^2.2.15",
+    "coveralls": "^2.13.1",
+    "husky": "^0.13.4",
+    "jest": "^20.0.4",
+    "lint-staged": "^3.6.1",
+    "prettier": "^1.4.4",
+    "rimraf": "^2.6.1",
+    "ts-jest": "^20.0.6",
+    "ts-node": "^3.0.6",
+    "tslint": "^5.4.3",
+    "tslint-config-prettier": "^1.1.0",
+    "typescript": "^2.3.4"
+  }
+}
