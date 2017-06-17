@@ -137,3 +137,27 @@ Cannot find module './type'.",
   "warnings": Array [],
 }
 `;
+
+exports[`WatchCases type-patches-error 1`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases type-patches-error 2`] = `
+Object {
+  "errors": Array [
+    "Xdir/.tmp/watchCases/type-patches-error/src/entry.ts
+Cannot find module './test.svg'.",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases type-patches-error 3`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;

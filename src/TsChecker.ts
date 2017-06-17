@@ -55,6 +55,10 @@ export default class TsChecker {
     this.incrementalChecker.setWatchOptions(watchOptions);
   }
 
+  getOtherFiles() {
+    return this.incrementalChecker.otherFiles.getFiles();
+  }
+
   /**
    * Kills the checker
    */

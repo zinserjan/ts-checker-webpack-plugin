@@ -84,6 +84,12 @@ export default class TsCheckerWebpackPlugin {
       // }
     });
 
+    compiler.plugin("emit", (compilation, callback) => {
+      const filesToWatch = this.checker.getOtherFiles();
+      Array.prototype.push.apply(compilation.fileDependencies, filesToWatch);
+      callback();
+    });
+
     // compilation completely done, kill type checker in build mode
     this.compiler.plugin("done", () => {
       if (!this.watchMode) {
