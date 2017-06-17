@@ -1,6 +1,5 @@
 import * as path from "path";
 import * as ts from "typescript";
-import * as fs from "fs";
 import { SourceFile } from "typescript";
 import FileCache from "./FileCache";
 import { DiagnosticError } from "./Error";
@@ -51,6 +50,7 @@ export default class IncrementalChecker {
   }
 
   invalidateFiles(changed: Array<string>, removed: Array<string>) {
+    // todo prefill cache for invalidated files to get another performance boost
     changed.forEach(file => this.webpackFiles.invalidate(file));
     removed.forEach(file => this.webpackFiles.remove(file));
   }
