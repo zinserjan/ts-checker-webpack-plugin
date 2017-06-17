@@ -85,7 +85,8 @@
     "webpack": "^2.6.1"
   },
   "peerDependencies": {
-    "typescript": "^2.3.4"
+    "typescript": "^2.3.4",
+    "webpack": "^2.3.0"
   },
   "dependencies": {
     "es6-error": "^4.0.2",
