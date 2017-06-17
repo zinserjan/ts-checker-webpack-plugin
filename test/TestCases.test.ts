@@ -1,19 +1,29 @@
 import * as path from "path";
-import * as fs from "fs";
+import * as fs from "fs-extra";
 import webpack = require("webpack");
 import MemoryFs = require("memory-fs");
+import pDefer = require("p-defer");
 import { normalizeStats } from "./_util/stats";
 
 const testCasesPath = path.join(__dirname, "testCases");
 const tests = fs.readdirSync(testCasesPath).filter(dir => fs.statSync(path.join(testCasesPath, dir)).isDirectory());
 
+const tmpPath = path.resolve(__dirname, "../.tmp/testCases");
+
 describe("TestCases", () => {
+  beforeAll(() => {
+    return fs.emptyDir(tmpPath);
+  });
+
   tests.forEach(testName => {
     const testPath = path.join(testCasesPath, testName);
-    const webpackConfigPath = path.join(testPath, "webpack.config.ts");
-    const webpackConfig = require(webpackConfigPath);
+    const tmpTestPath = path.join(tmpPath, testName);
+    const webpackConfigPath = path.join(tmpTestPath, "webpack.config.ts");
 
-    it(testName, done => {
+    it(testName, async () => {
+      await fs.copy(testPath, tmpTestPath);
+
+      const webpackConfig = require(webpackConfigPath);
       const c = webpack(webpackConfig);
       const compilers = (c as any).compilers ? (c as any).compilers : [c];
 
@@ -37,14 +47,18 @@ describe("TestCases", () => {
         compiler.apply(new webpack.optimize.OccurrenceOrderPlugin(false));
       });
 
+      const deferred = pDefer();
       c.run((err: Error, stats: webpack.Stats) => {
-        expect(err).toBeFalsy();
+        if (err) {
+          return deferred.reject(err);
+        }
 
         const normalizedStats = normalizeStats(stats);
         expect(normalizedStats).toMatchSnapshot();
 
-        done();
+        process.nextTick(deferred.resolve);
       });
+      return deferred.promise;
     });
   });
 });

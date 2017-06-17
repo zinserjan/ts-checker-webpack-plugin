@@ -2,12 +2,13 @@ import * as path from "path";
 import * as fs from "fs-extra";
 import webpack = require("webpack");
 import MemoryFs = require("memory-fs");
+import pDefer = require("p-defer");
 import { normalizeStats } from "./_util/stats";
 
 const testCasesPath = path.join(__dirname, "watchCases");
 const tests = fs.readdirSync(testCasesPath).filter(dir => fs.statSync(path.join(testCasesPath, dir)).isDirectory());
 
-const tmpPath = path.resolve(__dirname, "../.tmp");
+const tmpPath = path.resolve(__dirname, "../.tmp/watchCases");
 
 const copySmart = async (srcPath: string, targetPath: string) => {
   const files = await fs.readdir(srcPath);
@@ -36,9 +37,10 @@ describe("WatchCases", () => {
 
   tests.forEach(testName => {
     const testPath = path.join(testCasesPath, testName);
-    const tmpTestPath = path.join(tmpPath, "watchCases", testName);
+    const tmpTestPath = path.join(tmpPath, testName);
     const tmpStepsPath = path.join(tmpTestPath, "steps");
     const srcTarget = path.join(tmpTestPath, "src");
+    const webpackConfigPath = path.join(tmpTestPath, "webpack.config.ts");
 
     it(testName, async () => {
       await fs.copy(testPath, tmpTestPath);
@@ -52,9 +54,7 @@ describe("WatchCases", () => {
       const firstStep = steps.shift() as string;
       await copyDiff(firstStep);
 
-      const webpackConfigPath = path.join(tmpTestPath, "webpack.config.ts");
       const webpackConfig = require(webpackConfigPath);
-
       const c = webpack(webpackConfig);
 
       const compilers = (c as any).compilers ? (c as any).compilers : [c];
@@ -78,13 +78,7 @@ describe("WatchCases", () => {
         compiler.apply(new webpack.optimize.OccurrenceOrderPlugin(false));
       });
 
-      let resolve: Function;
-      let reject: Function;
-      const promise = new Promise((rs, rj) => {
-        resolve = rs;
-        reject = rj;
-      });
-
+      const deferred = pDefer();
       const watching = c.watch(
         {
           aggregateTimeout: 1000,
@@ -92,7 +86,7 @@ describe("WatchCases", () => {
         },
         (err, stats) => {
           if (err) {
-            return reject(err);
+            return deferred.reject(err);
           }
 
           const normalizedStats = normalizeStats(stats);
@@ -103,11 +97,11 @@ describe("WatchCases", () => {
             copyDiff(nextStep);
           } else {
             watching.close(() => null);
-            process.nextTick(resolve);
+            process.nextTick(deferred.resolve);
           }
         }
       );
-      return promise;
+      return deferred.promise;
     });
   });
 });

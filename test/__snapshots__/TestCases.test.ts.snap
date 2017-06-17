@@ -3,7 +3,7 @@
 exports[`TestCases basic-type-error 1`] = `
 Object {
   "errors": Array [
-    "Xdir/test/testCases/basic-type-error/src/entry.ts
+    "Xdir/.tmp/testCases/basic-type-error/src/entry.ts
 Type '\\"test\\"' is not assignable to type 'number'.",
   ],
   "warnings": Array [],
@@ -27,7 +27,7 @@ Object {
 exports[`TestCases ts-dependency-only-error 1`] = `
 Object {
   "errors": Array [
-    "Xdir/test/testCases/ts-dependency-only-error/src/entry.ts
+    "Xdir/.tmp/testCases/ts-dependency-only-error/src/entry.ts
 Class 'TestImpl' incorrectly implements interface 'Test'.
   Property 'doStuff' is missing in type 'TestImpl'.",
   ],
@@ -45,7 +45,7 @@ Object {
 exports[`TestCases use-library-type-definition-error 1`] = `
 Object {
   "errors": Array [
-    "Xdir/test/testCases/use-library-type-definition-error/src/entry.ts
+    "Xdir/.tmp/testCases/use-library-type-definition-error/src/entry.ts
 Could not find a declaration file for module 'react'. 'Xdir/node_modules/react/react.js' implicitly has an 'any' type.",
   ],
   "warnings": Array [],
