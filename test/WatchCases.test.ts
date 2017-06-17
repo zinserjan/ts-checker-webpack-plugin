@@ -9,18 +9,21 @@ const tests = fs.readdirSync(testCasesPath).filter(dir => fs.statSync(path.join(
 
 const tmpPath = path.resolve(__dirname, "../.tmp");
 
-const removeFiles = async (dir: string) => {
-  const files = await fs.readdir(dir);
+const copySmart = async (srcPath: string, targetPath: string) => {
+  const files = await fs.readdir(srcPath);
 
   for (const file of files) {
-    const filePath = path.join(dir, file);
-    const isDirectory = (await fs.stat(filePath)).isDirectory();
+    const srcFilePath = path.join(srcPath, file);
+    const targetFilePath = path.join(targetPath, file);
+    const isDirectory = (await fs.stat(srcFilePath)).isDirectory();
     if (isDirectory) {
-      await removeFiles(filePath);
+      await copySmart(srcFilePath, targetFilePath);
     } else {
-      const content = (await fs.readFile(filePath)).toString("utf-8");
+      const content = (await fs.readFile(srcFilePath)).toString("utf-8");
       if (/DELETE/.test(content)) {
-        await fs.remove(filePath);
+        await fs.remove(targetFilePath);
+      } else {
+        await fs.copy(srcFilePath, targetFilePath);
       }
     }
   }
@@ -42,8 +45,7 @@ describe("WatchCases", () => {
 
       const copyDiff = async (stepIndex: string) => {
         const srcStep = path.join(tmpStepsPath, stepIndex);
-        await fs.copy(srcStep, srcTarget);
-        await removeFiles(srcTarget);
+        await copySmart(srcStep, srcTarget);
       };
 
       const steps = (await fs.readdir(tmpStepsPath)).sort();
