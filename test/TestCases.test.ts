@@ -10,10 +10,7 @@ const basePath = path.resolve(__dirname, "../");
 const normalizeError = (error: string) =>
   error.replace(/\r\n?/g, "\n").replace(new RegExp(path.join(basePath), "g"), "Xdir");
 
-/**
- * Dummy test
- */
-describe("TsCheckerWebpackPlugin", () => {
+describe("TestCases", () => {
   tests.forEach(testName => {
     const testPath = path.join(testCasesPath, testName);
     const webpackConfigPath = path.join(testPath, "webpack.config.ts");

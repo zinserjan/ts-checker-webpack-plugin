@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TsCheckerWebpackPlugin basic-type-error 1`] = `
+exports[`TestCases basic-type-error 1`] = `
 Array [
   "Xdir/test/testCases/basic-type-error/src/entry.ts
 Type '\\"test\\"' is not assignable to type 'number'.",
 ]
 `;
 
-exports[`TsCheckerWebpackPlugin ts-dependency-only-error 1`] = `
+exports[`TestCases ts-dependency-only-error 1`] = `
 Array [
   "Xdir/test/testCases/ts-dependency-only-error/src/entry.ts
 Class 'TestImpl' incorrectly implements interface 'Test'.
@@ -15,7 +15,7 @@ Class 'TestImpl' incorrectly implements interface 'Test'.
 ]
 `;
 
-exports[`TsCheckerWebpackPlugin use-library-type-definition-error 1`] = `
+exports[`TestCases use-library-type-definition-error 1`] = `
 Array [
   "Xdir/test/testCases/use-library-type-definition-error/src/entry.ts
 Could not find a declaration file for module 'react'. 'Xdir/node_modules/react/react.js' implicitly has an 'any' type.",
