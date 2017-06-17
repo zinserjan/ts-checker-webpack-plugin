@@ -28,25 +28,19 @@ export default class TsChecker {
   check(): PCancelable<TsCheckerResult> {
     const start = Date.now();
 
-    return new PCancelable(
-      (
-        onCancel,
-        resolve: (result: TsCheckerResult) => void,
-        reject: (error: Error) => void
-      ) => {
-        // onCancel(() => {
-        //   this.abort();
-        // });
+    return new PCancelable((onCancel, resolve: (result: TsCheckerResult) => void, reject: (error: Error) => void) => {
+      // onCancel(() => {
+      //   this.abort();
+      // });
 
-        const { diagnostics, lints } = this.incrementalChecker.run();
+      const { diagnostics, lints } = this.incrementalChecker.run();
 
-        resolve({
-          diagnostics,
-          lints,
-          time: Date.now() - start,
-        });
-      }
-    );
+      resolve({
+        diagnostics,
+        lints,
+        time: Date.now() - start,
+      });
+    });
   }
 
   invalidate(changes: Array<string>, removals: Array<string>) {

@@ -87,34 +87,22 @@ export default class TsCheckerWebpackPlugin {
           // register change listener to watcher
           const watchFileSystem = (this.compiler as any).watchFileSystem;
           // extract watcher from NodeWatchFileSystem or IgnoringWatchFileSystem
-          const watcher =
-            watchFileSystem.watcher ||
-            (watchFileSystem.wfs && watchFileSystem.wfs.watcher);
+          const watcher = watchFileSystem.watcher || (watchFileSystem.wfs && watchFileSystem.wfs.watcher);
           if (watcher != null) {
-            watcher.once(
-              "aggregated",
-              (changes: Array<string>, removals: Array<string>) => {
-                // update file cache
-                this.checker.invalidate(changes, removals);
-              }
-            );
+            watcher.once("aggregated", (changes: Array<string>, removals: Array<string>) => {
+              // update file cache
+              this.checker.invalidate(changes, removals);
+            });
           }
         });
       }
     });
   }
 
-  private registerBlockingCheckHook(
-    current: PCancelable<TsCheckerResult>,
-    compilation: any,
-    callback: Function
-  ) {
+  private registerBlockingCheckHook(current: PCancelable<TsCheckerResult>, compilation: any, callback: Function) {
     current
       .then((result: TsCheckerResult) => {
-        const {
-          errors,
-          warnings,
-        } = TsCheckerWebpackPlugin.transformToWebpackBuildResult(result);
+        const { errors, warnings } = TsCheckerWebpackPlugin.transformToWebpackBuildResult(result);
         errors.forEach(error => compilation.errors.push(error));
         // warnings.forEach((error) => compilation.warnings.push(error));
         this.triggerDone(errors, warnings);
@@ -144,10 +132,7 @@ export default class TsCheckerWebpackPlugin {
   private static transformToWebpackBuildResult(result: TsCheckerResult) {
     console.log("time", result.time + "ms");
 
-    const allErrors: Array<BaseError> = ([] as Array<BaseError>).concat(
-      result.lints,
-      result.diagnostics
-    );
+    const allErrors: Array<BaseError> = ([] as Array<BaseError>).concat(result.lints, result.diagnostics);
     const errors: Array<Error> = allErrors.filter(e => !e.isWarningSeverity());
     const warnings: Array<Error> = allErrors.filter(e => e.isWarningSeverity());
 

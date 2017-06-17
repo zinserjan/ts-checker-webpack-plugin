@@ -37,19 +37,10 @@ export default class IncrementalChecker {
     // check only files that were required by webpack and ignore files under node_modules
     let filesToCheck: Array<SourceFile> = this.program
       .getSourceFiles()
-      .filter(
-        (file: SourceFile) =>
-          this.webpackFiles.exist(file.fileName) &&
-          !NODE_MODULE.test(file.fileName)
-      ); // this makes it fast
+      .filter((file: SourceFile) => this.webpackFiles.exist(file.fileName) && !NODE_MODULE.test(file.fileName)); // this makes it fast
 
     const diagnostics: Array<ts.Diagnostic> = [];
-    filesToCheck.forEach(file =>
-      Array.prototype.push.apply(
-        diagnostics,
-        this.program.getSemanticDiagnostics(file)
-      )
-    );
+    filesToCheck.forEach(file => Array.prototype.push.apply(diagnostics, this.program.getSemanticDiagnostics(file)));
 
     this.webpackFiles.allChecked();
 
@@ -72,18 +63,12 @@ export default class IncrementalChecker {
       // get source file only if there is no source in files register
       if (this.webpackFiles.exist(filePath)) {
         if (this.webpackFiles.getSource(filePath) === null) {
-          this.webpackFiles.add(
-            filePath,
-            originalGetSourceFile(filePath, languageVersion, onError)
-          );
+          this.webpackFiles.add(filePath, originalGetSourceFile(filePath, languageVersion, onError));
         }
         return this.webpackFiles.getSource(filePath) as SourceFile;
       } else if (NODE_MODULE.test(filePath) && TYPE_DEFINITION.test(filePath)) {
         if (this.libFiles.getSource(filePath) === null) {
-          this.libFiles.add(
-            filePath,
-            originalGetSourceFile(filePath, languageVersion, onError)
-          );
+          this.libFiles.add(filePath, originalGetSourceFile(filePath, languageVersion, onError));
         }
         return this.libFiles.getSource(filePath) as SourceFile;
       } else {
@@ -97,20 +82,11 @@ export default class IncrementalChecker {
       return originalGetSourceFile(filePath, languageVersion, onError);
     };
 
-    return ts.createProgram(
-      this.programConfig.fileNames,
-      this.programConfig.options,
-      host,
-      this.program
-    );
+    return ts.createProgram(this.programConfig.fileNames, this.programConfig.options, host, this.program);
   }
 
   private static getProgramConfig(tsconfigPath: string) {
     const config = ts.readConfigFile(tsconfigPath, ts.sys.readFile).config;
-    return ts.parseJsonConfigFileContent(
-      config,
-      ts.sys,
-      path.dirname(tsconfigPath)
-    );
+    return ts.parseJsonConfigFileContent(config, ts.sys, path.dirname(tsconfigPath));
   }
 }

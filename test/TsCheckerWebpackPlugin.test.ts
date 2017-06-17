@@ -4,15 +4,11 @@ import webpack = require("webpack");
 import MemoryFs = require("memory-fs");
 
 const testCasesPath = path.join(__dirname, "testCases");
-const tests = fs
-  .readdirSync(testCasesPath)
-  .filter(dir => fs.statSync(path.join(testCasesPath, dir)).isDirectory());
+const tests = fs.readdirSync(testCasesPath).filter(dir => fs.statSync(path.join(testCasesPath, dir)).isDirectory());
 
 const basePath = path.resolve(__dirname, "../");
 const normalizeError = (error: string) =>
-  error
-    .replace(/\r\n?/g, "\n")
-    .replace(new RegExp(path.join(basePath), "g"), "Xdir");
+  error.replace(/\r\n?/g, "\n").replace(new RegExp(path.join(basePath), "g"), "Xdir");
 
 /**
  * Dummy test

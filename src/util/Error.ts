@@ -1,9 +1,5 @@
 import Es6Error = require("es6-error");
-import {
-  Diagnostic,
-  DiagnosticCategory,
-  flattenDiagnosticMessageText,
-} from "typescript";
+import { Diagnostic, DiagnosticCategory, flattenDiagnosticMessageText } from "typescript";
 
 export interface BaseError extends Error {
   isWarningSeverity(): boolean;
@@ -18,14 +14,7 @@ export class DiagnosticError extends Es6Error implements BaseError {
 
   // see https://github.com/gotwarlost/istanbul/issues/690
   /* istanbul ignore next */
-  constructor(
-    message: string,
-    code: number,
-    severity: string,
-    file: string,
-    line: number,
-    character: number
-  ) {
+  constructor(message: string, code: number, severity: string, file: string, line: number, character: number) {
     super(message);
     this.code = code;
     this.severity = severity;
@@ -39,9 +28,7 @@ export class DiagnosticError extends Es6Error implements BaseError {
   }
 
   static createFromDiagnostic(diagnostic: Diagnostic) {
-    const position = diagnostic.file.getLineAndCharacterOfPosition(
-      diagnostic.start
-    );
+    const position = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start);
     return new DiagnosticError(
       flattenDiagnosticMessageText(diagnostic.messageText, "\n"),
       diagnostic.code,
