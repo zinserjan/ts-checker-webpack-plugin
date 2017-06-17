@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WatchCases basic-type-error 1`] = `
+Object {
+  "errors": Array [
+    "Xdir/.tmp/watchCases/basic-type-error/src/entry.ts
+Type '\\"test\\"' is not assignable to type 'number'.",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases basic-type-error 2`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases basic-type-no-error 1`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases basic-type-no-error 2`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases file-removal-no-error 1`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases file-removal-no-error 2`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
