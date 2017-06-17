@@ -14,9 +14,11 @@ export class DiagnosticError extends Es6Error implements BaseError {
   severity: string;
   file: string;
   line: number;
-  character: number; // see https://github.com/gotwarlost/istanbul/issues/690
+  character: number;
 
-  /* istanbul ignore next */ constructor(
+  // see https://github.com/gotwarlost/istanbul/issues/690
+  /* istanbul ignore next */
+  constructor(
     message: string,
     code: number,
     severity: string,
