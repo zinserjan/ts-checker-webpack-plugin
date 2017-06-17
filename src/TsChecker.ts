@@ -47,16 +47,8 @@ export default class TsChecker {
     this.incrementalChecker.invalidateFiles(changes, removals);
   }
 
-  setWatchMode(enabled: boolean) {
-    this.incrementalChecker.setWatchMode(enabled);
-  }
-
-  setWatchOptions(watchOptions: {}) {
-    this.incrementalChecker.setWatchOptions(watchOptions);
-  }
-
-  getOtherFiles() {
-    return this.incrementalChecker.otherFiles.getFiles();
+  getTypeCheckRelatedFiles() {
+    return this.incrementalChecker.getTypeCheckRelatedFiles();
   }
 
   /**

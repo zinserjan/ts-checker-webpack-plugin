@@ -29,14 +29,7 @@ export default class TsCheckerWebpackPlugin {
     // detect watch mode
     this.compiler.plugin("watch-run", (watching, callback) => {
       this.watchMode = true;
-      this.checker.setWatchMode(true);
       callback();
-    });
-
-    // detect when watch-mode is over
-    this.compiler.plugin("watch-close", () => {
-      this.watchMode = false;
-      this.checker.setWatchMode(false);
     });
 
     // new compilation started, abort any existing type checkings
@@ -84,8 +77,10 @@ export default class TsCheckerWebpackPlugin {
       // }
     });
 
+    // let webpack watch type definition files which are not part of the dependency graph
+    // to rebuild on changes automatically
     compiler.plugin("emit", (compilation, callback) => {
-      const filesToWatch = this.checker.getOtherFiles();
+      const filesToWatch = this.checker.getTypeCheckRelatedFiles();
       Array.prototype.push.apply(compilation.fileDependencies, filesToWatch);
       callback();
     });
@@ -102,8 +97,6 @@ export default class TsCheckerWebpackPlugin {
           // extract watcher from NodeWatchFileSystem or IgnoringWatchFileSystem
           const watcher = watchFileSystem.watcher || (watchFileSystem.wfs && watchFileSystem.wfs.watcher);
           if (watcher != null) {
-            // extract watch options from watcher
-            this.refreshWatchOptions(Object.assign({}, watcher.options));
             // register change listener to get changed & removed files
             watcher.once("aggregated", (changes: Array<string>, removals: Array<string>) => {
               // update file cache
@@ -156,10 +149,6 @@ export default class TsCheckerWebpackPlugin {
       errors,
       warnings,
     };
-  }
-
-  private refreshWatchOptions(watchOptions: {}) {
-    this.checker.setWatchOptions(watchOptions);
   }
 
   private triggerStart() {
