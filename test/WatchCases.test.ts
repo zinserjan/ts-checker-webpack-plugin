@@ -103,5 +103,5 @@ describe("WatchCases", () => {
       );
       return deferred.promise;
     });
-  });
+  }, 15000);
 });

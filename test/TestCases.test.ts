@@ -60,5 +60,5 @@ describe("TestCases", () => {
       });
       return deferred.promise;
     });
-  });
+  }, 15000);
 });
