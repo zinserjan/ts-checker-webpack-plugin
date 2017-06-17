@@ -20,7 +20,7 @@
   "scripts": {
     "lint": "tslint -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
     "prebuild": "rimraf dist",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "test": "jest",
     "format": "prettier --trailing-comma es5 --print-width 120 --write '{src,test}/**/*.ts'",
     "test:prod": "npm run lint && npm run test -- --coverage --no-cache",

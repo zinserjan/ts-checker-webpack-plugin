@@ -14,11 +14,12 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "strictNullChecks": true,
-    "declarationDir": "dist/types",
+    "declarationDir": "dist",
     "outDir": "dist"
   },
   "include": [
     "src/**/*.ts",
+    "test/**/*.ts",
     "typePatches/**/*.d.ts"
   ],
   "types": [
