@@ -2,13 +2,10 @@ import * as path from "path";
 import * as fs from "fs";
 import webpack = require("webpack");
 import MemoryFs = require("memory-fs");
+import { normalizeStats } from "./_util/stats";
 
 const testCasesPath = path.join(__dirname, "testCases");
 const tests = fs.readdirSync(testCasesPath).filter(dir => fs.statSync(path.join(testCasesPath, dir)).isDirectory());
-
-const basePath = path.resolve(__dirname, "../");
-const normalizeError = (error: string) =>
-  error.replace(/\r\n?/g, "\n").replace(new RegExp(path.join(basePath), "g"), "Xdir");
 
 describe("TestCases", () => {
   tests.forEach(testName => {
@@ -43,17 +40,8 @@ describe("TestCases", () => {
       c.run((err: Error, stats: webpack.Stats) => {
         expect(err).toBeFalsy();
 
-        const { errors, warnings } = stats.toJson();
-
-        if (stats.hasErrors()) {
-          const normalizedErrors = errors.map(normalizeError);
-          expect(normalizedErrors).toMatchSnapshot();
-        }
-
-        if (stats.hasWarnings()) {
-          const normalizedWarnings = warnings.map(normalizeError);
-          expect(normalizedWarnings).toMatchSnapshot();
-        }
+        const normalizedStats = normalizeStats(stats);
+        expect(normalizedStats).toMatchSnapshot();
 
         done();
       });

@@ -1,23 +1,60 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`TestCases basic-type-error 1`] = `
-Array [
-  "Xdir/test/testCases/basic-type-error/src/entry.ts
+Object {
+  "errors": Array [
+    "Xdir/test/testCases/basic-type-error/src/entry.ts
 Type '\\"test\\"' is not assignable to type 'number'.",
-]
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`TestCases basic-type-no-error 1`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
+exports[`TestCases ignore-child-compiler-no-error 1`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
 `;
 
 exports[`TestCases ts-dependency-only-error 1`] = `
-Array [
-  "Xdir/test/testCases/ts-dependency-only-error/src/entry.ts
+Object {
+  "errors": Array [
+    "Xdir/test/testCases/ts-dependency-only-error/src/entry.ts
 Class 'TestImpl' incorrectly implements interface 'Test'.
   Property 'doStuff' is missing in type 'TestImpl'.",
-]
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`TestCases ts-dependency-only-no-error 1`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
 `;
 
 exports[`TestCases use-library-type-definition-error 1`] = `
-Array [
-  "Xdir/test/testCases/use-library-type-definition-error/src/entry.ts
+Object {
+  "errors": Array [
+    "Xdir/test/testCases/use-library-type-definition-error/src/entry.ts
 Could not find a declaration file for module 'react'. 'Xdir/node_modules/react/react.js' implicitly has an 'any' type.",
-]
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`TestCases use-library-type-definition-no-error 1`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
 `;
