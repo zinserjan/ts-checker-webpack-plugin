@@ -7,7 +7,7 @@ export interface FileState {
 }
 
 export default class FileCache {
-  files: Map<string, FileState>;
+  private files: Map<string, FileState>;
 
   constructor() {
     this.files = new Map();
@@ -40,6 +40,10 @@ export default class FileCache {
   getSource(file: string) {
     const fileState = this.files.get(file);
     return fileState != null ? fileState.source : null;
+  }
+
+  getFiles() {
+    return Array.from(this.files.keys());
   }
 
   allChecked() {

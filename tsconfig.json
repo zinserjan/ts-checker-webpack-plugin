@@ -20,6 +20,7 @@
   "include": [
     "src/**/*.ts",
     "test/**/*.ts",
+    "tmp/**/*.ts",
     "typePatches/**/*.d.ts"
   ],
   "types": [

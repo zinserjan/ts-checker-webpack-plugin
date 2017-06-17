@@ -1,6 +1,7 @@
 import * as path from "path";
 import * as ts from "typescript";
 import { SourceFile } from "typescript";
+import * as Watcher from "watchpack";
 import FileCache from "./FileCache";
 import { DiagnosticError } from "./Error";
 
@@ -22,6 +23,10 @@ export default class IncrementalChecker {
   otherFiles: FileCache;
   program: ts.Program;
   programConfig: ts.ParsedCommandLine;
+  watchMode: boolean = false;
+  watchOptions: {} = {};
+  watcher: null | Watcher = null;
+  lastCheck: number = Date.now();
 
   constructor(tsconfigPath: string) {
     this.webpackFiles = new FileCache();
@@ -32,6 +37,7 @@ export default class IncrementalChecker {
 
   run() {
     this.program = this.createProgram();
+    this.lastCheck = Date.now();
 
     // check only files that were required by webpack and ignore files under node_modules
     let filesToCheck: Array<SourceFile> = this.program
@@ -40,6 +46,10 @@ export default class IncrementalChecker {
 
     const diagnostics: Array<ts.Diagnostic> = [];
     filesToCheck.forEach(file => Array.prototype.push.apply(diagnostics, this.program.getSemanticDiagnostics(file)));
+
+    if (this.watchMode) {
+      this.restartWatchingNonWebpackFiles();
+    }
 
     this.webpackFiles.allChecked();
 
@@ -53,6 +63,21 @@ export default class IncrementalChecker {
     // todo prefill cache for invalidated files to get another performance boost
     changed.forEach(file => this.webpackFiles.invalidate(file));
     removed.forEach(file => this.webpackFiles.remove(file));
+  }
+
+  setWatchMode(enabled: boolean) {
+    if (this.watchMode !== enabled) {
+      this.watchMode = enabled;
+      if (this.watchMode) {
+        this.restartWatchingNonWebpackFiles();
+      } else {
+        this.stopWatchingNonWebpackFiles();
+      }
+    }
+  }
+
+  setWatchOptions(watchOptions: {}) {
+    this.watchOptions = watchOptions;
   }
 
   private createProgram() {
@@ -71,15 +96,11 @@ export default class IncrementalChecker {
           this.libFiles.add(filePath, originalGetSourceFile(filePath, languageVersion, onError));
         }
         return this.libFiles.getSource(filePath) as SourceFile;
-      } else {
-        // todo cache other files and watch them
-        // if (!this.otherFiles.exist(filePath) || this.otherFiles.getSource(filePath) === null) {
-        //   this.otherFiles.add(filePath, 0, originalGetSourceFile(filePath, languageVersion, onError));
-        // }
-        // source = this.otherFiles.getSource(filePath);
       }
-
-      return originalGetSourceFile(filePath, languageVersion, onError);
+      if (!this.otherFiles.exist(filePath) || this.otherFiles.getSource(filePath) === null) {
+        this.otherFiles.add(filePath, originalGetSourceFile(filePath, languageVersion, onError));
+      }
+      return this.otherFiles.getSource(filePath) as SourceFile;
     };
 
     return ts.createProgram(this.programConfig.fileNames, this.programConfig.options, host, this.program);
@@ -88,5 +109,30 @@ export default class IncrementalChecker {
   private static getProgramConfig(tsconfigPath: string) {
     const config = ts.readConfigFile(tsconfigPath, ts.sys.readFile).config;
     return ts.parseJsonConfigFileContent(config, ts.sys, path.dirname(tsconfigPath));
+  }
+
+  private restartWatchingNonWebpackFiles() {
+    this.stopWatchingNonWebpackFiles();
+
+    const files = this.otherFiles.getFiles();
+    if (files.length > 0) {
+      this.watcher = new Watcher(this.watchOptions);
+      this.watcher.watch(files, [], this.lastCheck);
+
+      this.watcher.on("change", (file: string) => {
+        this.otherFiles.invalidate(file);
+      });
+
+      this.watcher.on("remove", (file: string) => {
+        this.otherFiles.remove(file);
+      });
+    }
+  }
+
+  private stopWatchingNonWebpackFiles() {
+    if (this.watcher != null) {
+      this.watcher.close();
+      this.watcher = null;
+    }
   }
 }

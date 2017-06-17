@@ -76,14 +76,12 @@ describe("WatchCases", () => {
         compiler.apply(new webpack.optimize.OccurrenceOrderPlugin(false));
       });
 
-      let resolve;
-      let reject;
+      let resolve: Function;
+      let reject: Function;
       const promise = new Promise((rs, rj) => {
         resolve = rs;
         reject = rj;
       });
-
-      let lastHash = null;
 
       const watching = c.watch(
         {
@@ -91,11 +89,6 @@ describe("WatchCases", () => {
           poll: 400,
         },
         (err, stats) => {
-          if ((stats as any).hash === lastHash) {
-            return;
-          }
-          lastHash = (stats as any).hash;
-
           if (err) {
             return reject(err);
           }

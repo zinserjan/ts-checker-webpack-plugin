@@ -44,3 +44,51 @@ Object {
   "warnings": Array [],
 }
 `;
+
+exports[`WatchCases ts-dependency-only-error 1`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases ts-dependency-only-error 2`] = `
+Object {
+  "errors": Array [
+    "Xdir/.tmp/watchCases/ts-dependency-only-error/src/entry.ts
+File 'Xdir/.tmp/watchCases/ts-dependency-only-error/src/type.ts' is not a module.",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases ts-dependency-only-error 3`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases ts-dependency-only-removal-error 1`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases ts-dependency-only-removal-error 2`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases ts-dependency-only-removal-error 3`] = `
+Object {
+  "errors": Array [
+    "Xdir/.tmp/watchCases/ts-dependency-only-removal-error/src/entry.ts
+Cannot find module './type'.",
+  ],
+  "warnings": Array [],
+}
+`;
