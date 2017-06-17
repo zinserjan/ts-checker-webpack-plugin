@@ -61,8 +61,17 @@ export default class IncrementalChecker {
 
   invalidateFiles(changed: Array<string>, removed: Array<string>) {
     // todo prefill cache for invalidated files to get another performance boost
-    changed.forEach(file => this.webpackFiles.invalidate(file));
-    removed.forEach(file => this.webpackFiles.remove(file));
+    changed.forEach(file => {
+      this.webpackFiles.invalidate(file);
+      // remove type definitions for files like css-modules, cause file watcher may detect changes to late
+      this.otherFiles.removeTypeDefinitionOfFile(file);
+    });
+
+    removed.forEach(file => {
+      this.webpackFiles.remove(file);
+      // remove type definitions for files like css-modules, cause file watcher may detect changes to late
+      this.otherFiles.removeTypeDefinitionOfFile(file);
+    });
   }
 
   setWatchMode(enabled: boolean) {

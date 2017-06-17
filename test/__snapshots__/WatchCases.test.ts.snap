@@ -31,6 +31,51 @@ Object {
 }
 `;
 
+exports[`WatchCases css-modules-error 1`] = `
+Object {
+  "errors": Array [
+    "Xdir/.tmp/watchCases/css-modules-error/src/entry.ts
+Property 'test' does not exist on type 'typeof \\"Xdir/.tmp/watchCases/css-modules-erro...'.",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases css-modules-error 2`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases css-modules-no-error 1`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases css-modules-no-error 2`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases css-modules-removal-no-error 1`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases css-modules-removal-no-error 2`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
 exports[`WatchCases file-removal-no-error 1`] = `
 Object {
   "errors": Array [],

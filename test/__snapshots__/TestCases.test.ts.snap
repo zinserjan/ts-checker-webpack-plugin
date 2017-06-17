@@ -17,6 +17,23 @@ Object {
 }
 `;
 
+exports[`TestCases css-modules-error 1`] = `
+Object {
+  "errors": Array [
+    "Xdir/.tmp/testCases/css-modules-error/src/entry.ts
+Property 'test' does not exist on type 'typeof \\"Xdir/.tmp/testCases/css-modules-error...'.",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`TestCases css-modules-no-error 1`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
 exports[`TestCases ignore-child-compiler-no-error 1`] = `
 Object {
   "errors": Array [],

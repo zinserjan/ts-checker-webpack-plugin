@@ -37,6 +37,13 @@ export default class FileCache {
     this.files.delete(file);
   }
 
+  removeTypeDefinitionOfFile(file: string) {
+    const typeFile = `${file}.d.ts`;
+    if (this.exist(typeFile)) {
+      this.remove(typeFile);
+    }
+  }
+
   getSource(file: string) {
     const fileState = this.files.get(file);
     return fileState != null ? fileState.source : null;
