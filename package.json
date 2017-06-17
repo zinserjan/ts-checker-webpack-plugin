@@ -60,19 +60,32 @@
     }
   },
   "devDependencies": {
+    "@types/is-promise": "0.0.3",
     "@types/jest": "^19.2.4",
     "@types/node": "^7.0.29",
     "@types/webpack": "^2.2.15",
     "coveralls": "^2.13.1",
+    "html-webpack-plugin": "^2.28.0",
     "husky": "^0.13.4",
+    "is-promise": "^2.1.0",
     "jest": "^20.0.4",
     "lint-staged": "^3.6.1",
     "prettier": "^1.4.4",
+    "react": "^15.6.1",
     "rimraf": "^2.6.1",
     "ts-jest": "^20.0.6",
+    "ts-loader": "^2.1.0",
     "ts-node": "^3.0.6",
     "tslint": "^5.4.3",
     "tslint-config-prettier": "^1.1.0",
+    "typescript": "^2.3.4",
+    "webpack": "^2.6.1"
+  },
+  "peerDependencies": {
     "typescript": "^2.3.4"
+  },
+  "dependencies": {
+    "es6-error": "^4.0.2",
+    "p-cancelable": "^0.2.0"
   }
 }
