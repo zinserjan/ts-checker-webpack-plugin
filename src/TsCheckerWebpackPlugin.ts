@@ -13,14 +13,12 @@ export interface TsCheckerWebpackPluginOptions {
 }
 
 export default class TsCheckerWebpackPlugin {
-  block: boolean = true;
   watchMode: boolean = false;
   compiler: Compiler;
   checker: TsChecker;
   current?: PCancelable<TsCheckerResult> | null = null;
 
   constructor(options: TsCheckerWebpackPluginOptions) {
-    this.block = true; // todo configure via config
     this.checker = new TsChecker(options.tsconfigPath);
   }
 
@@ -66,13 +64,7 @@ export default class TsCheckerWebpackPlugin {
       // start type checking
       this.triggerStart();
       this.current = this.checker.check();
-
-      // if (this.block) {
       this.registerBlockingCheckHook(this.current, compilation, callback);
-      // } else {
-      //   this.registerNonBlockingCheckHook(this.current);
-      //   callback();
-      // }
     });
 
     // let webpack watch type definition files which are not part of the dependency graph
@@ -120,21 +112,6 @@ export default class TsCheckerWebpackPlugin {
         callback(e);
       });
   }
-
-  // private registerNonBlockingCheckHook(current: PCancelable<TsCheckerResult>) {
-  //   current
-  //     .then((result: TsCheckerResult) => {
-  //       const { errors, warnings } = TsCheckerWebpackPlugin.transformToWebpackBuildResult(result);
-  //       this.triggerDone(errors, warnings);
-  //     })
-  //     .catch((e) => {
-  //       if (e instanceof CancelError) {
-  //         // type checking was already canceled, just ignore this,
-  //         return;
-  //       }
-  //       this.triggerDone([e]);
-  //     })
-  // }
 
   private static transformToWebpackBuildResult(result: TsCheckerResult) {
     console.log("time", result.time + "ms");
