@@ -36,7 +36,6 @@
     "test": "jest",
     "format": "prettier --trailing-comma es5 --print-width 120 --write '{src,test}/**/*.ts'",
     "test:prod": "npm run test -- --coverage --no-cache",
-    "report-coverage": "cat ./coverage/lcov.info | coveralls",
     "precommit": "lint-staged"
   },
   "lint-staged": {
@@ -78,7 +77,6 @@
     "@types/node": "^7.0.29",
     "@types/p-defer": "^1.0.0",
     "@types/webpack": "^2.2.15",
-    "coveralls": "^2.13.1",
     "css-loader": "^0.28.4",
     "fs-extra": "^3.0.1",
     "html-webpack-plugin": "^2.28.0",
