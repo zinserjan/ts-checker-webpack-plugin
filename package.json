@@ -31,12 +31,11 @@
     "node": ">=6.0.0"
   },
   "scripts": {
-    "lint": "tslint -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
     "prebuild": "rimraf dist",
     "build": "tsc -p tsconfig.build.json",
     "test": "jest",
     "format": "prettier --trailing-comma es5 --print-width 120 --write '{src,test}/**/*.ts'",
-    "test:prod": "npm run lint && npm run test -- --coverage --no-cache",
+    "test:prod": "npm run test -- --coverage --no-cache",
     "report-coverage": "cat ./coverage/lcov.info | coveralls",
     "precommit": "lint-staged"
   },
@@ -96,7 +95,6 @@
     "ts-loader": "^2.1.0",
     "ts-node": "^3.0.6",
     "tslint": "^5.4.3",
-    "tslint-config-prettier": "^1.1.0",
     "typescript": "^2.3.4",
     "typings-for-css-modules-loader": "^1.5.0",
     "webpack": "^2.6.1"
