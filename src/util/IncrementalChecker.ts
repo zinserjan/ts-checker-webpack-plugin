@@ -1,33 +1,65 @@
 import * as path from "path";
 import * as ts from "typescript";
+import * as tslint from "tslint";
 import { SourceFile } from "typescript";
 import FileCache from "./FileCache";
-import { DiagnosticError } from "./Error";
+import { DiagnosticError, LintError } from "./Error";
 
 export default class IncrementalChecker {
   private fileCache: FileCache;
   private program: ts.Program;
   private programConfig: ts.ParsedCommandLine;
+  private tslintConfig: tslint.Configuration.IConfigurationFile;
 
-  constructor(tsconfigPath: string) {
+  constructor(tsconfigPath: string, tslintPath?: string) {
     this.fileCache = new FileCache();
     this.programConfig = IncrementalChecker.getProgramConfig(tsconfigPath);
+    if (tslintPath != null) {
+      this.tslintConfig = IncrementalChecker.getLintConfig(tslintPath);
+    }
   }
 
   run() {
     this.program = this.createProgram(this.program);
 
     // check only files that were required by webpack
-    let filesToCheck: Array<SourceFile> = this.program
+    const filesToCheck: Array<SourceFile> = this.program
       .getSourceFiles()
       .filter((file: SourceFile) => this.fileCache.isFileTypeCheckable(file.fileName)); // this makes it fast
 
     const diagnostics: Array<ts.Diagnostic> = [];
     filesToCheck.forEach(file => Array.prototype.push.apply(diagnostics, this.program.getSemanticDiagnostics(file)));
 
+    const lints: Array<tslint.RuleFailure> = [];
+    if (this.tslintConfig != null) {
+      const filesToLint = filesToCheck.filter((file: SourceFile) => this.fileCache.isFileLintable(file.fileName));
+
+      const linter = new tslint.Linter({ fix: false }, this.program);
+
+      // lint files
+      filesToLint.forEach((file: SourceFile) => {
+        linter.lint(file.fileName, file.text, this.tslintConfig);
+      });
+
+      // collect failed files
+      const failed = new Map<string, boolean>();
+      linter.getResult().failures.forEach(lintResult => {
+        lints.push(lintResult);
+        failed.set(lintResult.getFileName(), true);
+      });
+
+      // track files without errors as linted
+      filesToLint.forEach((file: SourceFile) => {
+        if (!failed.has(file.fileName)) {
+          console.log("mark as linted");
+          this.fileCache.linted(file.fileName);
+        }
+      });
+    }
+
     return {
       diagnostics: diagnostics.map(DiagnosticError.createFromDiagnostic),
-      lints: [],
+      lints: lints.map(LintError.createFromLint),
     };
   }
 
@@ -80,5 +112,9 @@ export default class IncrementalChecker {
   private static getProgramConfig(tsconfigPath: string) {
     const config = ts.readConfigFile(tsconfigPath, ts.sys.readFile).config;
     return ts.parseJsonConfigFileContent(config, ts.sys, path.dirname(tsconfigPath));
+  }
+
+  private static getLintConfig(tslintPath: string) {
+    return tslint.Configuration.loadConfigurationFromPath(tslintPath);
   }
 }

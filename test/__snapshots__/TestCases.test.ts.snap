@@ -69,6 +69,26 @@ Object {
 }
 `;
 
+exports[`TestCases tslint-error 1`] = `
+Object {
+  "errors": Array [
+    "Xdir/.tmp/testCases/tslint-error/src/entry.ts
+' should be \\"",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`TestCases tslint-warning 1`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [
+    "Xdir/.tmp/testCases/tslint-warning/src/entry.ts
+' should be \\"",
+  ],
+}
+`;
+
 exports[`TestCases use-library-type-definition-error 1`] = `
 Object {
   "errors": Array [

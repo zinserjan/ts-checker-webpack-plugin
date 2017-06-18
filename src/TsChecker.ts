@@ -1,17 +1,17 @@
-import { DiagnosticError } from "./util/Error";
+import { DiagnosticError, LintError } from "./util/Error";
 import IncrementalChecker from "./util/IncrementalChecker";
 
 export type TsCheckerResult = {
   diagnostics: Array<DiagnosticError>;
-  lints: Array<DiagnosticError>;
+  lints: Array<LintError>;
   time: number;
 };
 
 export default class TsChecker {
   private incrementalChecker: IncrementalChecker;
 
-  constructor(tsconfigPath: string) {
-    this.incrementalChecker = new IncrementalChecker(tsconfigPath);
+  constructor(tsconfigPath: string, tslintPath?: string) {
+    this.incrementalChecker = new IncrementalChecker(tsconfigPath, tslintPath);
   }
 
   /**

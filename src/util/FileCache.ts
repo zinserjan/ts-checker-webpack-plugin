@@ -64,6 +64,12 @@ export default class FileCache {
     });
   }
 
+  linted(file: string) {
+    this.update(file, {
+      linted: true,
+    });
+  }
+
   invalidate(file: string) {
     this.update(file, {
       source: null,
@@ -86,6 +92,14 @@ export default class FileCache {
     if (this.exist(file)) {
       const fileState = this.files.get(file) as FileState;
       return fileState.built && !fileState.nodeModule;
+    }
+    return false;
+  }
+
+  isFileLintable(file: string) {
+    if (this.exist(file)) {
+      const fileState = this.files.get(file) as FileState;
+      return !fileState.linted && !fileState.typeDefinition && !fileState.nodeModule;
     }
     return false;
   }

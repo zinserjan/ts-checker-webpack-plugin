@@ -138,6 +138,64 @@ Cannot find module './type'.",
 }
 `;
 
+exports[`WatchCases tslint-error 1`] = `
+Object {
+  "errors": Array [
+    "Xdir/.tmp/watchCases/tslint-error/src/util.ts
+' should be \\"",
+    "Xdir/.tmp/watchCases/tslint-error/src/entry.ts
+' should be \\"",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases tslint-error 2`] = `
+Object {
+  "errors": Array [
+    "Xdir/.tmp/watchCases/tslint-error/src/entry.ts
+' should be \\"",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases tslint-error 3`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases tslint-warning 1`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [
+    "Xdir/.tmp/watchCases/tslint-warning/src/util.ts
+' should be \\"",
+    "Xdir/.tmp/watchCases/tslint-warning/src/entry.ts
+' should be \\"",
+  ],
+}
+`;
+
+exports[`WatchCases tslint-warning 2`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [
+    "Xdir/.tmp/watchCases/tslint-warning/src/entry.ts
+' should be \\"",
+  ],
+}
+`;
+
+exports[`WatchCases tslint-warning 3`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
 exports[`WatchCases type-patches-error 1`] = `
 Object {
   "errors": Array [],

@@ -16,7 +16,7 @@ export default class TsCheckerWebpackPlugin {
   current?: Promise<TsCheckerResult> | null = null;
 
   constructor(options: TsCheckerWebpackPluginOptions) {
-    this.checker = new TsChecker(options.tsconfigPath);
+    this.checker = new TsChecker(options.tsconfigPath, options.tslintPath);
   }
 
   apply(compiler: Compiler) {
@@ -102,6 +102,7 @@ export default class TsCheckerWebpackPlugin {
   private static transformToWebpackBuildResult(result: TsCheckerResult) {
     console.log("time", result.time + "ms");
 
+    // todo maybe prefer diagnostic error for files with type & lint error
     const allErrors: Array<BaseError> = ([] as Array<BaseError>).concat(result.lints, result.diagnostics);
     const errors: Array<Error> = allErrors.filter(e => !e.isWarningSeverity());
     const warnings: Array<Error> = allErrors.filter(e => e.isWarningSeverity());
