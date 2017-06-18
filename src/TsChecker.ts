@@ -1,4 +1,3 @@
-import PCancelable = require("p-cancelable");
 import { DiagnosticError } from "./util/Error";
 import IncrementalChecker from "./util/IncrementalChecker";
 
@@ -6,13 +5,6 @@ export type TsCheckerResult = {
   diagnostics: Array<DiagnosticError>;
   lints: Array<DiagnosticError>;
   time: number;
-};
-
-export type TsCheckerOptions = {
-  tsconfigPath: string;
-  tslintPath?: string;
-  workers: number;
-  memoryLimit: number;
 };
 
 export default class TsChecker {
@@ -25,21 +17,16 @@ export default class TsChecker {
   /**
    * Checks type checking and linting
    */
-  check(): PCancelable<TsCheckerResult> {
+  check(): Promise<TsCheckerResult> {
     const start = Date.now();
 
-    return new PCancelable((onCancel, resolve: (result: TsCheckerResult) => void, reject: (error: Error) => void) => {
-      // onCancel(() => {
-      //   this.abort();
-      // });
-
+    return Promise.resolve().then(() => {
       const { diagnostics, lints } = this.incrementalChecker.run();
-
-      resolve({
+      return {
         diagnostics,
         lints,
         time: Date.now() - start,
-      });
+      };
     });
   }
 
@@ -60,16 +47,4 @@ export default class TsChecker {
   getTypeCheckRelatedFiles() {
     return this.incrementalChecker.getTypeCheckRelatedFiles();
   }
-
-  /**
-   * Kills the checker
-   */
-  public kill() {}
-
-  // /**
-  //  * Aborts the actual type checking or linting
-  //  */
-  // private abort() {
-  //
-  // }
 }

@@ -1,10 +1,7 @@
 import { Compiler } from "webpack";
-import PCancelable = require("p-cancelable");
 import TsChecker, { TsCheckerResult } from "./TsChecker";
 import { BaseError } from "./util/Error";
 import { stripLoader } from "./util/webpackModule";
-
-// const CancelError = PCancelable.CancelError;
 
 export interface TsCheckerWebpackPluginOptions {
   block?: boolean;
@@ -16,7 +13,7 @@ export default class TsCheckerWebpackPlugin {
   watchMode: boolean = false;
   compiler: Compiler;
   checker: TsChecker;
-  current?: PCancelable<TsCheckerResult> | null = null;
+  current?: Promise<TsCheckerResult> | null = null;
 
   constructor(options: TsCheckerWebpackPluginOptions) {
     this.checker = new TsChecker(options.tsconfigPath);
@@ -30,15 +27,6 @@ export default class TsCheckerWebpackPlugin {
       this.watchMode = true;
       callback();
     });
-
-    // new compilation started, abort any existing type checkings
-    // this.compiler.plugin('before-compile', (i, callback) => {
-    //   // abort any existing stuff
-    //   if (this.current != null) {
-    //     this.current.cancel();
-    //   }
-    //   callback();
-    // });
 
     // compilation almost finished, start type checking
     this.compiler.plugin("after-compile", (compilation, callback) => {
@@ -77,9 +65,7 @@ export default class TsCheckerWebpackPlugin {
 
     // compilation completely done, kill type checker in build mode
     this.compiler.plugin("done", () => {
-      if (!this.watchMode) {
-        this.checker.kill();
-      } else {
+      if (this.watchMode) {
         // wait for next tick until the watcher is ready
         process.nextTick(() => {
           // register change listener to watcher
@@ -98,7 +84,7 @@ export default class TsCheckerWebpackPlugin {
     });
   }
 
-  private registerBlockingCheckHook(current: PCancelable<TsCheckerResult>, compilation: any, callback: Function) {
+  private registerBlockingCheckHook(current: Promise<TsCheckerResult>, compilation: any, callback: Function) {
     current
       .then((result: TsCheckerResult) => {
         const { errors, warnings } = TsCheckerWebpackPlugin.transformToWebpackBuildResult(result);

@@ -93,7 +93,6 @@
     "webpack": "^2.3.0"
   },
   "dependencies": {
-    "es6-error": "^4.0.2",
-    "p-cancelable": "^0.2.0"
+    "es6-error": "^4.0.2"
   }
 }
