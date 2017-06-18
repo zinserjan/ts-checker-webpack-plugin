@@ -3,7 +3,7 @@
 exports[`WatchCases basic-type-error 1`] = `
 Object {
   "errors": Array [
-    "Xdir/.tmp/watchCases/basic-type-error/src/entry.ts
+    "xfile
 Type '\\"test\\"' is not assignable to type 'number'.",
   ],
   "warnings": Array [],
@@ -34,8 +34,8 @@ Object {
 exports[`WatchCases css-modules-error 1`] = `
 Object {
   "errors": Array [
-    "Xdir/.tmp/watchCases/css-modules-error/src/entry.ts
-Property 'test' does not exist on type 'typeof \\"Xdir/.tmp/watchCases/css-modules-erro...'.",
+    "xfile
+Property 'test' does not exist on type 'typeof \\"xfile'.",
   ],
   "warnings": Array [],
 }
@@ -100,8 +100,8 @@ Object {
 exports[`WatchCases ts-dependency-only-error 2`] = `
 Object {
   "errors": Array [
-    "Xdir/.tmp/watchCases/ts-dependency-only-error/src/entry.ts
-File 'Xdir/.tmp/watchCases/ts-dependency-only-error/src/type.ts' is not a module.",
+    "xfile
+File 'xfile' is not a module.",
   ],
   "warnings": Array [],
 }
@@ -131,7 +131,7 @@ Object {
 exports[`WatchCases ts-dependency-only-removal-error 3`] = `
 Object {
   "errors": Array [
-    "Xdir/.tmp/watchCases/ts-dependency-only-removal-error/src/entry.ts
+    "xfile
 Cannot find module './type'.",
   ],
   "warnings": Array [],
@@ -141,9 +141,9 @@ Cannot find module './type'.",
 exports[`WatchCases tslint-error 1`] = `
 Object {
   "errors": Array [
-    "Xdir/.tmp/watchCases/tslint-error/src/util.ts
+    "xfile
 ' should be \\"",
-    "Xdir/.tmp/watchCases/tslint-error/src/entry.ts
+    "xfile
 ' should be \\"",
   ],
   "warnings": Array [],
@@ -153,7 +153,7 @@ Object {
 exports[`WatchCases tslint-error 2`] = `
 Object {
   "errors": Array [
-    "Xdir/.tmp/watchCases/tslint-error/src/entry.ts
+    "xfile
 ' should be \\"",
   ],
   "warnings": Array [],
@@ -171,9 +171,9 @@ exports[`WatchCases tslint-warning 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [
-    "Xdir/.tmp/watchCases/tslint-warning/src/util.ts
+    "xfile
 ' should be \\"",
-    "Xdir/.tmp/watchCases/tslint-warning/src/entry.ts
+    "xfile
 ' should be \\"",
   ],
 }
@@ -183,7 +183,7 @@ exports[`WatchCases tslint-warning 2`] = `
 Object {
   "errors": Array [],
   "warnings": Array [
-    "Xdir/.tmp/watchCases/tslint-warning/src/entry.ts
+    "xfile
 ' should be \\"",
   ],
 }
@@ -206,7 +206,7 @@ Object {
 exports[`WatchCases type-patches-error 2`] = `
 Object {
   "errors": Array [
-    "Xdir/.tmp/watchCases/type-patches-error/src/entry.ts
+    "xfile
 Cannot find module './test.svg'.",
   ],
   "warnings": Array [],

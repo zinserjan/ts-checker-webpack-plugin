@@ -10,6 +10,8 @@ const tests = fs.readdirSync(testCasesPath).filter(dir => fs.statSync(path.join(
 
 const tmpPath = path.resolve(__dirname, "../.tmp/testCases");
 
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 15000;
+
 describe("TestCases", () => {
   beforeAll(() => {
     return fs.emptyDir(tmpPath);
@@ -60,5 +62,5 @@ describe("TestCases", () => {
       });
       return deferred.promise;
     });
-  }, 15000);
+  });
 });

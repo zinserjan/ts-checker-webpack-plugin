@@ -10,25 +10,32 @@ const tests = fs.readdirSync(testCasesPath).filter(dir => fs.statSync(path.join(
 
 const tmpPath = path.resolve(__dirname, "../.tmp/watchCases");
 
-const copySmart = async (srcPath: string, targetPath: string) => {
-  const files = await fs.readdir(srcPath);
+const copySmart = (srcPath: string, targetPath: string) => {
+  const files = fs.readdirSync(srcPath);
 
   for (const file of files) {
     const srcFilePath = path.join(srcPath, file);
     const targetFilePath = path.join(targetPath, file);
-    const isDirectory = (await fs.stat(srcFilePath)).isDirectory();
+    const isDirectory = fs.statSync(srcFilePath).isDirectory();
     if (isDirectory) {
-      await copySmart(srcFilePath, targetFilePath);
+      copySmart(srcFilePath, targetFilePath);
     } else {
-      const content = (await fs.readFile(srcFilePath)).toString("utf-8");
+      const content = fs.readFileSync(srcFilePath).toString("utf-8");
       if (/DELETE/.test(content)) {
-        await fs.remove(targetFilePath);
+        fs.removeSync(targetFilePath);
       } else {
-        await fs.copy(srcFilePath, targetFilePath);
+        const exists = fs.existsSync(targetFilePath);
+        if (exists) {
+          fs.writeFileSync(targetFilePath, content);
+        } else {
+          fs.copySync(srcFilePath, targetFilePath);
+        }    
       }
     }
   }
 };
+
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 15000;
 
 describe("WatchCases", () => {
   beforeAll(() => {
@@ -103,5 +110,5 @@ describe("WatchCases", () => {
       );
       return deferred.promise;
     });
-  }, 15000);
+  });
 });

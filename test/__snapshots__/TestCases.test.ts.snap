@@ -3,7 +3,7 @@
 exports[`TestCases basic-type-error 1`] = `
 Object {
   "errors": Array [
-    "Xdir/.tmp/testCases/basic-type-error/src/entry.ts
+    "xfile
 Type '\\"test\\"' is not assignable to type 'number'.",
   ],
   "warnings": Array [],
@@ -20,8 +20,8 @@ Object {
 exports[`TestCases css-modules-error 1`] = `
 Object {
   "errors": Array [
-    "Xdir/.tmp/testCases/css-modules-error/src/entry.ts
-Property 'test' does not exist on type 'typeof \\"Xdir/.tmp/testCases/css-modules-error...'.",
+    "xfile
+Property 'test' does not exist on type 'typeof \\"xfile'.",
   ],
   "warnings": Array [],
 }
@@ -54,7 +54,7 @@ Object {
 exports[`TestCases ts-dependency-only-error 1`] = `
 Object {
   "errors": Array [
-    "Xdir/.tmp/testCases/ts-dependency-only-error/src/entry.ts
+    "xfile
 Class 'TestImpl' incorrectly implements interface 'Test'.
   Property 'doStuff' is missing in type 'TestImpl'.",
   ],
@@ -72,7 +72,7 @@ Object {
 exports[`TestCases tslint-error 1`] = `
 Object {
   "errors": Array [
-    "Xdir/.tmp/testCases/tslint-error/src/entry.ts
+    "xfile
 ' should be \\"",
   ],
   "warnings": Array [],
@@ -83,7 +83,7 @@ exports[`TestCases tslint-warning 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [
-    "Xdir/.tmp/testCases/tslint-warning/src/entry.ts
+    "xfile
 ' should be \\"",
   ],
 }
@@ -92,8 +92,8 @@ Object {
 exports[`TestCases use-library-type-definition-error 1`] = `
 Object {
   "errors": Array [
-    "Xdir/.tmp/testCases/use-library-type-definition-error/src/entry.ts
-Could not find a declaration file for module 'react'. 'Xdir/node_modules/react/react.js' implicitly has an 'any' type.",
+    "xfile
+Could not find a declaration file for module 'react'. 'xfile' implicitly has an 'any' type.",
   ],
   "warnings": Array [],
 }
