@@ -2,6 +2,7 @@ import { Compiler } from "webpack";
 import PCancelable = require("p-cancelable");
 import TsChecker, { TsCheckerResult } from "./TsChecker";
 import { BaseError } from "./util/Error";
+import { stripLoader } from "./util/webpackModule";
 
 // const CancelError = PCancelable.CancelError;
 
@@ -48,15 +49,6 @@ export default class TsCheckerWebpackPlugin {
         callback();
         return;
       }
-
-      const stripLoader = (filePath: string) => {
-        const lastIndex = filePath.lastIndexOf("!");
-
-        if (lastIndex !== -1) {
-          return filePath.substr(lastIndex + 1);
-        }
-        return filePath;
-      };
 
       // todo check for unix like file paths
       const buildFiles = compilation.modules
