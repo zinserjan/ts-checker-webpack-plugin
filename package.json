@@ -1,17 +1,30 @@
 {
   "name": "ts-checker-webpack-plugin",
   "version": "0.0.0",
-  "description": "",
-  "keywords": [],
+  "description": "Webpack plugin that runs TypeScript's type checker",
+  "keywords": [
+    "webpack",
+    "plugin",
+    "typescript",
+    "ts",
+    "type",
+    "checker",
+    "ts-loader"
+  ],
   "main": "dist/TsCheckerWebpackPlugin.js",
-  "typings": "dist/types/TsCheckerWebpackPlugin.d.ts",
+  "typings": "dist/TsCheckerWebpackPlugin.d.ts",
   "files": [
+    "*.md",
+    "src",
     "dist"
   ],
   "author": "Jan-André Zinser",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/zinserjan/ts-checker-webpack-plugin"
+  },
+  "bugs": {
+    "url": "https://github.com/zinserjan/ts-checker-webpack-plugin/issues"
   },
   "license": "MIT",
   "engines": {
