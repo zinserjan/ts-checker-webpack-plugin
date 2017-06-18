@@ -89,7 +89,7 @@ export default class TsCheckerWebpackPlugin {
       .then((result: TsCheckerResult) => {
         const { errors, warnings } = TsCheckerWebpackPlugin.transformToWebpackBuildResult(result);
         errors.forEach(error => compilation.errors.push(error));
-        // warnings.forEach((error) => compilation.warnings.push(error));
+        warnings.forEach(error => compilation.warnings.push(error));
         this.triggerDone(errors, warnings);
         callback();
       })
