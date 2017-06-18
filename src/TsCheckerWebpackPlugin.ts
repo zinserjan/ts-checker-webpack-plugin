@@ -57,6 +57,12 @@ export default class TsCheckerWebpackPlugin {
 
       this.checker.invalidate(buildFiles, []);
 
+      // skip type checking when there are any build errors
+      if (compilation.errors.length > 0) {
+        callback();
+        return;
+      }
+
       // start type checking
       this.triggerStart();
       this.current = this.checker.check();

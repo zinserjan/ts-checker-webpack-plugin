@@ -41,6 +41,16 @@ Object {
 }
 `;
 
+exports[`TestCases skip-type-check-on-build-error 1`] = `
+Object {
+  "errors": Array [
+    "./.tmp/testCases/skip-type-check-on-build-error/src/entry.ts
+[37m([39m[36m3[39m,[36m1[39m): [31merror TS1005: '{' expected.[39m",
+  ],
+  "warnings": Array [],
+}
+`;
+
 exports[`TestCases ts-dependency-only-error 1`] = `
 Object {
   "errors": Array [
