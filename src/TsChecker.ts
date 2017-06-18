@@ -43,7 +43,17 @@ export default class TsChecker {
     });
   }
 
-  invalidate(changes: Array<string>, removals: Array<string>) {
+  /**
+   * Updates our file list with the latest one that were built by webpack
+   */
+  updateBuiltFiles(changes: Array<string>) {
+    this.incrementalChecker.updateBuiltFiles(changes);
+  }
+
+  /**
+   * Invalidate all files that were changed in general (also non-webpack modules)
+   */
+  invalidateFiles(changes: Array<string>, removals: Array<string>) {
     this.incrementalChecker.invalidateFiles(changes, removals);
   }
 

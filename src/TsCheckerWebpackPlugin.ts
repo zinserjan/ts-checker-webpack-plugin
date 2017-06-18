@@ -55,7 +55,7 @@ export default class TsCheckerWebpackPlugin {
         .filter((module: any) => module.built && module.request)
         .map((module: any) => stripLoader(module.request));
 
-      this.checker.invalidate(buildFiles, []);
+      this.checker.updateBuiltFiles(buildFiles);
 
       // skip type checking when there are any build errors
       if (compilation.errors.length > 0) {
@@ -98,7 +98,7 @@ export default class TsCheckerWebpackPlugin {
             // register change listener to get changed & removed files
             watcher.once("aggregated", (changes: Array<string>, removals: Array<string>) => {
               // update file cache
-              this.checker.invalidate(changes, removals);
+              this.checker.invalidateFiles(changes, removals);
             });
           }
         });
