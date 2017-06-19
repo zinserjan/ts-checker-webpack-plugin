@@ -52,7 +52,6 @@ export default class IncrementalChecker {
       // track files without errors as linted
       filesToLint.forEach((file: SourceFile) => {
         if (!failed.has(file.fileName)) {
-          console.log("mark as linted");
           this.fileCache.linted(file.fileName);
         }
       });
@@ -98,8 +97,8 @@ export default class IncrementalChecker {
 
   getTypeCheckRelatedFiles() {
     const files = this.fileCache.getTypeCheckRelatedFiles();
-      // re-normalize unix path style to system style
-    return files.map((file) => path.normalize(file));
+    // re-normalize unix path style to system style
+    return files.map(file => path.normalize(file));
   }
 
   private createProgram(oldProgram: ts.Program) {
