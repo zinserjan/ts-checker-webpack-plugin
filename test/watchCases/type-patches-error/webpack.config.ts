@@ -32,7 +32,7 @@ module.exports = {
   },
   plugins: [
     new TsCheckerWebpackPlugin({
-      tsconfigPath: path.join(__dirname, "tsconfig.json"),
+      tsconfig: path.join(__dirname, "tsconfig.json"),
     }),
   ],
 };

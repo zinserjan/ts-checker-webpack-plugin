@@ -4,9 +4,8 @@ import { BaseError } from "./util/Error";
 import { stripLoader } from "./util/webpackModule";
 
 export interface TsCheckerWebpackPluginOptions {
-  block?: boolean;
-  tsconfigPath: string;
-  tslintPath?: string;
+  tsconfig: string;
+  tslint?: string;
 }
 
 export default class TsCheckerWebpackPlugin {
@@ -16,7 +15,7 @@ export default class TsCheckerWebpackPlugin {
   current?: Promise<TsCheckerResult> | null = null;
 
   constructor(options: TsCheckerWebpackPluginOptions) {
-    this.checker = new TsChecker(options.tsconfigPath, options.tslintPath);
+    this.checker = new TsChecker(options.tsconfig, options.tslint);
   }
 
   apply(compiler: Compiler) {
@@ -36,7 +35,6 @@ export default class TsCheckerWebpackPlugin {
         return;
       }
 
-      // todo check for unix like file paths
       const buildFiles = compilation.modules
         .filter((module: any) => module.built && module.request)
         .map((module: any) => stripLoader(module.request));

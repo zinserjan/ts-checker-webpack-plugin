@@ -26,8 +26,8 @@ module.exports = {
   },
   plugins: [
     new TsCheckerWebpackPlugin({
-      tsconfigPath: path.join(__dirname, "tsconfig.json"),
-      tslintPath: path.join(__dirname, "tslint.json"),
+      tsconfig: path.join(__dirname, "tsconfig.json"),
+      tslint: path.join(__dirname, "tslint.json"),
     }),
   ],
 };
