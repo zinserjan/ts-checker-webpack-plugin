@@ -9,10 +9,10 @@ export interface TsCheckerWebpackPluginOptions {
 }
 
 export default class TsCheckerWebpackPlugin {
-  watchMode: boolean = false;
-  compiler: Compiler;
-  checker: TsChecker;
-  current?: Promise<TsCheckerResult> | null = null;
+  private watchMode: boolean = false;
+  private compiler: Compiler;
+  private checker: TsChecker;
+  private current?: Promise<TsCheckerResult> | null = null;
 
   constructor(options: TsCheckerWebpackPluginOptions) {
     this.checker = new TsChecker(options.tsconfig, options.tslint);
