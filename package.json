@@ -103,6 +103,7 @@
     "webpack": "^2.3.0"
   },
   "dependencies": {
-    "es6-error": "^4.0.2"
+    "es6-error": "^4.0.2",
+    "normalize-path": "^2.1.1"
   }
 }

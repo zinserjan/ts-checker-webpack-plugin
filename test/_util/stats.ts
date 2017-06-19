@@ -1,7 +1,8 @@
 import * as path from "path";
 import { Stats } from "webpack";
+import normalizePath = require("normalize-path");
 
-const basePath = path.resolve(__dirname, "../..");
+const basePath = normalizePath(path.resolve(__dirname, "../.."));
 const normalizeError = (error: string) =>
   error.replace(/\r\n?/g, "\n").replace(new RegExp(basePath, "g"), "xfile").replace(/xfile[^('|\s)]*/g, "xfile");
 

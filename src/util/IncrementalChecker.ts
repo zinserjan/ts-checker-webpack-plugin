@@ -2,6 +2,7 @@ import * as path from "path";
 import * as ts from "typescript";
 import * as tslint from "tslint";
 import { SourceFile } from "typescript";
+import normalizePath = require("normalize-path");
 import FileCache from "./FileCache";
 import { DiagnosticError, LintError } from "./Error";
 
@@ -65,29 +66,40 @@ export default class IncrementalChecker {
 
   updateBuiltFiles(changes: Array<string>) {
     changes.forEach(file => {
-      this.fileCache.built(file);
+      // normalize system path style to unix style
+      const normalizedFile = normalizePath(file);
+      // invalidate file
+      this.fileCache.built(normalizedFile);
       // remove type definitions for files like css-modules, cause file watcher may detect changes to late
-      this.fileCache.removeTypeDefinitionOfFile(file);
+      this.fileCache.removeTypeDefinitionOfFile(normalizedFile);
     });
   }
 
   invalidateFiles(changed: Array<string>, removed: Array<string>) {
     // todo prefill cache for invalidated files to get another performance boost
     changed.forEach(file => {
-      this.fileCache.invalidate(file);
+      // normalize system path style to unix style
+      const normalizedFile = normalizePath(file);
+      // invalidate file
+      this.fileCache.invalidate(normalizedFile);
       // remove type definitions for files like css-modules, cause file watcher may detect changes to late
-      this.fileCache.removeTypeDefinitionOfFile(file);
+      this.fileCache.removeTypeDefinitionOfFile(normalizedFile);
     });
 
     removed.forEach(file => {
-      this.fileCache.remove(file);
+      // normalize system path style to unix style
+      const normalizedFile = normalizePath(file);
+      // remove file
+      this.fileCache.remove(normalizedFile);
       // remove type definitions for files like css-modules, cause file watcher may detect changes to late
-      this.fileCache.removeTypeDefinitionOfFile(file);
+      this.fileCache.removeTypeDefinitionOfFile(normalizedFile);
     });
   }
 
   getTypeCheckRelatedFiles() {
-    return this.fileCache.getTypeCheckRelatedFiles();
+    const files = this.fileCache.getTypeCheckRelatedFiles();
+      // re-normalize unix path style to system style
+    return files.map((file) => path.normalize(file));
   }
 
   private createProgram(oldProgram: ts.Program) {
