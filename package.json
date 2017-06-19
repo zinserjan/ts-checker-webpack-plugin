@@ -100,7 +100,7 @@
   "peerDependencies": {
     "tslint": "^5.2.0",
     "typescript": "^2.3.4",
-    "webpack": "^2.3.0"
+    "webpack": "^2.3.0 || ^3.0.0"
   },
   "dependencies": {
     "es6-error": "^4.0.2",

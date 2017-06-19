@@ -1,14 +1,22 @@
 language: node_js
 
-os:
-  - linux
-  - osx
-
-node_js:
-  - 6
-  - 8
+matrix:
+  include:
+    - os: linux
+      node_js: 6
+      env: WEBPACK_VERSION=2
+    - os: linux
+      node_js: 8
+      env: WEBPACK_VERSION=2
+    - os: linux
+      node_js: 8
+      env: WEBPACK_VERSION=3
+    - os: osx
+      node_js: 8
+      env: WEBPACK_VERSION=3
 
 script:
+  - npm install "webpack@$WEBPACK_VERSION"
   - npm run test:prod && npm run build
 
 after_success:
