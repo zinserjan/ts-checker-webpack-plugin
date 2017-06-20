@@ -11,9 +11,9 @@ Install ts-checker-webpack-plugin via NPM as usual:
 $ npm install ts-checker-webpack-plugin --save-dev
 ```
 
-Note: This plugin requires webpack 2, typescript 2 and optionally tslint 5
+Note: This plugin requires TypeScript 2 and optionally TSLint 5
 
-And configure it in your webpack config (assumes webpack-config at project root):
+And configure it in your webpack config like below (assumes webpack-config at project root):
 
 ```js
 const path = require("path");
@@ -29,11 +29,33 @@ module.exports = {
         options: {
           transpileOnly: true, // disable type checker - we will use ts-checker-webpack-plugin for that :)
         }
-      }
+      },
+      {
+        test: /\.css$/,
+        exclude: /\.module\.css$/,
+        use: [
+          "style-loader",
+          "css-loader",
+        ],
+      },
+      {
+        test: /\.module\.css$/,
+        use: [
+          "style-loader",
+          {
+            loader: "typings-for-css-modules-loader",
+            options: {
+              modules: true,
+              namedExport: true,
+              camelCase: true,
+            },
+          },
+        }
+      ],
     ]
   },
   plugins: [
-    new ForkTsCheckerWebpackPlugin({
+    new TsCheckerWebpackPlugin({
       tsconfig: path.resolve("tsconfig.json"),
       tslint: path.resolve("tslint.json"), // optional
     })
@@ -49,8 +71,7 @@ But the main motivation for this plugin was to support CSS-Modules with type def
 Differences to fork-ts-checker-webpack-plugin
 - support of typed CSS-Modules with [typings-for-css-modules-loader](https://github.com/Jimdo/typings-for-css-modules-loader)
 - works well with create-react-app in watch mode cause type checking errors will be forwarded to webpack
-- there is no threading yet (in my tests incremental changes were faster as fork-ts-checker-webpack-plugin) 
-- type checks only files processed by webpack
+- checks only files processed by webpack
 - files are cached internally until they will be invalidated by webpack
 
 
