@@ -6,6 +6,13 @@ import normalizePath = require("normalize-path");
 import FileCache from "./FileCache";
 import { DiagnosticError, LintError } from "./Error";
 
+export type TsCheckerResult = {
+  checkTime: number;
+  lintTime: number;
+  diagnostics: Array<DiagnosticError>;
+  lints: Array<LintError>;
+};
+
 export default class IncrementalChecker {
   private fileCache: FileCache;
   private program: ts.Program;
@@ -20,7 +27,8 @@ export default class IncrementalChecker {
     }
   }
 
-  run() {
+  run(): TsCheckerResult {
+    const checkStart = Date.now();
     this.program = this.createProgram(this.program);
 
     // check only files that were required by webpack
@@ -30,7 +38,9 @@ export default class IncrementalChecker {
 
     const diagnostics: Array<ts.Diagnostic> = [];
     filesToCheck.forEach(file => Array.prototype.push.apply(diagnostics, this.program.getSemanticDiagnostics(file)));
+    const checkEnd = Date.now();
 
+    const lintStart = Date.now();
     const lints: Array<tslint.RuleFailure> = [];
     if (this.tslintConfig != null) {
       const filesToLint = filesToCheck.filter((file: SourceFile) => this.fileCache.isFileLintable(file.fileName));
@@ -56,8 +66,11 @@ export default class IncrementalChecker {
         }
       });
     }
+    const lintEnd = Date.now();
 
     return {
+      checkTime: lintEnd - lintStart,
+      lintTime: checkEnd - checkStart,
       diagnostics: diagnostics.map(DiagnosticError.createFromDiagnostic),
       lints: lints.map(LintError.createFromLint),
     };
