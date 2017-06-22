@@ -69,8 +69,8 @@ export default class IncrementalChecker {
     const lintEnd = Date.now();
 
     return {
-      checkTime: lintEnd - lintStart,
-      lintTime: checkEnd - checkStart,
+      checkTime: checkEnd - checkStart,
+      lintTime: lintEnd - lintStart,
       diagnostics: diagnostics.map(DiagnosticError.createFromDiagnostic),
       lints: lints.map(LintError.createFromLint),
     };
