@@ -15,7 +15,7 @@ export default class TsChecker {
     this.tslintPath = tslintPath;
     this.exitListener = () => {
       if (this.process != null) {
-        this.process.kill("SIGINT");
+        this.process.kill();
       }
     };
   }
@@ -26,8 +26,7 @@ export default class TsChecker {
   start() {
     if (this.process == null) {
       // terminate children when main process is gogin to die
-      process.on("SIGINT", this.exitListener);
-      process.on("SIGTERM", this.exitListener);
+      process.on("exit", this.exitListener);
 
       // start child process
       this.process = fork(
@@ -57,7 +56,7 @@ export default class TsChecker {
    */
   kill() {
     if (this.process != null) {
-      process.removeListener("SIGINT", this.exitListener);
+      process.removeListener("exit", this.exitListener);
       this.process.removeAllListeners();
       this.process.kill();
       this.process = null;

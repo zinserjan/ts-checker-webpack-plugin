@@ -115,6 +115,13 @@ export default class TsCheckerWebpackPlugin {
         });
       }
     });
+
+    // kill checker when webpack watch compiler was closed
+    this.compiler.plugin("watch-close", () => {
+      if (this.watchMode) {
+        this.checker.kill();
+      }
+    });
   }
 
   private static transformToWebpackBuildResult(result: TsCheckerResult) {
