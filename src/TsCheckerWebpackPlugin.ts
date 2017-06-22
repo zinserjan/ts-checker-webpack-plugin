@@ -41,11 +41,6 @@ export default class TsCheckerWebpackPlugin {
     });
 
     this.compiler.plugin("compilation", compilation => {
-      // Don't run on child compilations
-      if (compilation.compiler.isChild()) {
-        return;
-      }
-
       this.current = null;
 
       // compilation for modules almost finished, start type checking
@@ -120,9 +115,7 @@ export default class TsCheckerWebpackPlugin {
 
     // kill checker when webpack watch compiler was closed
     this.compiler.plugin("watch-close", () => {
-      if (this.watchMode) {
-        this.checker.kill();
-      }
+      this.checker.kill();
     });
   }
 
