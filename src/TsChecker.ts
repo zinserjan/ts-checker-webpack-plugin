@@ -27,11 +27,12 @@ export default class TsChecker {
     if (this.process == null) {
       // terminate children when main process is gogin to die
       process.on("SIGINT", this.exitListener);
+      process.on("SIGTERM", this.exitListener);
 
       // start child process
       this.process = fork(
         process.env.NODE_ENV === "test"
-          ? path.join(process.cwd(), "node_modules/.bin/_ts-node")
+          ? path.join(process.cwd(), "node_modules/ts-node/dist/_bin.js")
           : require.resolve("./TsCheckerService"),
         process.env.NODE_ENV === "test" ? [require.resolve("./TsCheckerService")] : [],
         {
