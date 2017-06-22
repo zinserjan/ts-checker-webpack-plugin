@@ -25,5 +25,5 @@ test_script:
   - node --version
   - npm --version
   # run tests
-  - npm run test -- --coverage --no-cache --runInBand
+  - node --max-old-space-size=250 node_modules/jest/bin/jest.js --coverage --no-cache --runInBand
 

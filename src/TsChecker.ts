@@ -36,7 +36,7 @@ export default class TsChecker {
         process.env.NODE_ENV === "test" ? [require.resolve("./TsCheckerService")] : [],
         {
           cwd: process.cwd(),
-          execArgv: ["--max-old-space-size=2048"],
+          execArgv: [],
           env: {
             TSCONFIG: this.tsconfigPath,
             ...this.tslintPath ? { TSLINT: this.tslintPath } : {},
