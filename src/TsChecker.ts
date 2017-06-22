@@ -27,7 +27,7 @@ export default class TsChecker {
    */
   start() {
     if (this.process == null) {
-      // terminate children when main process is gogin to die
+      // terminate children when main process is going to die
       process.on("exit", this.exitListener);
 
       // start child process

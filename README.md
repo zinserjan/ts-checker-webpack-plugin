@@ -58,7 +58,7 @@ module.exports = {
     new TsCheckerWebpackPlugin({
       tsconfig: path.resolve("tsconfig.json"),
       tslint: path.resolve("tslint.json"), // optional
-      memoryLimit: 512, // optional, memory usage in MB
+      memoryLimit: 512, // optional, maximum memory usage in MB
     })
   ]
 };
