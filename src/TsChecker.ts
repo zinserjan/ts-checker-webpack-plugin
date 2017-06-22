@@ -32,9 +32,7 @@ export default class TsChecker {
 
       // start child process
       this.process = fork(
-        process.env.NODE_ENV === "test"
-          ? path.join(process.cwd(), "node_modules/ts-node/dist/_bin.js")
-          : require.resolve("./TsCheckerService"),
+        process.env.NODE_ENV === "test" ? require.resolve("ts-node/dist/_bin") : require.resolve("./TsCheckerService"),
         process.env.NODE_ENV === "test" ? [require.resolve("./TsCheckerService")] : [],
         {
           cwd: process.cwd(),
