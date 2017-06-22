@@ -68,6 +68,7 @@ export default class TsCheckerWebpackPlugin {
 
         // skip type checking when there are build errors
         if (compilation.errors.length > 0) {
+          this.current = null;
           return;
         }
 
