@@ -6,11 +6,13 @@ import pDefer = require("p-defer");
 
 export default class TsChecker {
   private process: ChildProcess | null = null;
+  private memoryLimit: number;
   private tsconfigPath: string;
   private tslintPath?: string;
   private exitListener: () => void;
 
-  constructor(tsconfigPath: string, tslintPath?: string) {
+  constructor(memoryLimit: number, tsconfigPath: string, tslintPath?: string) {
+    this.memoryLimit = memoryLimit;
     this.tsconfigPath = tsconfigPath;
     this.tslintPath = tslintPath;
     this.exitListener = () => {
@@ -36,7 +38,7 @@ export default class TsChecker {
         process.env.NODE_ENV === "test" ? [require.resolve("./TsCheckerService")] : [],
         {
           cwd: process.cwd(),
-          execArgv: [],
+          execArgv: [`--max-old-space-size=${this.memoryLimit}`],
           env: {
             TSCONFIG: this.tsconfigPath,
             ...this.tslintPath ? { TSLINT: this.tslintPath } : {},

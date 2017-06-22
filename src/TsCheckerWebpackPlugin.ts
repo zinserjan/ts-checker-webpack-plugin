@@ -7,6 +7,7 @@ import { stripLoader } from "./util/webpackModule";
 export interface TsCheckerWebpackPluginOptions {
   tsconfig: string;
   tslint?: string;
+  memoryLimit?: number;
 }
 
 export default class TsCheckerWebpackPlugin {
@@ -17,7 +18,8 @@ export default class TsCheckerWebpackPlugin {
   private builtFiles: Array<string> = [];
 
   constructor(options: TsCheckerWebpackPluginOptions) {
-    this.checker = new TsChecker(options.tsconfig, options.tslint);
+    const { tsconfig, tslint, memoryLimit = 512 } = options;
+    this.checker = new TsChecker(memoryLimit, tsconfig, tslint);
     this.checker.start();
   }
 
