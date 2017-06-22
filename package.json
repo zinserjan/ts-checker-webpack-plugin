@@ -56,6 +56,9 @@
       "js"
     ],
     "mapCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.ts"
+    ],
     "coveragePathIgnorePatterns": [
       "/\\.tmp/",
       "/node_modules/",
