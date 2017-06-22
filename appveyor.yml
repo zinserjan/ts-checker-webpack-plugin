@@ -25,5 +25,5 @@ test_script:
   - node --version
   - npm --version
   # run tests
-  - npm run test:prod
+  - npm run test -- --coverage --no-cache --runInBand
 

@@ -35,7 +35,6 @@
     "build": "tsc -p tsconfig.build.json",
     "test": "jest",
     "format": "prettier --trailing-comma es5 --print-width 120 --write '{src,test}/**/*.ts'",
-    "test:prod": "npm run test -- --coverage --no-cache",
     "precommit": "lint-staged",
     "prepublish": "npm run build"
   },
