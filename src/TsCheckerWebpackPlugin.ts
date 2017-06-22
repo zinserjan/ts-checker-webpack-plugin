@@ -26,9 +26,19 @@ export default class TsCheckerWebpackPlugin {
   apply(compiler: Compiler) {
     this.compiler = compiler;
 
-    // detect watch mode & wait until all changed files are invalidated
+    // detect watch mode
     this.compiler.plugin("watch-run", (watching, callback) => {
       this.watchMode = true;
+      callback();
+    });
+
+    // wait until all changed files are invalidated
+    this.compiler.plugin("make", (compilation, callback) => {
+      // Don't run on child compilations & skip for build mode
+      if (compilation.compiler.isChild() || !this.watchMode) {
+        callback();
+        return;
+      }
       // wait for next tick to make sure that the synchronous "aggregated" event was called before
       process.nextTick(() => {
         if (this.current !== null) {
