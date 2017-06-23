@@ -1,4 +1,3 @@
-import * as path from "path";
 import { fork, ChildProcess } from "child_process";
 import { DiagnosticError, LintError } from "./util/Error";
 import { TsCheckerResult } from "./util/IncrementalChecker";
@@ -32,8 +31,10 @@ export default class TsChecker {
 
       // start child process
       this.process = fork(
-        process.env.NODE_ENV === "test" ? require.resolve("ts-node/dist/_bin") : require.resolve("./TsCheckerService"),
-        process.env.NODE_ENV === "test" ? [require.resolve("./TsCheckerService")] : [],
+        process.env.TS_CHECKER_ENV === "test"
+          ? require.resolve("ts-node/dist/_bin")
+          : require.resolve("./TsCheckerService"),
+        process.env.TS_CHECKER_ENV === "test" ? [require.resolve("./TsCheckerService")] : [],
         {
           cwd: process.cwd(),
           execArgv: [`--max-old-space-size=${this.memoryLimit}`],
