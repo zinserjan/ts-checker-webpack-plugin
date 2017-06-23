@@ -90,6 +90,20 @@ Object {
 }
 `;
 
+exports[`WatchCases ignore-child-compiler-no-error 1`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases ignore-child-compiler-no-error 2`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
 exports[`WatchCases ts-dependency-only-error 1`] = `
 Object {
   "errors": Array [],

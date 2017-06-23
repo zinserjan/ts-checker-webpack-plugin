@@ -49,6 +49,7 @@
     "transform": {
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
+    "setupTestFrameworkScriptFile": "<rootDir>/test/setupTests.ts",
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
     "moduleFileExtensions": [
       "ts",
@@ -81,7 +82,6 @@
     "jest": "^20.0.4",
     "lint-staged": "^3.6.1",
     "null-loader": "^0.1.1",
-    "p-defer": "^1.0.0",
     "prettier": "^1.4.4",
     "react": "^15.6.1",
     "rimraf": "^2.6.1",
@@ -100,6 +100,7 @@
   },
   "dependencies": {
     "es6-error": "^4.0.2",
-    "normalize-path": "^2.1.1"
+    "normalize-path": "^2.1.1",
+    "p-defer": "^1.0.0"
   }
 }

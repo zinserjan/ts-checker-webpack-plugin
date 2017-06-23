@@ -32,6 +32,22 @@ export class DiagnosticError extends Es6Error implements BaseError {
     return this.severity === "warning";
   }
 
+  toJSON() {
+    return {
+      name: "DiagnosticError",
+      message: this.message,
+      code: this.code,
+      severity: this.severity,
+      file: this.file,
+      line: this.line,
+      character: this.character,
+    };
+  }
+
+  static fromJSON(error: any) {
+    return new DiagnosticError(error.message, error.code, error.severity, error.file, error.line, error.character);
+  }
+
   static createFromDiagnostic(diagnostic: Diagnostic) {
     const position = diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start);
     return new DiagnosticError(
@@ -65,6 +81,22 @@ export class LintError extends Es6Error implements BaseError {
 
   isWarningSeverity() {
     return this.severity === "warning";
+  }
+
+  toJSON() {
+    return {
+      name: "LintError",
+      message: this.message,
+      rule: this.rule,
+      severity: this.severity,
+      file: this.file,
+      line: this.line,
+      character: this.character,
+    };
+  }
+
+  static fromJSON(error: any) {
+    return new LintError(error.message, error.rule, error.severity, error.file, error.line, error.character);
   }
 
   static createFromLint(lint: RuleFailure) {
