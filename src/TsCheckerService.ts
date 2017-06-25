@@ -1,4 +1,5 @@
 import IncrementalChecker from "./util/IncrementalChecker";
+import { transformToWebpackBuildResult, serializeWebpackBuildResult } from "./util/resultSerializer";
 
 process.on("SIGINT", function() {
   process.exit(130);
@@ -36,14 +37,12 @@ process.on("message", function(message: any) {
       incrementalChecker.updateBuiltFiles(message.files);
       const result = incrementalChecker.run();
 
-      const lints = result.lints.map(lint => lint.toJSON());
-      const diagnostics = result.diagnostics.map(diagnostic => diagnostic.toJSON());
+      const webpackResult = transformToWebpackBuildResult(result);
+      const serialized = serializeWebpackBuildResult(webpackResult);
 
       sendMessage({
         ...messageOk,
-        ...result,
-        lints,
-        diagnostics,
+        ...serialized,
       });
       break;
     }
