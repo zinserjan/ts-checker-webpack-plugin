@@ -1,8 +1,7 @@
 import { Compiler } from "webpack";
 import TsChecker from "./TsChecker";
-import { TsCheckerResult } from "./util/IncrementalChecker";
-import { BaseError } from "./util/Error";
 import { stripLoader } from "./util/webpackModule";
+import { WebpackBuildResult } from "./util/resultSerializer";
 
 export interface TsCheckerWebpackPluginOptions {
   tsconfig: string;
@@ -14,7 +13,7 @@ export default class TsCheckerWebpackPlugin {
   private watchMode: boolean = false;
   private compiler: Compiler;
   private checker: TsChecker;
-  private current: Promise<TsCheckerResult | void> | null = null;
+  private current: Promise<WebpackBuildResult | void> | null = null;
   private builtFiles: Array<string> = [];
 
   constructor(options: TsCheckerWebpackPluginOptions) {
@@ -85,14 +84,14 @@ export default class TsCheckerWebpackPlugin {
       }
 
       // block emit until type checking is ready
-      (this.current as Promise<TsCheckerResult>)
+      (this.current as Promise<WebpackBuildResult>)
         .then((result: any) => {
           // reset built files
           this.builtFiles.length = 0;
           // pass errors/warnings to webpack
-          const { errors, warnings } = TsCheckerWebpackPlugin.transformToWebpackBuildResult(result);
-          errors.forEach(error => compilation.errors.push(error));
-          warnings.forEach(error => compilation.warnings.push(error));
+          const { errors, warnings } = result;
+          errors.forEach((error: Error) => compilation.errors.push(error));
+          warnings.forEach((error: Error) => compilation.warnings.push(error));
         })
         .then(() => this.checker.getTypeCheckRelatedFiles())
         .then(filesToWatch => {
@@ -133,17 +132,5 @@ export default class TsCheckerWebpackPlugin {
     this.compiler.plugin("watch-close", () => {
       this.checker.kill();
     });
-  }
-
-  private static transformToWebpackBuildResult(result: TsCheckerResult) {
-    // todo maybe prefer diagnostic error for files with type & lint error
-    const allErrors: Array<BaseError> = ([] as Array<BaseError>).concat(result.lints, result.diagnostics);
-    const errors: Array<Error> = allErrors.filter(e => !e.isWarningSeverity());
-    const warnings: Array<Error> = allErrors.filter(e => e.isWarningSeverity());
-
-    return {
-      errors,
-      warnings,
-    };
   }
 }

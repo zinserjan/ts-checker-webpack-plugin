@@ -101,6 +101,7 @@
   "dependencies": {
     "es6-error": "^4.0.2",
     "normalize-path": "^2.1.1",
-    "p-defer": "^1.0.0"
+    "p-defer": "^1.0.0",
+    "serialize-error": "^2.1.0"
   }
 }

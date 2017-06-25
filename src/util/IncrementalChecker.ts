@@ -1,16 +1,16 @@
 import * as path from "path";
 import * as ts from "typescript";
 import * as tslint from "tslint";
-import { SourceFile } from "typescript";
+import { SourceFile, Diagnostic } from "typescript";
 import normalizePath = require("normalize-path");
 import FileCache from "./FileCache";
-import { DiagnosticError, LintError } from "./Error";
+import { RuleFailure } from "tslint";
 
 export type TsCheckerResult = {
   checkTime: number;
   lintTime: number;
-  diagnostics: Array<DiagnosticError>;
-  lints: Array<LintError>;
+  diagnostics: Array<Diagnostic>;
+  lints: Array<RuleFailure>;
 };
 
 export default class IncrementalChecker {
@@ -71,8 +71,8 @@ export default class IncrementalChecker {
     return {
       checkTime: checkEnd - checkStart,
       lintTime: lintEnd - lintStart,
-      diagnostics: diagnostics.map(DiagnosticError.createFromDiagnostic),
-      lints: lints.map(LintError.createFromLint),
+      diagnostics,
+      lints,
     };
   }
 

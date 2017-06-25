@@ -1,6 +1,5 @@
 import { fork, ChildProcess } from "child_process";
-import { DiagnosticError, LintError } from "./util/Error";
-import { TsCheckerResult } from "./util/IncrementalChecker";
+import { deserializeWebpackBuildResult, WebpackBuildResult } from "./util/resultSerializer";
 import pDefer = require("p-defer");
 
 export default class TsChecker {
@@ -67,15 +66,9 @@ export default class TsChecker {
   /**
    * Pass files that were (re-)built by webpack and start type checking and linting
    */
-  check(files: Array<string>): Promise<TsCheckerResult> {
+  check(files: Array<string>): Promise<WebpackBuildResult> {
     this.start();
-    return this.sendAndWait("typeCheck", { files }).then((result: any) => {
-      return {
-        ...result,
-        lints: result.lints.map(LintError.fromJSON),
-        diagnostics: result.diagnostics.map(DiagnosticError.fromJSON),
-      } as TsCheckerResult;
-    });
+    return this.sendAndWait("typeCheck", { files }).then(deserializeWebpackBuildResult);
   }
 
   /**
