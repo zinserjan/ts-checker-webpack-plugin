@@ -1,10 +1,12 @@
-import * as path from "path";
 import { Stats } from "webpack";
+import * as chalk from "chalk";
 import normalizePath = require("normalize-path");
 
-const basePath = normalizePath(path.resolve(__dirname, "../.."));
 const normalizeError = (error: string) =>
-  error.replace(/\r\n?/g, "\n").replace(new RegExp(basePath, "g"), "xfile").replace(/xfile[^('|\s)]*/g, "xfile");
+  chalk
+    .stripColor(error)
+    .replace(/\r\n?/g, "\n")
+    .replace(/[^('|"|\s|\w\d)]\.?((?:[^(\/\')]*\/)+)[^('||"\s)]*/gm, "xfile");
 
 export function normalizeStats(stats: Stats) {
   const statsJson = stats.toJson();

@@ -1,5 +1,7 @@
+import diagnosticFormatter from "ts-diagnostic-formatter";
+import { Diagnostic, DiagnosticCategory } from "typescript";
 import { TsCheckerResult } from "./IncrementalChecker";
-import { BaseError, DiagnosticError, LintError } from "./Error";
+import { LintError } from "./Error";
 const serializeError = require("serialize-error");
 
 export type WebpackBuildResult = {
@@ -12,13 +14,25 @@ export type WebpackBuildResult = {
 /**
  * Transforms TsCheckerResult into WebpackBuildResult
  */
-export const transformToWebpackBuildResult = (result: TsCheckerResult): WebpackBuildResult => {
-  const diagnostics = result.diagnostics.map(DiagnosticError.createFromDiagnostic);
+export const transformToWebpackBuildResult = (
+  result: TsCheckerResult,
+  contextPath: string,
+  diagnosticFormat: string
+): WebpackBuildResult => {
+  const diagnosticErrors = result.diagnostics.filter(
+    (diagnostic: Diagnostic) => DiagnosticCategory[diagnostic.category].toLowerCase() === "error"
+  );
+  const diagnosticWarnings = result.diagnostics.filter(
+    (diagnostic: Diagnostic) => DiagnosticCategory[diagnostic.category].toLowerCase() !== "error"
+  );
+
   const lints = result.lints.map(LintError.createFromLint);
 
-  const allErrors: Array<BaseError> = ([] as Array<BaseError>).concat(lints, diagnostics);
-  const errors: Array<Error> = allErrors.filter(e => !e.isWarningSeverity());
-  const warnings: Array<Error> = allErrors.filter(e => e.isWarningSeverity());
+  const lintErrors = lints.filter(e => !e.isWarningSeverity());
+  const lintWarnings = lints.filter(e => e.isWarningSeverity());
+
+  const errors = [...diagnosticFormatter(diagnosticErrors, diagnosticFormat, contextPath), ...lintErrors];
+  const warnings = [...diagnosticFormatter(diagnosticWarnings, diagnosticFormat, contextPath), ...lintWarnings];
 
   return {
     checkTime: result.checkTime,

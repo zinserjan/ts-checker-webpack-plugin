@@ -4,7 +4,8 @@ exports[`TestCases basic-type-error 1`] = `
 Object {
   "errors": Array [
     "xfile
-Type '\\"test\\"' is not assignable to type 'number'.",
+(1,7): error TS2322: Type '\\"test\\"' is not assignable to type 'number'.
+",
   ],
   "warnings": Array [],
 }
@@ -21,7 +22,8 @@ exports[`TestCases css-modules-error 1`] = `
 Object {
   "errors": Array [
     "xfile
-Property 'test' does not exist on type 'typeof \\"xfile'.",
+(3,20): error TS2339: Property 'test' does not exist on type 'typeof \\"....'.
+",
   ],
   "warnings": Array [],
 }
@@ -44,8 +46,8 @@ Object {
 exports[`TestCases skip-type-check-on-build-error 1`] = `
 Object {
   "errors": Array [
-    "./.tmp/testCases/skip-type-check-on-build-error/src/entry.ts
-[37m([39m[36m3[39m,[36m1[39m): [31merror TS1005: '{' expected.[39m",
+    "xfile
+(3,1): error TS1005: '{' expected.",
   ],
   "warnings": Array [],
 }
@@ -55,8 +57,9 @@ exports[`TestCases ts-dependency-only-error 1`] = `
 Object {
   "errors": Array [
     "xfile
-Class 'TestImpl' incorrectly implements interface 'Test'.
-  Property 'doStuff' is missing in type 'TestImpl'.",
+(3,22): error TS2420: Class 'TestImpl' incorrectly implements interface 'Test'.
+  Property 'doStuff' is missing in type 'TestImpl'.
+",
   ],
   "warnings": Array [],
 }
@@ -93,7 +96,8 @@ exports[`TestCases use-library-type-definition-error 1`] = `
 Object {
   "errors": Array [
     "xfile
-Could not find a declaration file for module 'react'. 'xfile' implicitly has an 'any' type.",
+(1,24): error TS7016: Could not find a declaration file for module 'react'. 'xfile' implicitly has an 'any' type.
+",
   ],
   "warnings": Array [],
 }

@@ -1,17 +1,20 @@
 import { fork, ChildProcess } from "child_process";
 import { deserializeWebpackBuildResult, WebpackBuildResult } from "./util/resultSerializer";
 import pDefer = require("p-defer");
+const supportsColor = require("supports-color");
 
 export default class TsChecker {
   private process: ChildProcess | null = null;
   private memoryLimit: number;
   private tsconfigPath: string;
+  private diagnosticFormatter: string;
   private tslintPath?: string;
   private exitListener: () => void;
 
-  constructor(memoryLimit: number, tsconfigPath: string, tslintPath?: string) {
+  constructor(memoryLimit: number, tsconfigPath: string, diagnosticFormatter: string, tslintPath?: string) {
     this.memoryLimit = memoryLimit;
     this.tsconfigPath = tsconfigPath;
+    this.diagnosticFormatter = diagnosticFormatter;
     this.tslintPath = tslintPath;
     this.exitListener = () => {
       if (this.process != null) {
@@ -38,7 +41,9 @@ export default class TsChecker {
           cwd: process.cwd(),
           execArgv: [`--max-old-space-size=${this.memoryLimit}`],
           env: {
+            FORCE_COLOR: Number(supportsColor),
             TSCONFIG: this.tsconfigPath,
+            DIAGNOSTIC_FORMATTER: this.diagnosticFormatter,
             ...this.tslintPath ? { TSLINT: this.tslintPath } : {},
           },
           stdio: ["inherit", "inherit", "inherit", "ipc"],

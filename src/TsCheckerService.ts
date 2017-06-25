@@ -1,3 +1,4 @@
+import * as path from "path";
 import IncrementalChecker from "./util/IncrementalChecker";
 import { transformToWebpackBuildResult, serializeWebpackBuildResult } from "./util/resultSerializer";
 
@@ -6,7 +7,9 @@ process.on("SIGINT", function() {
 });
 
 const tsconfigPath = process.env.TSCONFIG;
+const diagnosticFormatter = process.env.DIAGNOSTIC_FORMATTER;
 const tslintPath = process.env.TSLINT;
+const contextPath = path.dirname(tsconfigPath);
 
 const incrementalChecker = new IncrementalChecker(tsconfigPath, tslintPath);
 
@@ -37,7 +40,7 @@ process.on("message", function(message: any) {
       incrementalChecker.updateBuiltFiles(message.files);
       const result = incrementalChecker.run();
 
-      const webpackResult = transformToWebpackBuildResult(result);
+      const webpackResult = transformToWebpackBuildResult(result, contextPath, diagnosticFormatter);
       const serialized = serializeWebpackBuildResult(webpackResult);
 
       sendMessage({
