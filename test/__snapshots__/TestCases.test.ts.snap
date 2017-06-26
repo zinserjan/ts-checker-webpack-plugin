@@ -22,7 +22,7 @@ exports[`TestCases css-modules-error 1`] = `
 Object {
   "errors": Array [
     "xfile
-(3,20): error TS2339: Property 'test' does not exist on type 'typeof \\"....'.
+(3,20): error TS2339: Property 'test' does not exist on type 'typeof \\"xfile'.
 ",
   ],
   "warnings": Array [],
