@@ -160,9 +160,11 @@ exports[`WatchCases tslint-error 1`] = `
 Object {
   "errors": Array [
     "xfile
-' should be \\"",
+  2:11  error  ' should be \\"  quotemark
+",
     "xfile
-' should be \\"",
+  4:11  error  ' should be \\"  quotemark
+",
   ],
   "warnings": Array [],
 }
@@ -172,7 +174,8 @@ exports[`WatchCases tslint-error 2`] = `
 Object {
   "errors": Array [
     "xfile
-' should be \\"",
+  4:11  error  ' should be \\"  quotemark
+",
   ],
   "warnings": Array [],
 }
@@ -190,9 +193,11 @@ Object {
   "errors": Array [],
   "warnings": Array [
     "xfile
-' should be \\"",
+  2:11  warning  ' should be \\"  quotemark
+",
     "xfile
-' should be \\"",
+  4:11  warning  ' should be \\"  quotemark
+",
   ],
 }
 `;
@@ -202,7 +207,8 @@ Object {
   "errors": Array [],
   "warnings": Array [
     "xfile
-' should be \\"",
+  4:11  warning  ' should be \\"  quotemark
+",
   ],
 }
 `;

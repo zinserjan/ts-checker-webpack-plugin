@@ -1,7 +1,8 @@
+import { RuleFailure } from "tslint";
 import diagnosticFormatter from "ts-diagnostic-formatter";
+import lintFormatter from "ts-tslint-formatter";
 import { Diagnostic, DiagnosticCategory } from "typescript";
 import { TsCheckerResult } from "./IncrementalChecker";
-import { LintError } from "./Error";
 const serializeError = require("serialize-error");
 
 export type WebpackBuildResult = {
@@ -26,13 +27,17 @@ export const transformToWebpackBuildResult = (
     (diagnostic: Diagnostic) => DiagnosticCategory[diagnostic.category].toLowerCase() !== "error"
   );
 
-  const lints = result.lints.map(LintError.createFromLint);
+  const lintErrors = result.lints.filter((failure: RuleFailure) => failure.getRuleSeverity() === "error");
+  const lintWarnings = result.lints.filter((failure: RuleFailure) => failure.getRuleSeverity() !== "error");
 
-  const lintErrors = lints.filter(e => !e.isWarningSeverity());
-  const lintWarnings = lints.filter(e => e.isWarningSeverity());
-
-  const errors = [...diagnosticFormatter(diagnosticErrors, diagnosticFormat, contextPath), ...lintErrors];
-  const warnings = [...diagnosticFormatter(diagnosticWarnings, diagnosticFormat, contextPath), ...lintWarnings];
+  const errors = [
+    ...diagnosticFormatter(diagnosticErrors, diagnosticFormat, contextPath),
+    ...lintFormatter(lintErrors, "stylish", contextPath),
+  ];
+  const warnings = [
+    ...diagnosticFormatter(diagnosticWarnings, diagnosticFormat, contextPath),
+    ...lintFormatter(lintWarnings, "stylish", contextPath),
+  ];
 
   return {
     checkTime: result.checkTime,

@@ -106,6 +106,7 @@
     "p-defer": "^1.0.0",
     "serialize-error": "^2.1.0",
     "supports-color": "^4.0.0",
-    "ts-diagnostic-formatter": "^0.1.0"
+    "ts-diagnostic-formatter": "^0.1.0",
+    "ts-tslint-formatter": "^0.1.0"
   }
 }
