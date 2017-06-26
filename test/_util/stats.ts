@@ -6,7 +6,7 @@ const normalizeError = (error: string) =>
   chalk
     .stripColor(error)
     .replace(/\r\n?/g, "\n")
-    .replace(/[^('|"|\s|\w\d)]\.?((?:[^(\/\')]*\/)+)[^('||"\s)]*/gm, "xfile")
+    .replace(/([^('|"|\s|\w|\d)]|\w:)\.?((?:[^(\/\')]*\/)+)[^('||"\s)]*/gm, "xfile")
     .replace(/\.\.\.\./gm, "xfile");
 
 export function normalizeStats(stats: Stats) {
