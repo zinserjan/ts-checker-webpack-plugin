@@ -59,6 +59,7 @@ module.exports = {
       tsconfig: path.resolve("tsconfig.json"),
       tslint: path.resolve("tslint.json"), // optional
       memoryLimit: 512, // optional, maximum memory usage in MB
+      diagnosticFormatter: "ts-loader", // optional, one of "ts-loader", "stylish", "codeframe"
     })
   ]
 };
