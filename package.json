@@ -1,6 +1,6 @@
 {
   "name": "ts-checker-webpack-plugin",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Webpack plugin that runs TypeScript's type checker",
   "keywords": [
     "webpack",
