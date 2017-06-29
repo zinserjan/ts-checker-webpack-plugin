@@ -18,6 +18,13 @@ Object {
 }
 `;
 
+exports[`TestCases commonjs-usage 1`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
 exports[`TestCases css-modules-error 1`] = `
 Object {
   "errors": Array [

@@ -10,7 +10,7 @@ export interface TsCheckerWebpackPluginOptions {
   diagnosticFormatter?: string;
 }
 
-export default class TsCheckerWebpackPlugin {
+class TsCheckerWebpackPlugin {
   private watchMode: boolean = false;
   private compiler: Compiler;
   private checker: TsChecker;
@@ -135,3 +135,10 @@ export default class TsCheckerWebpackPlugin {
     });
   }
 }
+
+// to generate type definitions
+export default TsCheckerWebpackPlugin;
+// to support CommonJS
+module.exports = TsCheckerWebpackPlugin;
+// to support ES6 default import
+module.exports.default = module.exports;
