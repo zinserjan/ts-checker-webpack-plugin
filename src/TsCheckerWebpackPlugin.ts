@@ -1,5 +1,5 @@
 import { Compiler } from "webpack";
-import TsChecker from "./worker/TsChecker";
+import TsCheckerWorker from "./worker/TsCheckerWorker";
 import { stripLoader } from "./util/webpackModule";
 import { WebpackBuildResult } from "./checker/resultSerializer";
 
@@ -13,13 +13,13 @@ export interface TsCheckerWebpackPluginOptions {
 class TsCheckerWebpackPlugin {
   private watchMode: boolean = false;
   private compiler: Compiler;
-  private checker: TsChecker;
+  private checker: TsCheckerWorker;
   private current: Promise<WebpackBuildResult | void> | null = null;
   private builtFiles: Array<string> = [];
 
   constructor(options: TsCheckerWebpackPluginOptions) {
     const { tsconfig, tslint, memoryLimit = 512, diagnosticFormatter = "ts-loader" } = options;
-    this.checker = new TsChecker(memoryLimit, tsconfig, diagnosticFormatter, tslint);
+    this.checker = new TsCheckerWorker(memoryLimit, tsconfig, diagnosticFormatter, tslint);
     this.checker.start();
   }
 
