@@ -8,17 +8,7 @@ branches:
 # Test against these versions of OS, Node & Webpack
 matrix:
   include:
-    # webpack 2 with latest typesript
-    - os: linux
-      node_js: 6
-      env: WEBPACK_VERSION=2 TYPESCRIPT_VERSION=2.4
-    # different typescript versions
-    - os: linux
-      node_js: 6
-      env: WEBPACK_VERSION=3 TYPESCRIPT_VERSION=2.1
-    - os: linux
-      node_js: 6
-      env: WEBPACK_VERSION=3 TYPESCRIPT_VERSION=2.2
+    # webpack 3 with different typescript versions
     - os: linux
       node_js: 6
       env: WEBPACK_VERSION=3 TYPESCRIPT_VERSION=2.3
@@ -29,7 +19,11 @@ matrix:
     - os: linux
       node_js: 8
       env: WEBPACK_VERSION=3 TYPESCRIPT_VERSION=2.4
-    # osx with webpack 3 and latest typescript
+    # webpack 2
+    - os: linux
+      node_js: 6
+      env: WEBPACK_VERSION=2 TYPESCRIPT_VERSION=2.4
+   # osx with webpack 3 and latest typescript
     - os: osx
       node_js: 6
       env: WEBPACK_VERSION=3 TYPESCRIPT_VERSION=2.4
