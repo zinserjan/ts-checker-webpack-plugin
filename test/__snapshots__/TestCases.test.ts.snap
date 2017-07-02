@@ -75,6 +75,28 @@ Object {
 }
 `;
 
+exports[`TestCases tsconfig-invalid-option 1`] = `
+Object {
+  "errors": Array [
+    "xfile
+error TS5023: Unknown compiler option 'xxxx'.",
+    "xfile
+Module build failed: error while parsing tsconfig.json",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`TestCases tsconfig-syntax-error 1`] = `
+Object {
+  "errors": Array [
+    "xfile
+Module build failed: error TS5014: Failed to parse file 'xfile': Unexpected token } in JSON at position 218.",
+  ],
+  "warnings": Array [],
+}
+`;
+
 exports[`TestCases tslint-error 1`] = `
 Object {
   "errors": Array [
