@@ -4,8 +4,7 @@ exports[`WatchCases basic-type-error 1`] = `
 Object {
   "errors": Array [
     "xfile
-(1,7): error TS2322: Type '\\"test\\"' is not assignable to type 'number'.
-",
+(1,7): error TS2322",
   ],
   "warnings": Array [],
 }
@@ -36,8 +35,7 @@ exports[`WatchCases css-modules-error 1`] = `
 Object {
   "errors": Array [
     "xfile
-(3,20): error TS2339: Property 'test' does not exist on type 'typeof \\"xfile'.
-",
+(3,20): error TS2339",
   ],
   "warnings": Array [],
 }
@@ -117,8 +115,7 @@ exports[`WatchCases ts-dependency-only-error 2`] = `
 Object {
   "errors": Array [
     "xfile
-(1,22): error TS2306: File 'xfile' is not a module.
-",
+(1,22): error TS2306",
   ],
   "warnings": Array [],
 }
@@ -149,8 +146,7 @@ exports[`WatchCases ts-dependency-only-removal-error 3`] = `
 Object {
   "errors": Array [
     "xfile
-(1,22): error TS2307: Cannot find module 'xfile'.
-",
+(1,22): error TS2307",
   ],
   "warnings": Array [],
 }
@@ -231,8 +227,7 @@ exports[`WatchCases type-patches-error 2`] = `
 Object {
   "errors": Array [
     "xfile
-(1,22): error TS2307: Cannot find module 'xfile'.
-",
+(1,22): error TS2307",
   ],
   "warnings": Array [],
 }

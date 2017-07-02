@@ -4,8 +4,7 @@ exports[`TestCases basic-type-error 1`] = `
 Object {
   "errors": Array [
     "xfile
-(1,7): error TS2322: Type '\\"test\\"' is not assignable to type 'number'.
-",
+(1,7): error TS2322",
   ],
   "warnings": Array [],
 }
@@ -29,8 +28,7 @@ exports[`TestCases css-modules-error 1`] = `
 Object {
   "errors": Array [
     "xfile
-(3,20): error TS2339: Property 'test' does not exist on type 'typeof \\"xfile'.
-",
+(3,20): error TS2339",
   ],
   "warnings": Array [],
 }
@@ -54,7 +52,7 @@ exports[`TestCases skip-type-check-on-build-error 1`] = `
 Object {
   "errors": Array [
     "xfile
-(3,1): error TS1005: '{' expected.",
+(3,1): error TS1005",
   ],
   "warnings": Array [],
 }
@@ -64,9 +62,7 @@ exports[`TestCases ts-dependency-only-error 1`] = `
 Object {
   "errors": Array [
     "xfile
-(3,22): error TS2420: Class 'TestImpl' incorrectly implements interface 'Test'.
-  Property 'doStuff' is missing in type 'TestImpl'.
-",
+(3,22): error TS2420",
   ],
   "warnings": Array [],
 }
@@ -105,8 +101,7 @@ exports[`TestCases use-library-type-definition-error 1`] = `
 Object {
   "errors": Array [
     "xfile
-(1,24): error TS7016: Could not find a declaration file for module 'react'. 'xfile' implicitly has an 'any' type.
-",
+(1,24): error TS7016",
   ],
   "warnings": Array [],
 }
