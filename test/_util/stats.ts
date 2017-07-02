@@ -10,6 +10,7 @@ const normalizeError = (error: string) =>
     // replace typescript messages, show only line:char + error
     .replace(/(\(\d+,\d+\):\s\w*\sTS\d*)([\w\W]*)/, "$1")
     // replace file path with xfile
+    .replace(/\\\\?/gm, "/")
     .replace(/([^('|"|\s|\w|\d)]|\w:)\.?((?:[^(\/\')]*\/)+)[^('||"\s)]*/gm, "xfile")
     .replace(/\.\.\.\./gm, "xfile");
 
