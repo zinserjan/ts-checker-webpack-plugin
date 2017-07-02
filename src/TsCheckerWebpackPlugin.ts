@@ -1,7 +1,7 @@
 import { Compiler } from "webpack";
-import TsChecker from "./TsChecker";
+import TsChecker from "./worker/TsChecker";
 import { stripLoader } from "./util/webpackModule";
-import { WebpackBuildResult } from "./util/resultSerializer";
+import { WebpackBuildResult } from "./checker/resultSerializer";
 
 export interface TsCheckerWebpackPluginOptions {
   tsconfig: string;

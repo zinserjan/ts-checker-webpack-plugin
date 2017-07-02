@@ -1,6 +1,6 @@
 import * as path from "path";
-import IncrementalChecker from "./util/IncrementalChecker";
-import { transformToWebpackBuildResult, serializeWebpackBuildResult } from "./util/resultSerializer";
+import IncrementalChecker from "../checker/IncrementalChecker";
+import { transformToWebpackBuildResult, serializeWebpackBuildResult } from "../checker/resultSerializer";
 
 process.on("SIGINT", function() {
   process.exit(130);

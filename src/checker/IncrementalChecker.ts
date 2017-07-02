@@ -3,7 +3,7 @@ import * as ts from "typescript";
 import * as tslint from "tslint";
 import { SourceFile, Diagnostic } from "typescript";
 import normalizePath = require("normalize-path");
-import FileCache from "./FileCache";
+import FileCache from "../util/FileCache";
 import { RuleFailure } from "tslint";
 
 export type TsCheckerResult = {

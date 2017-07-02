@@ -1,5 +1,5 @@
 import { fork, ChildProcess } from "child_process";
-import { deserializeWebpackBuildResult, WebpackBuildResult } from "./util/resultSerializer";
+import { deserializeWebpackBuildResult, WebpackBuildResult } from "../checker/resultSerializer";
 import pDefer = require("p-defer");
 const supportsColor = require("supports-color");
 
