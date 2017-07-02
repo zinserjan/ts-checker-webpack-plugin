@@ -1,9 +1,9 @@
 import { fork, ChildProcess } from "child_process";
-import { deserializeWebpackBuildResult, WebpackBuildResult } from "./util/resultSerializer";
+import { deserializeWebpackBuildResult, WebpackBuildResult } from "../checker/resultSerializer";
 import pDefer = require("p-defer");
 const supportsColor = require("supports-color");
 
-export default class TsChecker {
+export default class TsCheckerWorker {
   private process: ChildProcess | null = null;
   private memoryLimit: number;
   private tsconfigPath: string;
@@ -35,8 +35,8 @@ export default class TsChecker {
       this.process = fork(
         process.env.TS_CHECKER_ENV === "test"
           ? require.resolve("ts-node/dist/_bin")
-          : require.resolve("./TsCheckerService"),
-        process.env.TS_CHECKER_ENV === "test" ? [require.resolve("./TsCheckerService")] : [],
+          : require.resolve("./TsCheckerRuntime"),
+        process.env.TS_CHECKER_ENV === "test" ? [require.resolve("./TsCheckerRuntime")] : [],
         {
           cwd: process.cwd(),
           execArgv: [`--max-old-space-size=${this.memoryLimit}`],
