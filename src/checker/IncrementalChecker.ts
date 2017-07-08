@@ -4,6 +4,7 @@ import * as tslint from "tslint";
 import { SourceFile, Diagnostic } from "typescript";
 import normalizePath = require("normalize-path");
 import FileCache from "../util/FileCache";
+import Logger from "../util/Logger";
 import { RuleFailure } from "tslint";
 
 export type TsCheckerResult = {
@@ -14,40 +15,56 @@ export type TsCheckerResult = {
 };
 
 export default class IncrementalChecker {
+  private logger: Logger;
   private fileCache: FileCache;
   private program: ts.Program;
   private programConfig: ts.ParsedCommandLine;
   private tslintConfig: tslint.Configuration.IConfigurationFile;
 
-  constructor(tsconfigPath: string, tslintPath?: string) {
+  constructor(timings: boolean, tsconfigPath: string, tslintPath?: string) {
+    this.logger = new Logger();
     this.fileCache = new FileCache();
     this.programConfig = IncrementalChecker.getProgramConfig(tsconfigPath);
     if (tslintPath != null) {
       this.tslintConfig = IncrementalChecker.getLintConfig(tslintPath);
     }
+    if (timings) {
+      this.logger.enable();
+    }
   }
 
   run(): TsCheckerResult {
     const checkStart = Date.now();
+    this.logger.time("ts-checker-webpack-plugin:create-program");
     this.program = this.createProgram(this.program);
+    this.logger.timeEnd("ts-checker-webpack-plugin:create-program");
 
     // check only files that were required by webpack
+    this.logger.time("ts-checker-webpack-plugin:collect-sourcefiles");
     const filesToCheck: Array<SourceFile> = this.program
       .getSourceFiles()
       .filter((file: SourceFile) => this.fileCache.isFileTypeCheckable(file.fileName)); // this makes it fast
+    this.logger.timeEnd("ts-checker-webpack-plugin:collect-sourcefiles");
 
+    this.logger.time("ts-checker-webpack-plugin:check-types");
     const diagnostics: Array<ts.Diagnostic> = [];
     filesToCheck.forEach(file => Array.prototype.push.apply(diagnostics, this.program.getSemanticDiagnostics(file)));
+    this.logger.timeEnd("ts-checker-webpack-plugin:check-types");
     const checkEnd = Date.now();
 
     const lintStart = Date.now();
     const lints: Array<tslint.RuleFailure> = [];
     if (this.tslintConfig != null) {
-      const filesToLint = filesToCheck.filter((file: SourceFile) => this.fileCache.isFileLintable(file.fileName));
-
+      this.logger.time("ts-checker-webpack-plugin:create-linter");
       const linter = new tslint.Linter({ fix: false }, this.program);
+      this.logger.timeEnd("ts-checker-webpack-plugin:create-linter");
+
+      this.logger.time("ts-checker-webpack-plugin:collect-lintfiles");
+      const filesToLint = filesToCheck.filter((file: SourceFile) => this.fileCache.isFileLintable(file.fileName));
+      this.logger.timeEnd("ts-checker-webpack-plugin:collect-lintfiles");
 
       // lint files
+      this.logger.time("ts-checker-webpack-plugin:lint-files");
       filesToLint.forEach((file: SourceFile) => {
         linter.lint(file.fileName, file.text, this.tslintConfig);
       });
@@ -65,6 +82,7 @@ export default class IncrementalChecker {
           this.fileCache.linted(file.fileName);
         }
       });
+      this.logger.timeEnd("ts-checker-webpack-plugin:lint-files");
     }
     const lintEnd = Date.now();
 
