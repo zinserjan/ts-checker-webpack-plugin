@@ -6,13 +6,21 @@ const supportsColor = require("supports-color");
 export default class TsCheckerWorker {
   private process: ChildProcess | null = null;
   private memoryLimit: number;
+  private timings: boolean;
   private tsconfigPath: string;
   private diagnosticFormatter: string;
   private tslintPath?: string;
   private exitListener: () => void;
 
-  constructor(memoryLimit: number, tsconfigPath: string, diagnosticFormatter: string, tslintPath?: string) {
+  constructor(
+    memoryLimit: number,
+    timings: boolean,
+    tsconfigPath: string,
+    diagnosticFormatter: string,
+    tslintPath?: string
+  ) {
     this.memoryLimit = memoryLimit;
+    this.timings = timings;
     this.tsconfigPath = tsconfigPath;
     this.diagnosticFormatter = diagnosticFormatter;
     this.tslintPath = tslintPath;
@@ -44,6 +52,7 @@ export default class TsCheckerWorker {
             FORCE_COLOR: Number(supportsColor),
             TSCONFIG: this.tsconfigPath,
             DIAGNOSTIC_FORMATTER: this.diagnosticFormatter,
+            TIMINGS: this.timings,
             ...this.tslintPath ? { TSLINT: this.tslintPath } : {},
           },
           stdio: ["inherit", "inherit", "inherit", "ipc"],

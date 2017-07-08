@@ -9,9 +9,10 @@ process.on("SIGINT", function() {
 const tsconfigPath = process.env.TSCONFIG;
 const diagnosticFormatter = process.env.DIAGNOSTIC_FORMATTER;
 const tslintPath = process.env.TSLINT;
+const timings = process.env.TIMINGS;
 const contextPath = path.dirname(tsconfigPath);
 
-const incrementalChecker = new IncrementalChecker(tsconfigPath, tslintPath);
+const incrementalChecker = new IncrementalChecker(timings, tsconfigPath, tslintPath);
 
 const messageOk = {
   id: "ok",

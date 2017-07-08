@@ -7,6 +7,7 @@ export interface TsCheckerWebpackPluginOptions {
   tsconfig: string;
   tslint?: string;
   memoryLimit?: number;
+  timings?: boolean;
   diagnosticFormatter?: string;
 }
 
@@ -18,8 +19,8 @@ class TsCheckerWebpackPlugin {
   private builtFiles: Array<string> = [];
 
   constructor(options: TsCheckerWebpackPluginOptions) {
-    const { tsconfig, tslint, memoryLimit = 512, diagnosticFormatter = "ts-loader" } = options;
-    this.checker = new TsCheckerWorker(memoryLimit, tsconfig, diagnosticFormatter, tslint);
+    const { tsconfig, tslint, memoryLimit = 512, timings = false, diagnosticFormatter = "ts-loader" } = options;
+    this.checker = new TsCheckerWorker(memoryLimit, timings, tsconfig, diagnosticFormatter, tslint);
     this.checker.start();
   }
 
