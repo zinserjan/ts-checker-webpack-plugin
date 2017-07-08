@@ -9,7 +9,7 @@ process.on("SIGINT", function() {
 const tsconfigPath = process.env.TSCONFIG;
 const diagnosticFormatter = process.env.DIAGNOSTIC_FORMATTER;
 const tslintPath = process.env.TSLINT;
-const timings = process.env.TIMINGS;
+const timings = process.env.TIMINGS === "true";
 const contextPath = path.dirname(tsconfigPath);
 
 const incrementalChecker = new IncrementalChecker(timings, tsconfigPath, tslintPath);
