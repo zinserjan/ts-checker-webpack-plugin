@@ -65,6 +65,21 @@ module.exports = {
 };
 ```
 
+## Options
+
+```js
+new TsCheckerWebpackPlugin(options: object)
+```
+
+|Name|Type|Description|
+|:--|:--:|:----------|
+|**`tsconfig`**|`{String}`|Absolute path to tsconfig.json file.|
+|**`tslint`**|`{String}`|Absolute path to tslint.json file. <br>Default: `undefined`|
+|**`memoryLimit`**|`{Number}`|Memory limit for the type checker process in MB. <br>Default: `512`|
+|**`diagnosticFormatter`**|`{String}`|Formatter for TypeScript Diagnostics. <br>One of `ts-loader`, `stylish` or `codeframe`.<br> Default: `ts-loader`|
+|**`timings`**|`{Boolean}`|Logs timing information of the type checker. <br>Default: `false`|
+
+
 ## Motivation
 
 First off all the approach is based on the idea of [fork-ts-checker-webpack-plugin](https://github.com/Realytics/fork-ts-checker-webpack-plugin) to run the type checking process independently of the actual transpiling of the files with [ts-loader](https://github.com/TypeStrong/ts-loader) to speed things up. 
