@@ -50,20 +50,18 @@ class TsCheckerWebpackPlugin {
 
     // wait until all changed files are invalidated
     this.compiler.plugin("make", (compilation, callback) => {
-      // Don't run on child compilations & skip for build mode
-      if (compilation.compiler.isChild() || !this.watchMode) {
+      // Don't run on child compilations
+      if (compilation.compiler.isChild()) {
         callback();
         return;
       }
-      // wait for next tick to make sure that the synchronous "aggregated" event was called before
-      process.nextTick(() => {
-        if (this.current !== null) {
-          this.current.then(() => callback()).catch(callback);
-          this.current = null;
-        } else {
-          callback();
-        }
-      });
+
+      if (this.current !== null) {
+        this.current.then(() => callback()).catch(callback);
+        this.current = null;
+      } else {
+        callback();
+      }
     });
 
     this.compiler.plugin("compilation", compilation => {
