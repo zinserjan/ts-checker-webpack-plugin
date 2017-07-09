@@ -17,6 +17,7 @@ class TsCheckerWebpackPlugin {
   private checker: TsCheckerWorker;
   private current: Promise<WebpackBuildResult | void> | null = null;
   private builtFiles: Array<string> = [];
+  private startTime: number = Date.now();
 
   constructor(options: TsCheckerWebpackPluginOptions) {
     const { tsconfig, tslint, memoryLimit = 512, timings = false, diagnosticFormatter = "ts-loader" } = options;
@@ -27,9 +28,23 @@ class TsCheckerWebpackPlugin {
   apply(compiler: Compiler) {
     this.compiler = compiler;
 
+    const lastTimes: Map<string, number> = new Map<string, number>();
     // detect watch mode
     this.compiler.plugin("watch-run", (watching, callback) => {
       this.watchMode = true;
+
+      const watcher = watching.compiler.watchFileSystem.watcher || watching.compiler.watchFileSystem.wfs.watcher;
+
+      const currentTimes = watcher.getTimes();
+      // update file cache
+      const changed: Array<string> = Object.keys(currentTimes)
+        .filter(filePath => currentTimes[filePath] > (lastTimes.get(filePath) || this.startTime))
+        .map(filePath => {
+          lastTimes.set(filePath, currentTimes[filePath]);
+          return filePath;
+        });
+
+      this.current = this.checker.invalidateFiles(changed, []);
       callback();
     });
 
@@ -57,7 +72,7 @@ class TsCheckerWebpackPlugin {
         return;
       }
 
-      this.current = null;
+      let checked = false;
 
       // compilation for modules almost finished, start type checking
       compilation.plugin("seal", () => {
@@ -67,14 +82,14 @@ class TsCheckerWebpackPlugin {
 
         Array.prototype.push.apply(this.builtFiles, buildFiles);
 
-        // skip type checking when there are build errors
-        if (compilation.errors.length > 0) {
-          this.current = null;
+        // skip type checking when already checked or when there are build errors
+        if (checked || compilation.errors.length > 0) {
           return;
         }
 
         // start type checking
         this.current = this.checker.check(this.builtFiles);
+        checked = true;
       });
     });
 
@@ -112,21 +127,6 @@ class TsCheckerWebpackPlugin {
     this.compiler.plugin("done", () => {
       if (!this.watchMode) {
         this.checker.kill();
-      } else {
-        // wait for next tick until the watcher is ready
-        process.nextTick(() => {
-          // register change listener to watcher
-          const watchFileSystem = (this.compiler as any).watchFileSystem;
-          // extract watcher from NodeWatchFileSystem or IgnoringWatchFileSystem
-          const watcher = watchFileSystem.watcher || (watchFileSystem.wfs && watchFileSystem.wfs.watcher);
-          if (watcher != null) {
-            // register change listener to get changed & removed files
-            watcher.once("aggregated", (changes: Array<string>, removals: Array<string>) => {
-              // update file cache
-              this.current = this.checker.invalidateFiles(changes, removals);
-            });
-          }
-        });
       }
     });
 
