@@ -10,7 +10,9 @@ const tests = fs.readdirSync(testCasesPath).filter(dir => fs.statSync(path.join(
 
 const tmpPath = path.resolve(__dirname, "../.tmp/watchCases");
 
+let time = Date.now() / 1000;
 const copySmart = (srcPath: string, targetPath: string) => {
+  time += 10;
   const files = fs.readdirSync(srcPath);
 
   for (const file of files) {
@@ -29,7 +31,9 @@ const copySmart = (srcPath: string, targetPath: string) => {
           fs.writeFileSync(targetFilePath, content);
         } else {
           fs.copySync(srcFilePath, targetFilePath);
-        }    
+        }
+        // make sure that the last modified time was touched
+        fs.utimesSync(targetFilePath, time, time);
       }
     }
   }

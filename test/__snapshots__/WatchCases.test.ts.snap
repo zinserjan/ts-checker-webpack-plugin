@@ -226,6 +226,33 @@ Object {
 }
 `;
 
+exports[`WatchCases ts-dependency-only-removal-2-error 1`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases ts-dependency-only-removal-2-error 2`] = `
+Object {
+  "errors": Array [
+    "xfile
+(1,22): error TS2307",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases ts-dependency-only-removal-2-error 3`] = `
+Object {
+  "errors": Array [
+    "xfile
+(3,22): error TS2420",
+  ],
+  "warnings": Array [],
+}
+`;
+
 exports[`WatchCases ts-dependency-only-removal-error 1`] = `
 Object {
   "errors": Array [],
