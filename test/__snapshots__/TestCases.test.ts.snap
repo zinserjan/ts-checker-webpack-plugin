@@ -17,6 +17,42 @@ Object {
 }
 `;
 
+exports[`TestCases code-splitting-error 1`] = `
+Object {
+  "errors": Array [
+    "xfile
+(1,7): error TS2322",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`TestCases code-splitting-no-error 1`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
+exports[`TestCases code-splitting-ts-dependency-error 1`] = `
+Object {
+  "errors": Array [
+    "xfile
+(1,7): error TS2322",
+    "xfile
+(3,22): error TS2420",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`TestCases code-splitting-ts-dependency-no-error 1`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
 exports[`TestCases commonjs-usage 1`] = `
 Object {
   "errors": Array [],
