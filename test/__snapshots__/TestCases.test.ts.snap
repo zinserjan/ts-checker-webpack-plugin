@@ -17,9 +17,11 @@ Object {
 }
 `;
 
-exports[`TestCases code-splitting-error 1`] = `
+exports[`TestCases code-splitting-import-error 1`] = `
 Object {
   "errors": Array [
+    "xfile
+(1,1): error TS2304",
     "xfile
 (1,7): error TS2322",
   ],
@@ -27,16 +29,23 @@ Object {
 }
 `;
 
-exports[`TestCases code-splitting-no-error 1`] = `
+exports[`TestCases code-splitting-import-no-error 1`] = `
 Object {
-  "errors": Array [],
+  "errors": Array [
+    "xfile
+(1,1): error TS2304",
+    "xfile
+(4,1): error TS2304",
+  ],
   "warnings": Array [],
 }
 `;
 
-exports[`TestCases code-splitting-ts-dependency-error 1`] = `
+exports[`TestCases code-splitting-import-ts-dependency-error 1`] = `
 Object {
   "errors": Array [
+    "xfile
+(1,1): error TS2304",
     "xfile
 (1,7): error TS2322",
     "xfile
@@ -46,9 +55,14 @@ Object {
 }
 `;
 
-exports[`TestCases code-splitting-ts-dependency-no-error 1`] = `
+exports[`TestCases code-splitting-import-ts-dependency-no-error 1`] = `
 Object {
-  "errors": Array [],
+  "errors": Array [
+    "xfile
+(1,1): error TS2304",
+    "xfile
+(4,1): error TS2304",
+  ],
   "warnings": Array [],
 }
 `;
