@@ -19,6 +19,8 @@ install:
   - ps: Install-Product node $env:nodejs_version
   # Typical npm stuff.
   - npm install || (timeout 30 && npm install)
+  # Install specific typescript version
+  - npm install typescript@2.4
 
 # test scripts
 test_script:
