@@ -33,9 +33,7 @@ class TsCheckerWebpackPlugin {
     this.compiler.plugin("watch-run", (watching, callback) => {
       this.watchMode = true;
 
-      const watcher = watching.compiler.watchFileSystem.watcher || watching.compiler.watchFileSystem.wfs.watcher;
-
-      const currentTimes = watcher.getTimes();
+      const currentTimes = watching.compiler.fileTimestamps;
       // update file cache
       const changed: Array<string> = Object.keys(currentTimes)
         .filter(filePath => currentTimes[filePath] > (lastTimes.get(filePath) || this.startTime))
