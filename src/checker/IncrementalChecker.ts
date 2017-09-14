@@ -1,17 +1,16 @@
 import * as path from "path";
 import * as ts from "typescript";
-import * as tslint from "tslint";
+import tslintTypes = require("tslint"); // Only imported for types, tslint will be required lazy
 import { SourceFile, Diagnostic } from "typescript";
 import normalizePath = require("normalize-path");
 import FileCache from "../util/FileCache";
 import Logger from "../util/Logger";
-import { RuleFailure } from "tslint";
 
 export type TsCheckerResult = {
   checkTime: number;
   lintTime: number;
   diagnostics: Array<Diagnostic>;
-  lints: Array<RuleFailure>;
+  lints: Array<tslintTypes.RuleFailure>;
 };
 
 export default class IncrementalChecker {
@@ -19,7 +18,7 @@ export default class IncrementalChecker {
   private fileCache: FileCache;
   private program: ts.Program;
   private programConfig: ts.ParsedCommandLine;
-  private tslintConfig: tslint.Configuration.IConfigurationFile;
+  private tslintConfig: tslintTypes.Configuration.IConfigurationFile;
 
   constructor(timings: boolean, tsconfigPath: string, tslintPath?: string) {
     this.logger = new Logger();
@@ -53,9 +52,10 @@ export default class IncrementalChecker {
     const checkEnd = Date.now();
 
     const lintStart = Date.now();
-    const lints: Array<tslint.RuleFailure> = [];
+    const lints: Array<tslintTypes.RuleFailure> = [];
     if (this.tslintConfig != null) {
       this.logger.time("ts-checker-webpack-plugin:create-linter");
+      const tslint: typeof tslintTypes = require("tslint");
       const linter = new tslint.Linter({ fix: false }, this.program);
       this.logger.timeEnd("ts-checker-webpack-plugin:create-linter");
 
@@ -157,6 +157,7 @@ export default class IncrementalChecker {
   }
 
   private static getLintConfig(tslintPath: string) {
+    const tslint: typeof tslintTypes = require("tslint");
     return tslint.Configuration.loadConfigurationFromPath(tslintPath);
   }
 }
