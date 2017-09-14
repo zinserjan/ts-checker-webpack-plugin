@@ -6,6 +6,7 @@ export interface TsCheckerRuntimeConfig {
   tsconfigPath: string;
   diagnosticFormatter: string;
   tslintPath?: string;
+  tslintEmitErrors: boolean;
   timings: boolean;
 }
 
@@ -45,7 +46,7 @@ process.on("message", function(message: any) {
       incrementalChecker.updateBuiltFiles(message.files);
       const result = incrementalChecker.run();
 
-      const webpackResult = transformToWebpackBuildResult(result, contextPath, config.diagnosticFormatter);
+      const webpackResult = transformToWebpackBuildResult(result, contextPath, config.diagnosticFormatter, config.tslintEmitErrors);
       const serialized = serializeWebpackBuildResult(webpackResult);
 
       sendMessage({

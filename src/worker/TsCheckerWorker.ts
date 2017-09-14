@@ -15,13 +15,15 @@ export default class TsCheckerWorker {
     timings: boolean,
     tsconfigPath: string,
     diagnosticFormatter: string,
-    tslintPath?: string
+    tslintEmitErrors: boolean,
+    tslintPath?: string,
   ) {
     this.memoryLimit = memoryLimit;
     this.runtimeConfig = {
       tsconfigPath,
       diagnosticFormatter,
       tslintPath,
+      tslintEmitErrors,
       timings,
     };
     this.exitListener = () => {

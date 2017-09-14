@@ -75,6 +75,7 @@ new TsCheckerWebpackPlugin(options: object)
 |:--|:--:|:----------|
 |**`tsconfig`**|`{String}`|Absolute path to tsconfig.json file.|
 |**`tslint`**|`{String}`|Absolute path to tslint.json file. <br>Default: `undefined`|
+|**`tslintEmitErrors`**|`{Boolean}`|Forces tslint to always emit error instead of it's default severity. <br>Default: `false`|
 |**`memoryLimit`**|`{Number}`|Memory limit for the type checker process in MB. <br>Default: `512`|
 |**`diagnosticFormatter`**|`{String}`|Formatter for TypeScript Diagnostics. <br>One of `ts-loader`, `stylish` or `codeframe`.<br> Default: `ts-loader`|
 |**`timings`**|`{Boolean}`|Logs timing information of the type checker. <br>Default: `false`|

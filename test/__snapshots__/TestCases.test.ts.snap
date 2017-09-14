@@ -133,6 +133,17 @@ Module build failed: error TS5014: Failed to parse file 'xfile': Unexpected toke
 }
 `;
 
+exports[`TestCases tslint-emit-warning-as-error 1`] = `
+Object {
+  "errors": Array [
+    "xfile
+  2:11  warning  ' should be \\"  quotemark
+",
+  ],
+  "warnings": Array [],
+}
+`;
+
 exports[`TestCases tslint-error 1`] = `
 Object {
   "errors": Array [
