@@ -45,8 +45,6 @@ exports[`TestCases code-splitting-import-ts-dependency-error 1`] = `
 Object {
   "errors": Array [
     "xfile
-(1,1): error TS2304",
-    "xfile
 (1,7): error TS2322",
     "xfile
 (3,22): error TS2420",
@@ -57,12 +55,7 @@ Object {
 
 exports[`TestCases code-splitting-import-ts-dependency-no-error 1`] = `
 Object {
-  "errors": Array [
-    "xfile
-(1,1): error TS2304",
-    "xfile
-(4,1): error TS2304",
-  ],
+  "errors": Array [],
   "warnings": Array [],
 }
 `;

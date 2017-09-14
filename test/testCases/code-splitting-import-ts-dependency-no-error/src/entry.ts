@@ -1,3 +1,3 @@
-System.import("./lazy").then(x => {
+import("./lazy").then(x => {
   console.log(x);
 });
