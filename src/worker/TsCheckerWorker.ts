@@ -2,15 +2,13 @@ import { fork, ChildProcess } from "child_process";
 import { deserializeWebpackBuildResult, WebpackBuildResult } from "../checker/resultSerializer";
 import pDefer = require("p-defer");
 const supportsColor = require("supports-color");
+import { TsCheckerRuntimeConfig } from "./TsCheckerRuntime";
 
 export default class TsCheckerWorker {
   private process: ChildProcess | null = null;
   private memoryLimit: number;
-  private timings: boolean;
-  private tsconfigPath: string;
-  private diagnosticFormatter: string;
-  private tslintPath?: string;
   private exitListener: () => void;
+  private runtimeConfig: TsCheckerRuntimeConfig;
 
   constructor(
     memoryLimit: number,
@@ -20,10 +18,12 @@ export default class TsCheckerWorker {
     tslintPath?: string
   ) {
     this.memoryLimit = memoryLimit;
-    this.timings = timings;
-    this.tsconfigPath = tsconfigPath;
-    this.diagnosticFormatter = diagnosticFormatter;
-    this.tslintPath = tslintPath;
+    this.runtimeConfig = {
+      tsconfigPath,
+      diagnosticFormatter,
+      tslintPath,
+      timings,
+    };
     this.exitListener = () => {
       if (this.process != null) {
         this.process.kill();
@@ -50,10 +50,7 @@ export default class TsCheckerWorker {
           execArgv: [`--max-old-space-size=${this.memoryLimit}`],
           env: {
             FORCE_COLOR: Number(supportsColor),
-            TSCONFIG: this.tsconfigPath,
-            DIAGNOSTIC_FORMATTER: this.diagnosticFormatter,
-            TIMINGS: this.timings,
-            ...this.tslintPath ? { TSLINT: this.tslintPath } : {},
+            TS_CHECKER_CONFIG: JSON.stringify(this.runtimeConfig),
           },
           stdio: ["inherit", "inherit", "inherit", "ipc"],
         }
