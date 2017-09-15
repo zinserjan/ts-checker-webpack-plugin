@@ -56,9 +56,7 @@ export default class IncrementalChecker {
     const addedFiles = this.fileCache.getAddedFiles();
 
     const modifiedFiles = [...invalidatedFiles, ...addedFiles];
-    const fullCheckNecessary = modifiedFiles.some((fileName: string) =>
-      this.fileCache.isFileGlobalTypeCheckable(fileName)
-    );
+    const fullCheckNecessary = modifiedFiles.some((fileName: string) => this.fileCache.hasFileGlobalImpacts(fileName));
     // todo build affectedFiles only when fullCheckNecessary is false
     // calculate affected files
     const affectedFiles = this.fileCache.getAffectedFiles(modifiedFiles);

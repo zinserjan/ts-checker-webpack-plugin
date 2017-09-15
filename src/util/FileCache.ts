@@ -125,7 +125,7 @@ export default class FileCache {
     return false;
   }
 
-  isFileGlobalTypeCheckable(file: string) {
+  hasFileGlobalImpacts(file: string) {
     if (this.exist(file)) {
       const fileState = this.files.get(file) as FileState;
       return fileState.globalImpact;
