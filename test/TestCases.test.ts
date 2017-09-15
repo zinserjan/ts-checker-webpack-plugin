@@ -4,6 +4,7 @@ import webpack = require("webpack");
 import MemoryFs = require("memory-fs");
 import pDefer = require("p-defer");
 import { normalizeStats } from "./_util/stats";
+import { satisfiesVersionRequirements } from "./_util/satisfiesVersionRequirements";
 
 const testCasesPath = path.join(__dirname, "testCases");
 const tests = fs.readdirSync(testCasesPath).filter(dir => fs.statSync(path.join(testCasesPath, dir)).isDirectory());
@@ -21,8 +22,9 @@ describe("TestCases", () => {
     const testPath = path.join(testCasesPath, testName);
     const tmpTestPath = path.join(tmpPath, testName);
     const webpackConfigPath = path.join(tmpTestPath, "webpack.config.ts");
+    const skipTest = !satisfiesVersionRequirements(path.join(testPath, "versions.json"));
 
-    it(testName, async () => {
+    (skipTest ? it.skip : it)(testName, async () => {
       await fs.copy(testPath, tmpTestPath);
 
       const webpackConfig = require(webpackConfigPath);
