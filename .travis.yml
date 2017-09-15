@@ -23,10 +23,7 @@ matrix:
     - os: linux
       node_js: 6
       env: WEBPACK_VERSION=2 TYPESCRIPT_VERSION=2.4
-   # osx with webpack 3 and latest typescript
-    - os: osx
-      node_js: 6
-      env: WEBPACK_VERSION=3 TYPESCRIPT_VERSION=2.4
+  fast_finish: true
 
 # Test scripts
 script:
