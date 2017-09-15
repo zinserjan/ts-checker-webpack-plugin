@@ -27,6 +27,9 @@ matrix:
     - os: osx
       node_js: 6
       env: WEBPACK_VERSION=3 TYPESCRIPT_VERSION=2.4
+  allow_failures:
+    - os: osx
+  fast_finish: true
 
 # Test scripts
 script:
