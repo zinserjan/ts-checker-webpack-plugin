@@ -73,14 +73,14 @@ new TsCheckerWebpackPlugin(options: object)
 
 |Name|Type|Description|
 |:--|:--:|:----------|
-|**`tsconfig`**|`{String}`|Absolute path to tsconfig.json file.|
-|**`tslint`**|`{String}`|Absolute path to tslint.json file. <br>Default: `undefined`|
-|**`tslintEmitErrors`**|`{Boolean}`|Report all TSLint failures as webpack errors regardless of the rule severity. <br>Default: `false`|
-|**`memoryLimit`**|`{Number}`|Memory limit for the type checker process in MB. <br>Default: `512`|
-|**`diagnosticFormatter`**|`{String}`|Formatter for TypeScript Diagnostics. <br>One of `ts-loader`, `stylish` or `codeframe`.<br> Default: `ts-loader`|
-|**`timings`**|`{Boolean}`|Logs timing information of the type checker. <br>Default: `false`|
-|**`ignoreDiagnostics`**|`{Number[]}`|List of TypeScript diagnostic codes to ignore. <br>Default: `[]`|
-|**`ignoreLints`**|`{String[]}`|List of TSLint rule names to ignore. <br>Default: `[]`|
+|**`tsconfig`**|`string`|Absolute path to tsconfig.json file.|
+|**`tslint`**|`string`|Absolute path to tslint.json file. <br>Default: `undefined`|
+|**`tslintEmitErrors`**|`boolean`|Report all TSLint failures as webpack errors regardless of the rule severity. <br>Default: `false`|
+|**`memoryLimit`**|`number`|Memory limit for the type checker process in MB. <br>Default: `512`|
+|**`diagnosticFormatter`**|`string`|Formatter for TypeScript Diagnostics. <br>One of `ts-loader`, `stylish` or `codeframe`.<br> Default: `ts-loader`|
+|**`timings`**|`boolean`|Logs timing information of the type checker. <br>Default: `false`|
+|**`ignoreDiagnostics`**|`number[]`|List of TypeScript diagnostic codes to ignore. <br>Default: `[]`|
+|**`ignoreLints`**|`string[]`|List of TSLint rule names to ignore. <br>Default: `[]`|
 
 
 ## Motivation
