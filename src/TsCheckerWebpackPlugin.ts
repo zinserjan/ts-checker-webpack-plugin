@@ -11,6 +11,8 @@ export interface TsCheckerWebpackPluginOptions {
   memoryLimit?: number;
   timings?: boolean;
   diagnosticFormatter?: string;
+  ignoreDiagnostics?: Array<number>;
+  ignoreLints?: Array<string>;
 }
 
 class TsCheckerWebpackPlugin {
@@ -30,12 +32,23 @@ class TsCheckerWebpackPlugin {
       memoryLimit = 512,
       timings = false,
       diagnosticFormatter = "ts-loader",
+      ignoreDiagnostics = [],
+      ignoreLints = [],
     } = options;
     this.logger = new Logger();
     if (timings) {
       this.logger.enable();
     }
-    this.checker = new TsCheckerWorker(memoryLimit, timings, tsconfig, diagnosticFormatter, tslintEmitErrors, tslint);
+    this.checker = new TsCheckerWorker(
+      memoryLimit,
+      timings,
+      tsconfig,
+      diagnosticFormatter,
+      ignoreDiagnostics,
+      ignoreLints,
+      tslintEmitErrors,
+      tslint
+    );
     this.checker.start();
   }
 

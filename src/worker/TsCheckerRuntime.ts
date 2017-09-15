@@ -8,6 +8,8 @@ export interface TsCheckerRuntimeConfig {
   tslintPath?: string;
   tslintEmitErrors: boolean;
   timings: boolean;
+  ignoreDiagnostics: Array<number>;
+  ignoreLints: Array<string>;
 }
 
 process.on("SIGINT", function() {
@@ -46,7 +48,22 @@ process.on("message", function(message: any) {
       incrementalChecker.updateBuiltFiles(message.files);
       const result = incrementalChecker.run();
 
-      const webpackResult = transformToWebpackBuildResult(result, contextPath, config.diagnosticFormatter, config.tslintEmitErrors);
+      if (config.ignoreDiagnostics.length) {
+        result.diagnostics = result.diagnostics.filter(
+          diagnostic => config.ignoreDiagnostics.indexOf(diagnostic.code) === -1
+        );
+      }
+
+      if (config.ignoreLints.length) {
+        result.lints = result.lints.filter(ruleFailure => config.ignoreLints.indexOf(ruleFailure.getRuleName()) === -1);
+      }
+
+      const webpackResult = transformToWebpackBuildResult(
+        result,
+        contextPath,
+        config.diagnosticFormatter,
+        config.tslintEmitErrors
+      );
       const serialized = serializeWebpackBuildResult(webpackResult);
 
       sendMessage({
