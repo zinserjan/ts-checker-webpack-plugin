@@ -15,8 +15,10 @@ export default class TsCheckerWorker {
     timings: boolean,
     tsconfigPath: string,
     diagnosticFormatter: string,
+    ignoreDiagnostics: Array<number>,
+    ignoreLints: Array<string>,
     tslintEmitErrors: boolean,
-    tslintPath?: string,
+    tslintPath?: string
   ) {
     this.memoryLimit = memoryLimit;
     this.runtimeConfig = {
@@ -25,6 +27,8 @@ export default class TsCheckerWorker {
       tslintPath,
       tslintEmitErrors,
       timings,
+      ignoreDiagnostics,
+      ignoreLints,
     };
     this.exitListener = () => {
       if (this.process != null) {

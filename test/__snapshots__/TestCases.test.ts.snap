@@ -77,10 +77,31 @@ Object {
 }
 `;
 
+exports[`TestCases ignore-basic-type-error 1`] = `
+Object {
+  "errors": Array [
+    "xfile
+(4,11): error TS2304",
+  ],
+  "warnings": Array [],
+}
+`;
+
 exports[`TestCases ignore-child-compiler-no-error 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
+}
+`;
+
+exports[`TestCases ignore-tslint-rule 1`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [
+    "xfile
+  4:10  warning  Type declaration of 'any' loses type-safety. Consider replacing it with a more precise type, the empty type ('{}'), or suppress this occurrence.  no-any
+",
+  ],
 }
 `;
 

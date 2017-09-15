@@ -79,6 +79,8 @@ new TsCheckerWebpackPlugin(options: object)
 |**`memoryLimit`**|`{Number}`|Memory limit for the type checker process in MB. <br>Default: `512`|
 |**`diagnosticFormatter`**|`{String}`|Formatter for TypeScript Diagnostics. <br>One of `ts-loader`, `stylish` or `codeframe`.<br> Default: `ts-loader`|
 |**`timings`**|`{Boolean}`|Logs timing information of the type checker. <br>Default: `false`|
+|**`ignoreDiagnostics`**|`{Number[]}`|List of TypeScript diagnostic codes to ignore. <br>Default: `[]`|
+|**`ignoreLints`**|`{String[]}`|List of TSLint rule names to ignore. <br>Default: `[]`|
 
 
 ## Motivation
