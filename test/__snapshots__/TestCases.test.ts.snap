@@ -29,10 +29,7 @@ Object {
 
 exports[`TestCases code-splitting-import-no-error 1`] = `
 Object {
-  "errors": Array [
-    "xfile
-(4,1): error TS2304",
-  ],
+  "errors": Array [],
   "warnings": Array [],
 }
 `;
