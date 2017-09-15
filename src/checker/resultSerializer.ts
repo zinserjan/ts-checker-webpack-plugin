@@ -18,7 +18,8 @@ export type WebpackBuildResult = {
 export const transformToWebpackBuildResult = (
   result: TsCheckerResult,
   contextPath: string,
-  diagnosticFormat: string
+  diagnosticFormat: string,
+  tslintEmitErrors: boolean
 ): WebpackBuildResult => {
   const diagnosticErrors = result.diagnostics.filter(
     (diagnostic: Diagnostic) => DiagnosticCategory[diagnostic.category].toLowerCase() === "error"
@@ -27,8 +28,12 @@ export const transformToWebpackBuildResult = (
     (diagnostic: Diagnostic) => DiagnosticCategory[diagnostic.category].toLowerCase() !== "error"
   );
 
-  const lintErrors = result.lints.filter((failure: RuleFailure) => failure.getRuleSeverity() === "error");
-  const lintWarnings = result.lints.filter((failure: RuleFailure) => failure.getRuleSeverity() !== "error");
+  const lintErrors = result.lints.filter(
+    (failure: RuleFailure) => failure.getRuleSeverity() === "error" || tslintEmitErrors
+  );
+  const lintWarnings = tslintEmitErrors
+    ? []
+    : result.lints.filter((failure: RuleFailure) => failure.getRuleSeverity() !== "error");
 
   const errors = [
     ...diagnosticFormatter(diagnosticErrors, diagnosticFormat, contextPath),

@@ -7,6 +7,7 @@ import { WebpackBuildResult } from "./checker/resultSerializer";
 export interface TsCheckerWebpackPluginOptions {
   tsconfig: string;
   tslint?: string;
+  tslintEmitErrors?: boolean;
   memoryLimit?: number;
   timings?: boolean;
   diagnosticFormatter?: string;
@@ -22,12 +23,19 @@ class TsCheckerWebpackPlugin {
   private startTime: number = Date.now();
 
   constructor(options: TsCheckerWebpackPluginOptions) {
-    const { tsconfig, tslint, memoryLimit = 512, timings = false, diagnosticFormatter = "ts-loader" } = options;
+    const {
+      tsconfig,
+      tslint,
+      tslintEmitErrors = false,
+      memoryLimit = 512,
+      timings = false,
+      diagnosticFormatter = "ts-loader",
+    } = options;
     this.logger = new Logger();
     if (timings) {
       this.logger.enable();
     }
-    this.checker = new TsCheckerWorker(memoryLimit, timings, tsconfig, diagnosticFormatter, tslint);
+    this.checker = new TsCheckerWorker(memoryLimit, timings, tsconfig, diagnosticFormatter, tslintEmitErrors, tslint);
     this.checker.start();
   }
 
