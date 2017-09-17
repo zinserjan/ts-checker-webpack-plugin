@@ -3,8 +3,7 @@ import * as fs from "fs-extra";
 import webpack = require("webpack");
 import MemoryFs = require("memory-fs");
 import pDefer = require("p-defer");
-import { normalizeStats } from "./_util/stats";
-import { satisfiesVersionRequirements } from "./_util/satisfiesVersionRequirements";
+import { createAssertExpectation, satisfiesVersionRequirements } from "./_util/testHelper";
 
 const testCasesPath = path.join(__dirname, "watchCases");
 const tests = fs.readdirSync(testCasesPath).filter(dir => fs.statSync(path.join(testCasesPath, dir)).isDirectory());
@@ -54,6 +53,7 @@ describe("WatchCases", () => {
     const srcTarget = path.join(tmpTestPath, "src");
     const webpackConfigPath = path.join(tmpTestPath, "webpack.config.ts");
     const skipTest = !satisfiesVersionRequirements(path.join(testCasesPath, "versions.json"));
+    const assertExpectation = createAssertExpectation(path.join(testPath, "expectation.ts"));
 
     (skipTest ? it.skip : it)(testName, async () => {
       await fs.copy(testPath, tmpTestPath);
@@ -64,6 +64,7 @@ describe("WatchCases", () => {
       };
 
       const steps = (await fs.readdir(tmpStepsPath)).sort();
+      const stepCount = steps.length;
       const firstStep = steps.shift() as string;
       await copyDiff(firstStep);
 
@@ -102,8 +103,7 @@ describe("WatchCases", () => {
             return deferred.reject(err);
           }
 
-          const normalizedStats = normalizeStats(stats);
-          expect(normalizedStats).toMatchSnapshot();
+          assertExpectation(stats, stepCount - (steps.length + 1));
 
           if (steps.length > 0) {
             const nextStep = steps.shift() as string;
