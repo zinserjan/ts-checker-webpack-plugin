@@ -15,14 +15,17 @@ matrix:
     - os: linux
       node_js: 6
       env: WEBPACK_VERSION=3 TYPESCRIPT_VERSION=2.4
+    - os: linux
+      node_js: 6
+      env: WEBPACK_VERSION=3 TYPESCRIPT_VERSION=2.5
     # node 8 with webpack 3 and latest typescript
     - os: linux
       node_js: 8
-      env: WEBPACK_VERSION=3 TYPESCRIPT_VERSION=2.4
+      env: WEBPACK_VERSION=3 TYPESCRIPT_VERSION=2.5
     # webpack 2
     - os: linux
       node_js: 6
-      env: WEBPACK_VERSION=2 TYPESCRIPT_VERSION=2.4
+      env: WEBPACK_VERSION=2 TYPESCRIPT_VERSION=2.5
   fast_finish: true
 
 # Test scripts
