@@ -65,8 +65,8 @@ export default class IncrementalChecker {
     this.failures.forEach((file: string) => affectedFiles.add(file));
     this.failures.clear();
 
-    console.log("affectedFiles", affectedFiles.values());
-    console.log("fullCheckNecessary", fullCheckNecessary);
+    // console.log("affectedFiles", affectedFiles.values());
+    // console.log("fullCheckNecessary", fullCheckNecessary);
 
     const fullCheckSourceFiles = allSourceFiles.filter(
       (file: SourceFile) => !this.fileCache.isNodeModule(file.fileName)
