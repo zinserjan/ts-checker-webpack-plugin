@@ -20,7 +20,7 @@ install:
   # Typical npm stuff.
   - appveyor-retry npm install
   # Install specific typescript version
-  - appveyor-retry npm install typescript@2.4 --force
+  - appveyor-retry npm install typescript@2.5 --force
 
 # test scripts
 test_script:

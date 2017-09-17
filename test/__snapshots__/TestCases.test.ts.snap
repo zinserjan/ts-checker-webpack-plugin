@@ -144,16 +144,6 @@ Module build failed: error while parsing tsconfig.json",
 }
 `;
 
-exports[`TestCases tsconfig-syntax-error 1`] = `
-Object {
-  "errors": Array [
-    "xfile
-Module build failed: error TS5014: Failed to parse file 'xfile': Unexpected token } in JSON at position 218.",
-  ],
-  "warnings": Array [],
-}
-`;
-
 exports[`TestCases tslint-emit-warning-as-error 1`] = `
 Object {
   "errors": Array [
