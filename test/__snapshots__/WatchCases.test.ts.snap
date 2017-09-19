@@ -60,6 +60,57 @@ Object {
 }
 `;
 
+exports[`WatchCases check-interfaces-until-fixed 1`] = `
+Object {
+  "errors": Array [
+    "xfile
+(4,14): error TS2420",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases check-interfaces-until-fixed 2`] = `
+Object {
+  "errors": Array [
+    "xfile
+(3,14): error TS2420",
+    "xfile
+(4,14): error TS2420",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases check-interfaces-until-fixed 3`] = `
+Object {
+  "errors": Array [
+    "xfile
+(3,14): error TS2420",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases check-interfaces-until-fixed 4`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases check-interfaces-until-fixed 5`] = `
+Object {
+  "errors": Array [
+    "xfile
+(3,14): error TS2420",
+    "xfile
+(4,14): error TS2420",
+  ],
+  "warnings": Array [],
+}
+`;
+
 exports[`WatchCases css-modules-error 1`] = `
 Object {
   "errors": Array [
