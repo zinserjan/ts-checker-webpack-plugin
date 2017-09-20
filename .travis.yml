@@ -12,6 +12,9 @@ matrix:
     - os: linux
       node_js: 6
       env: WEBPACK_VERSION=3 TYPESCRIPT_VERSION=2.3 MOCK_PROCESS_FOR_COVERAGE=true
+    - os: linux
+      node_js: 6
+      env: WEBPACK_VERSION=3 TYPESCRIPT_VERSION=2.3 MOCK_PROCESS_FOR_COVERAGE=false
   fast_finish: true
 
 # Test scripts
@@ -22,4 +25,4 @@ script:
 
 # Upload coverage
 after_success:
-  - bash <(curl -s https://codecov.io/bash) -f coverage/*.json
+  - bash <(curl -s https://codecov.io/bash) --env TRAVIS_OS_NAME,TRAVIS_NODE_VERSION,WEBPACK_VERSION,TYPESCRIPT_VERSION,MOCK_PROCESS_FOR_COVERAGE
