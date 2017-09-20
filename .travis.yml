@@ -6,12 +6,12 @@ branches:
     - master
 
 env:
-  - MOCK_PROCESS_FOR_COVERAGE=true
-  - MOCK_PROCESS_FOR_COVERAGE=false
-
-# Test against these versions of OS, Node & Webpack
-matrix:
-  include:
+  # some global options (this duplicated each job in the job)
+  global:
+    - MOCK_PROCESS_FOR_COVERAGE=true
+    - MOCK_PROCESS_FOR_COVERAGE=false
+  # Test against these versions of OS, Node & Webpack
+  matrix:
     # webpack 3 with different typescript versions
     - os: linux
       node_js: 6
@@ -30,6 +30,7 @@ matrix:
     - os: linux
       node_js: 6
       env: WEBPACK_VERSION=2 TYPESCRIPT_VERSION=2.5
+matrix:
   fast_finish: true
 
 # Test scripts
