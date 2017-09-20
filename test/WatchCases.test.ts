@@ -4,6 +4,7 @@ import webpack = require("webpack");
 import MemoryFs = require("memory-fs");
 import pDefer = require("p-defer");
 import { createAssertExpectation, satisfiesVersionRequirements } from "./_util/testHelper";
+import * as processMock from "./_util/processMock";
 
 const testCasesPath = path.join(__dirname, "watchCases");
 const tests = fs.readdirSync(testCasesPath).filter(dir => fs.statSync(path.join(testCasesPath, dir)).isDirectory());
@@ -45,6 +46,9 @@ describe("WatchCases", () => {
   beforeAll(() => {
     return fs.emptyDir(tmpPath);
   });
+
+  beforeEach(() => processMock.register());
+  afterEach(() => processMock.unregister());
 
   tests.forEach(testName => {
     const testPath = path.join(testCasesPath, testName);

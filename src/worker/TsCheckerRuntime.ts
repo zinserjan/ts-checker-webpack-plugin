@@ -1,6 +1,7 @@
 import * as path from "path";
 import IncrementalChecker from "../checker/IncrementalChecker";
 import { transformToWebpackBuildResult, serializeWebpackBuildResult } from "../checker/resultSerializer";
+import { getProcess } from "./process";
 
 export interface TsCheckerRuntimeConfig {
   tsconfigPath: string;
@@ -12,6 +13,7 @@ export interface TsCheckerRuntimeConfig {
   ignoreLints: Array<string>;
 }
 
+const process = getProcess();
 process.on("SIGINT", function() {
   process.exit(130);
 });
