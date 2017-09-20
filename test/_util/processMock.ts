@@ -3,9 +3,8 @@ jest.mock("../../src/worker/process");
 
 import { ForkOptions } from "child_process";
 import { EventEmitter } from "events";
-let processUtil = null;
 
-const jest = jest;
+let processUtil: any = null;
 
 export const register = () => {
   if (process.env.MOCK_PROCESS_FOR_COVERAGE !== "true") {
@@ -21,13 +20,9 @@ export const register = () => {
   const eventEmitter = new EventEmitter();
   let env = {};
   const childProcessMock = {
-    on(...args) {
-      return eventEmitter.on(...args);
-    },
-    once(...args) {
-      return eventEmitter.once(...args);
-    },
-    send(...args) {
+    on: eventEmitter.on,
+    once: eventEmitter.once,
+    send(...args: Array<any>) {
       return eventEmitter.emit("message", ...args);
     },
     removeAllListeners() {
@@ -40,15 +35,20 @@ export const register = () => {
   };
 
   processUtil.getProcess.mockImplementation(() => childProcessMock);
-
   processUtil.forkProcess.mockImplementation((modulePath: string, args: string[], options: ForkOptions) => {
     env = options.env;
-    if (args.length > 0) {
-      require(args[0]);
-    } else {
-      require(modulePath);
+    try {
+      if (args.length > 0) {
+        require(args[0]);
+      } else {
+        require(modulePath);
+      }
+    } catch (e) {
+      // todo error handling needs to be fixed (test case: tsconfig-syntax-error)
+      setTimeout(() => {
+        eventEmitter.emit("exit", 1, null);
+      }, 100);
     }
-
     return childProcessMock;
   });
 };
