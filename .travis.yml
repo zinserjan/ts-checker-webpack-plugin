@@ -45,4 +45,4 @@ script:
 
 # Upload coverage
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash) -f coverage/*.json
