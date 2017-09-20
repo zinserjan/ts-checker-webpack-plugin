@@ -1,8 +1,9 @@
-import { fork, ChildProcess } from "child_process";
+import { ChildProcess } from "child_process";
 import { deserializeWebpackBuildResult, WebpackBuildResult } from "../checker/resultSerializer";
 import pDefer = require("p-defer");
 const supportsColor = require("supports-color");
 import { TsCheckerRuntimeConfig } from "./TsCheckerRuntime";
+import { forkProcess } from "./process";
 
 export default class TsCheckerWorker {
   private process: ChildProcess | null = null;
@@ -46,7 +47,7 @@ export default class TsCheckerWorker {
       process.on("exit", this.exitListener);
 
       // start child process
-      this.process = fork(
+      this.process = forkProcess(
         process.env.TS_CHECKER_ENV === "test"
           ? require.resolve("ts-node/dist/_bin")
           : require.resolve("./TsCheckerRuntime"),

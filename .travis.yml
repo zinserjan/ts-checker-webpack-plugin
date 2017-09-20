@@ -5,6 +5,10 @@ branches:
   only:
     - master
 
+env:
+  - MOCK_PROCESS_FOR_COVERAGE=true
+  - MOCK_PROCESS_FOR_COVERAGE=false
+
 # Test against these versions of OS, Node & Webpack
 matrix:
   include:
