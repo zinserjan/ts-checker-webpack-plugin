@@ -91,7 +91,6 @@ But the main motivation for this plugin was to support CSS-Modules with type def
 Differences to fork-ts-checker-webpack-plugin
 - support of typed CSS-Modules with [typings-for-css-modules-loader](https://github.com/Jimdo/typings-for-css-modules-loader)
 - works well with create-react-app in watch mode cause type checking errors will be forwarded to webpack
-- checks only files processed by webpack
 - files are cached internally until they will be invalidated by webpack
 
 
