@@ -25,4 +25,4 @@ script:
 
 # Upload coverage
 after_success:
-  - if [ "${MOCK_PROCESS_FOR_COVERAGE}" = "true" ]; then bash <(curl -s https://codecov.io/bash) -e TRAVIS_OS_NAME,TRAVIS_NODE_VERSION,WEBPACK_VERSION,TYPESCRIPT_VERSION,MOCK_PROCESS_FOR_COVERAGE; fi
+  - if [ "${MOCK_PROCESS_FOR_COVERAGE}" = "true" ]; then bash <(curl -s https://codecov.io/bash) -f coverage/coverage-final.json  -e TRAVIS_OS_NAME,TRAVIS_NODE_VERSION,WEBPACK_VERSION,TYPESCRIPT_VERSION,MOCK_PROCESS_FOR_COVERAGE; fi
