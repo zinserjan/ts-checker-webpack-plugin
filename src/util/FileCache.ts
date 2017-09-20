@@ -91,7 +91,7 @@ export default class FileCache {
   isFileTypeCheckable(file: string) {
     if (this.exist(file)) {
       const fileState = this.files.get(file) as FileState;
-      return fileState.built && !fileState.nodeModule;
+      return !fileState.nodeModule;
     }
     return false;
   }
