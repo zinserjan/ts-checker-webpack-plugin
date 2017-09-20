@@ -20,14 +20,12 @@ export const register = () => {
   const eventEmitter = new EventEmitter();
   let env = {};
   const childProcessMock = {
-    on: eventEmitter.on,
-    once: eventEmitter.once,
+    on: eventEmitter.on.bind(eventEmitter),
+    once: eventEmitter.once.bind(eventEmitter),
     send(...args: Array<any>) {
       return eventEmitter.emit("message", ...args);
     },
-    removeAllListeners() {
-      return eventEmitter.removeAllListeners();
-    },
+    removeAllListeners: eventEmitter.removeAllListeners.bind(eventEmitter),
     kill: () => undefined,
     get env() {
       return env;
