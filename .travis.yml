@@ -1,5 +1,10 @@
 language: node_js
 
+# cache node_modules
+cache:
+  directories:
+    - node_modules
+
 # Build only master & PRs
 branches:
   only:
@@ -39,6 +44,7 @@ matrix:
 
 # Test scripts
 script:
+  - npm prune
   - npm install "webpack@$WEBPACK_VERSION"
   - npm install "typescript@$TYPESCRIPT_VERSION"
   - npm run test -- --coverage --no-cache --runInBand && npm run build
