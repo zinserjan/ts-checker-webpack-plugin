@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`WatchCases basic-type-error 1`] = `
+exports[`basic-type-error-0 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -10,28 +10,28 @@ Object {
 }
 `;
 
-exports[`WatchCases basic-type-error 2`] = `
+exports[`basic-type-error-1 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases basic-type-no-error 1`] = `
+exports[`basic-type-no-error-0 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases basic-type-no-error 2`] = `
+exports[`basic-type-no-error-1 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases check-file-until-error-fixed 1`] = `
+exports[`check-file-until-error-fixed-0 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -43,7 +43,7 @@ Object {
 }
 `;
 
-exports[`WatchCases check-file-until-error-fixed 2`] = `
+exports[`check-file-until-error-fixed-1 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -53,14 +53,14 @@ Object {
 }
 `;
 
-exports[`WatchCases check-file-until-error-fixed 3`] = `
+exports[`check-file-until-error-fixed-2 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases check-interfaces-until-fixed 1`] = `
+exports[`check-interfaces-until-fixed-0 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -70,7 +70,7 @@ Object {
 }
 `;
 
-exports[`WatchCases check-interfaces-until-fixed 2`] = `
+exports[`check-interfaces-until-fixed-1 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -82,7 +82,7 @@ Object {
 }
 `;
 
-exports[`WatchCases check-interfaces-until-fixed 3`] = `
+exports[`check-interfaces-until-fixed-2 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -92,14 +92,14 @@ Object {
 }
 `;
 
-exports[`WatchCases check-interfaces-until-fixed 4`] = `
+exports[`check-interfaces-until-fixed-3 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases check-interfaces-until-fixed 5`] = `
+exports[`check-interfaces-until-fixed-4 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -111,7 +111,7 @@ Object {
 }
 `;
 
-exports[`WatchCases class-hierarchy-types 1`] = `
+exports[`class-hierarchy-types-0 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -125,7 +125,7 @@ Object {
 }
 `;
 
-exports[`WatchCases class-hierarchy-types 2`] = `
+exports[`class-hierarchy-types-1 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -137,7 +137,7 @@ Object {
 }
 `;
 
-exports[`WatchCases class-hierarchy-types 3`] = `
+exports[`class-hierarchy-types-2 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -147,14 +147,14 @@ Object {
 }
 `;
 
-exports[`WatchCases class-hierarchy-types 4`] = `
+exports[`class-hierarchy-types-3 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases css-modules-error 1`] = `
+exports[`css-modules-error-0 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -164,70 +164,70 @@ Object {
 }
 `;
 
-exports[`WatchCases css-modules-error 2`] = `
+exports[`css-modules-error-1 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases css-modules-no-error 1`] = `
+exports[`css-modules-no-error-0 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases css-modules-no-error 2`] = `
+exports[`css-modules-no-error-1 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases css-modules-removal-no-error 1`] = `
+exports[`css-modules-removal-no-error-0 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases css-modules-removal-no-error 2`] = `
+exports[`css-modules-removal-no-error-1 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases file-removal-no-error 1`] = `
+exports[`file-removal-no-error-0 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases file-removal-no-error 2`] = `
+exports[`file-removal-no-error-1 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases ignore-child-compiler-no-error 1`] = `
+exports[`ignore-child-compiler-no-error-0 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases ignore-child-compiler-no-error 2`] = `
+exports[`ignore-child-compiler-no-error-1 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases module-extension-type-definition 1`] = `
+exports[`module-extension-type-definition-0 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -241,7 +241,7 @@ Object {
 }
 `;
 
-exports[`WatchCases module-extension-type-definition 2`] = `
+exports[`module-extension-type-definition-1 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -255,7 +255,7 @@ Object {
 }
 `;
 
-exports[`WatchCases module-extension-type-definition 3`] = `
+exports[`module-extension-type-definition-2 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -269,14 +269,14 @@ Object {
 }
 `;
 
-exports[`WatchCases module-extension-type-definition 4`] = `
+exports[`module-extension-type-definition-3 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases module-extension-type-definition 5`] = `
+exports[`module-extension-type-definition-4 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -286,7 +286,7 @@ Object {
 }
 `;
 
-exports[`WatchCases module-extension-type-definition 6`] = `
+exports[`module-extension-type-definition-5 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -300,14 +300,14 @@ Object {
 }
 `;
 
-exports[`WatchCases module-extension-type-definition 7`] = `
+exports[`module-extension-type-definition-6 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases react-components 1`] = `
+exports[`react-components-0 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -317,7 +317,7 @@ Object {
 }
 `;
 
-exports[`WatchCases react-components 2`] = `
+exports[`react-components-1 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -333,7 +333,7 @@ Object {
 }
 `;
 
-exports[`WatchCases react-components 3`] = `
+exports[`react-components-2 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -343,14 +343,14 @@ Object {
 }
 `;
 
-exports[`WatchCases ts-dependency-only-error 1`] = `
+exports[`ts-dependency-only-error-0 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases ts-dependency-only-error 2`] = `
+exports[`ts-dependency-only-error-1 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -360,14 +360,14 @@ Object {
 }
 `;
 
-exports[`WatchCases ts-dependency-only-error 3`] = `
+exports[`ts-dependency-only-error-2 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases ts-dependency-only-error 4`] = `
+exports[`ts-dependency-only-error-3 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -377,14 +377,14 @@ Object {
 }
 `;
 
-exports[`WatchCases ts-dependency-only-removal-2-error 1`] = `
+exports[`ts-dependency-only-removal-2-error-0 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases ts-dependency-only-removal-2-error 2`] = `
+exports[`ts-dependency-only-removal-2-error-1 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -394,7 +394,7 @@ Object {
 }
 `;
 
-exports[`WatchCases ts-dependency-only-removal-2-error 3`] = `
+exports[`ts-dependency-only-removal-2-error-2 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -404,21 +404,21 @@ Object {
 }
 `;
 
-exports[`WatchCases ts-dependency-only-removal-error 1`] = `
+exports[`ts-dependency-only-removal-error-0 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases ts-dependency-only-removal-error 2`] = `
+exports[`ts-dependency-only-removal-error-1 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases ts-dependency-only-removal-error 3`] = `
+exports[`ts-dependency-only-removal-error-2 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -428,7 +428,7 @@ Object {
 }
 `;
 
-exports[`WatchCases tslint-error 1`] = `
+exports[`tslint-error-0 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -442,7 +442,7 @@ Object {
 }
 `;
 
-exports[`WatchCases tslint-error 2`] = `
+exports[`tslint-error-1 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -453,14 +453,14 @@ Object {
 }
 `;
 
-exports[`WatchCases tslint-error 3`] = `
+exports[`tslint-error-2 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases tslint-warning 1`] = `
+exports[`tslint-warning-0 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [
@@ -474,7 +474,7 @@ Object {
 }
 `;
 
-exports[`WatchCases tslint-warning 2`] = `
+exports[`tslint-warning-1 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [
@@ -485,21 +485,21 @@ Object {
 }
 `;
 
-exports[`WatchCases tslint-warning 3`] = `
+exports[`tslint-warning-2 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases type-patches-error 1`] = `
+exports[`type-patches-error-0 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases type-patches-error 2`] = `
+exports[`type-patches-error-1 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -509,7 +509,7 @@ Object {
 }
 `;
 
-exports[`WatchCases type-patches-error 3`] = `
+exports[`type-patches-error-2 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],

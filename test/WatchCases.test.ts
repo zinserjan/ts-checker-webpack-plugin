@@ -57,7 +57,7 @@ describe("WatchCases", () => {
     const srcTarget = path.join(tmpTestPath, "src");
     const webpackConfigPath = path.join(tmpTestPath, "webpack.config.ts");
     const skipTest = !satisfiesVersionRequirements(path.join(testCasesPath, "versions.json"));
-    const assertExpectation = createAssertExpectation(path.join(testPath, "expectation.ts"));
+    const assertExpectation = createAssertExpectation(testName, path.join(testPath, "expectation.ts"));
 
     (skipTest ? it.skip : it)(testName, async () => {
       await fs.copy(testPath, tmpTestPath);

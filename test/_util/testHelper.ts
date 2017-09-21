@@ -15,11 +15,11 @@ export function satisfiesVersionRequirements(path: string) {
   });
 }
 
-export function createAssertExpectation(path): (stats: webpack.Stats, run: number) => void {
+export function createAssertExpectation(testCase: string, path: string): (stats: webpack.Stats, run: number) => void {
   const exists = fs.existsSync(path);
   let helper = (stats: webpack.Stats, run: number) => {
     const normalizedStats = normalizeStats(stats);
-    expect(normalizedStats).toMatchSnapshot();
+    expect(normalizedStats).toMatchSnapshot(`${testCase}-${run}`);
   };
 
   if (exists) {

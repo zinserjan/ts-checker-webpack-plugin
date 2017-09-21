@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TestCases basic-type-error 1`] = `
+exports[`basic-type-error-0 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -10,14 +10,14 @@ Object {
 }
 `;
 
-exports[`TestCases basic-type-no-error 1`] = `
+exports[`basic-type-no-error-0 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`TestCases code-splitting-import-error 1`] = `
+exports[`code-splitting-import-error-0 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -27,14 +27,14 @@ Object {
 }
 `;
 
-exports[`TestCases code-splitting-import-no-error 1`] = `
+exports[`code-splitting-import-no-error-0 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`TestCases code-splitting-import-ts-dependency-error 1`] = `
+exports[`code-splitting-import-ts-dependency-error-0 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -46,21 +46,21 @@ Object {
 }
 `;
 
-exports[`TestCases code-splitting-import-ts-dependency-no-error 1`] = `
+exports[`code-splitting-import-ts-dependency-no-error-0 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`TestCases commonjs-usage 1`] = `
+exports[`commonjs-usage-0 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`TestCases css-modules-error 1`] = `
+exports[`css-modules-error-0 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -70,14 +70,14 @@ Object {
 }
 `;
 
-exports[`TestCases css-modules-no-error 1`] = `
+exports[`css-modules-no-error-0 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`TestCases ignore-basic-type-error 1`] = `
+exports[`ignore-basic-type-error-0 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -87,14 +87,14 @@ Object {
 }
 `;
 
-exports[`TestCases ignore-child-compiler-no-error 1`] = `
+exports[`ignore-child-compiler-no-error-0 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`TestCases ignore-tslint-rule 1`] = `
+exports[`ignore-tslint-rule-0 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [
@@ -105,7 +105,7 @@ Object {
 }
 `;
 
-exports[`TestCases skip-type-check-on-build-error 1`] = `
+exports[`skip-type-check-on-build-error-0 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -115,7 +115,7 @@ Object {
 }
 `;
 
-exports[`TestCases ts-dependency-only-error 1`] = `
+exports[`ts-dependency-only-error-0 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -125,14 +125,14 @@ Object {
 }
 `;
 
-exports[`TestCases ts-dependency-only-no-error 1`] = `
+exports[`ts-dependency-only-no-error-0 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`TestCases tsconfig-invalid-option 1`] = `
+exports[`tsconfig-invalid-option-0 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -144,7 +144,7 @@ Module build failed: error while parsing tsconfig.json",
 }
 `;
 
-exports[`TestCases tslint-emit-warning-as-error 1`] = `
+exports[`tslint-emit-warning-as-error-0 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -155,7 +155,7 @@ Object {
 }
 `;
 
-exports[`TestCases tslint-error 1`] = `
+exports[`tslint-error-0 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -166,7 +166,7 @@ Object {
 }
 `;
 
-exports[`TestCases tslint-warning 1`] = `
+exports[`tslint-warning-0 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [
@@ -177,7 +177,7 @@ Object {
 }
 `;
 
-exports[`TestCases use-library-type-definition-error 1`] = `
+exports[`use-library-type-definition-error-0 1`] = `
 Object {
   "errors": Array [
     "xfile
@@ -187,7 +187,7 @@ Object {
 }
 `;
 
-exports[`TestCases use-library-type-definition-no-error 1`] = `
+exports[`use-library-type-definition-no-error-0 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
