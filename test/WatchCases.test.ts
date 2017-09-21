@@ -57,7 +57,7 @@ describe("WatchCases", () => {
     const srcTarget = path.join(tmpTestPath, "src");
     const webpackConfigPath = path.join(tmpTestPath, "webpack.config.ts");
     const skipTest = !satisfiesVersionRequirements(path.join(testCasesPath, "versions.json"));
-    const assertExpectation = createAssertExpectation(path.join(testPath, "expectation.ts"));
+    const assertExpectation = createAssertExpectation(testName, path.join(testPath, "expectation.ts"));
 
     (skipTest ? it.skip : it)(testName, async () => {
       await fs.copy(testPath, tmpTestPath);
@@ -107,7 +107,7 @@ describe("WatchCases", () => {
             return deferred.reject(err);
           }
 
-          assertExpectation(testName, stats, stepCount - (steps.length + 1));
+          assertExpectation(stats, stepCount - (steps.length + 1));
 
           if (steps.length > 0) {
             const nextStep = steps.shift() as string;
