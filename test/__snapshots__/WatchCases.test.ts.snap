@@ -111,6 +111,49 @@ Object {
 }
 `;
 
+exports[`WatchCases class-hierarchy-types 1`] = `
+Object {
+  "errors": Array [
+    "xfile
+(3,14): error TS2420",
+    "xfile
+(7,18): error TS2345",
+    "xfile
+(4,11): error TS2345",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases class-hierarchy-types 2`] = `
+Object {
+  "errors": Array [
+    "xfile
+(7,18): error TS2345",
+    "xfile
+(4,11): error TS2345",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases class-hierarchy-types 3`] = `
+Object {
+  "errors": Array [
+    "xfile
+(7,18): error TS2345",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases class-hierarchy-types 4`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
 exports[`WatchCases css-modules-error 1`] = `
 Object {
   "errors": Array [
