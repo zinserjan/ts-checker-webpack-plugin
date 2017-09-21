@@ -170,56 +170,70 @@ Object {
 }
 `;
 
-exports[`WatchCases global-type-definition 1`] = `
-Object {
-  "errors": Array [
-    "xfile
-(4,20): error TS2307",
-    "xfile
-(1,20): error TS2307",
-    "xfile
-(1,20): error TS2307",
-  ],
-  "warnings": Array [],
-}
-`;
-
-exports[`WatchCases global-type-definition 2`] = `
-Object {
-  "errors": Array [
-    "xfile
-(4,20): error TS2307",
-    "xfile
-(1,20): error TS2307",
-    "xfile
-(1,20): error TS2307",
-  ],
-  "warnings": Array [],
-}
-`;
-
-exports[`WatchCases global-type-definition 3`] = `
-Object {
-  "errors": Array [
-    "xfile
-(4,20): error TS2307",
-    "xfile
-(1,20): error TS2307",
-    "xfile
-(1,20): error TS2307",
-  ],
-  "warnings": Array [],
-}
-`;
-
-exports[`WatchCases global-type-definition 4`] = `
+exports[`WatchCases ignore-child-compiler-no-error 1`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases global-type-definition 5`] = `
+exports[`WatchCases ignore-child-compiler-no-error 2`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases module-extension-type-definition 1`] = `
+Object {
+  "errors": Array [
+    "xfile
+(4,20): error TS2307",
+    "xfile
+(1,20): error TS2307",
+    "xfile
+(1,20): error TS2307",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases module-extension-type-definition 2`] = `
+Object {
+  "errors": Array [
+    "xfile
+(4,20): error TS2307",
+    "xfile
+(1,20): error TS2307",
+    "xfile
+(1,20): error TS2307",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases module-extension-type-definition 3`] = `
+Object {
+  "errors": Array [
+    "xfile
+(4,20): error TS2307",
+    "xfile
+(1,20): error TS2307",
+    "xfile
+(1,20): error TS2307",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases module-extension-type-definition 4`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases module-extension-type-definition 5`] = `
 Object {
   "errors": Array [
     "xfile
@@ -229,14 +243,21 @@ Object {
 }
 `;
 
-exports[`WatchCases ignore-child-compiler-no-error 1`] = `
+exports[`WatchCases module-extension-type-definition 6`] = `
 Object {
-  "errors": Array [],
+  "errors": Array [
+    "xfile
+(4,20): error TS2307",
+    "xfile
+(1,20): error TS2307",
+    "xfile
+(1,20): error TS2307",
+  ],
   "warnings": Array [],
 }
 `;
 
-exports[`WatchCases ignore-child-compiler-no-error 2`] = `
+exports[`WatchCases module-extension-type-definition 7`] = `
 Object {
   "errors": Array [],
   "warnings": Array [],
