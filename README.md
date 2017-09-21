@@ -1,7 +1,7 @@
 # ts-checker-webpack-plugin
 > Webpack plugin that type checks & lints your TypeScript files blazingly fast.
 
-[![Build Status Linux & macOS][build-travis-badge]][build-travis] [![Build Status Windows][build-appveyor-badge]][build-appveyor]
+[![Build Status Linux & macOS][build-travis-badge]][build-travis] [![Build Status Windows][build-appveyor-badge]][build-appveyor] [![codecov][codecov-badge]][codecov]
 
 ## Installation
 
@@ -103,4 +103,5 @@ MIT
 [build-travis]: https://travis-ci.org/zinserjan/ts-checker-webpack-plugin
 [build-appveyor-badge]: https://ci.appveyor.com/api/projects/status/r6g3yxa1uxefswt0/branch/master?svg=true
 [build-appveyor]: https://ci.appveyor.com/project/zinserjan/ts-checker-webpack-plugin
-
+[codecov-badge]: https://codecov.io/gh/zinserjan/ts-checker-webpack-plugin/branch/master/graph/badge.svg
+[codecov]: https://codecov.io/gh/zinserjan/ts-checker-webpack-plugin
