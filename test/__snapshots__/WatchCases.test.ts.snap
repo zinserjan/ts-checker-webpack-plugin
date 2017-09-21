@@ -307,6 +307,23 @@ Object {
 }
 `;
 
+exports[`WatchCases node-module-with-type-definition 1`] = `
+Object {
+  "errors": Array [
+    "xfile
+(2,17): error TS2345",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases node-module-with-type-definition 2`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
 exports[`WatchCases react-components 1`] = `
 Object {
   "errors": Array [
