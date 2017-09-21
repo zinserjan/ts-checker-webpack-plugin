@@ -181,7 +181,7 @@ exports[`TestCases use-library-type-definition-error 1`] = `
 Object {
   "errors": Array [
     "xfile
-(1,24): error TS7016",
+(1,32): error TS7016",
   ],
   "warnings": Array [],
 }
