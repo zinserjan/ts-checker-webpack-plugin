@@ -107,7 +107,7 @@ describe("WatchCases", () => {
             return deferred.reject(err);
           }
 
-          assertExpectation(stats, stepCount - (steps.length + 1));
+          assertExpectation(testName, stats, stepCount - (steps.length + 1));
 
           if (steps.length > 0) {
             const nextStep = steps.shift() as string;

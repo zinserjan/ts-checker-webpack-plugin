@@ -1,6 +1,6 @@
 import webpack = require("webpack");
 
-export default function(stats: webpack.Stats) {
+export default function(testCase: string, stats: webpack.Stats) {
   const statsJson = stats.toJson();
 
   expect(statsJson.warnings).toHaveLength(0);

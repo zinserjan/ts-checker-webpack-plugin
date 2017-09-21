@@ -61,7 +61,7 @@ describe("TestCases", () => {
           return deferred.reject(err);
         }
 
-        assertExpectation(stats, 0);
+        assertExpectation(testName, stats, 0);
 
         process.nextTick(deferred.resolve);
       });
