@@ -5,6 +5,7 @@
     "target": "es5",
     "xxxx": true,
     "noImplicitAny": true,
+    "skipLibCheck": true,
     "lib": [
       "es2015",
       "es2016",
