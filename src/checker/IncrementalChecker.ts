@@ -40,9 +40,7 @@ export default class IncrementalChecker {
 
     // check only files that were required by webpack
     this.logger.time("ts-checker-webpack-plugin:collect-sourcefiles");
-    const filesToCheck: Array<SourceFile> = this.program
-      .getSourceFiles()
-      .filter((file: SourceFile) => this.fileCache.isFileTypeCheckable(file.fileName)); // this makes it fast
+    const filesToCheck: Array<SourceFile> = this.program.getSourceFiles();
     this.logger.timeEnd("ts-checker-webpack-plugin:collect-sourcefiles");
 
     this.logger.time("ts-checker-webpack-plugin:check-types");
