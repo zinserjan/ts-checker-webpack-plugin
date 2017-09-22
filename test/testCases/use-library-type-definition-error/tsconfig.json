@@ -4,7 +4,13 @@
     "module": "es6",
     "target": "es2015",
     "sourceMap": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "lib": [
+      "es2015",
+      "es2016",
+      "es2017",
+      "dom"
+    ]
   },
   "include": [
     "src"
