@@ -115,6 +115,16 @@ Object {
 }
 `;
 
+exports[`TestCases skipLibCheck-false 1`] = `
+Object {
+  "errors": Array [
+    "xfile
+(1,1): error TS1046",
+  ],
+  "warnings": Array [],
+}
+`;
+
 exports[`TestCases ts-dependency-only-error 1`] = `
 Object {
   "errors": Array [
