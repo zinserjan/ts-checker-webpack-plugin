@@ -4,7 +4,8 @@
     "module": "es6",
     "target": "es5",
     "sourceMap": true,
-    "noImplicitAny": true, "skipLibCheck": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true,
     "lib": [
       "es2015",
       "es2016",
