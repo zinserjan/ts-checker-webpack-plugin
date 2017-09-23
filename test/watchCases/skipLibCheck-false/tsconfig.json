@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
     "moduleResolution": "node",
-    "module": "commonjs",
-    "target": "es2015",
+    "module": "es6",
+    "target": "es5",
     "sourceMap": true,
     "noImplicitAny": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "lib": [
       "es2015",
       "es2016",

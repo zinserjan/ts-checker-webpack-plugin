@@ -360,6 +360,45 @@ Object {
 }
 `;
 
+exports[`WatchCases skipLibCheck-false 1`] = `
+Object {
+  "errors": Array [
+    "xfile
+(1,1): error TS1046",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases skipLibCheck-false 2`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases skipLibCheck-false 3`] = `
+Object {
+  "errors": Array [
+    "xfile
+(1,17): error TS2345",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases skipLibCheck-false 4`] = `
+Object {
+  "errors": Array [
+    "xfile
+(1,17): error TS2345",
+    "xfile
+(1,1): error TS1046",
+  ],
+  "warnings": Array [],
+}
+`;
+
 exports[`WatchCases ts-dependency-only-error 1`] = `
 Object {
   "errors": Array [],
