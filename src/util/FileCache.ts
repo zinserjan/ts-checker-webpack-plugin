@@ -159,7 +159,7 @@ export default class FileCache {
       .map(fileState => fileState.file);
   }
 
-  getAddedFiles() {
+  getModifiedFiles() {
     return Array.from(this.added.values());
   }
 

@@ -54,33 +54,26 @@ export default class IncrementalChecker {
     // update dependencies of files with the new results provided by program
     this.fileCache.updateDependencies(allSourceFiles);
 
-    const addedFiles = this.fileCache.getAddedFiles();
-
-    const modifiedFiles = [...invalidatedFiles, ...addedFiles];
-    const fullCheckNecessary = modifiedFiles.some((fileName: string) => this.fileCache.hasFileGlobalImpacts(fileName));
-    // todo build affectedFiles only when fullCheckNecessary is false
-    // calculate affected files
-    const affectedFiles = this.fileCache.getAffectedFiles(modifiedFiles);
-
+    // collect files that were added or modified
+    const modifiedFiles = this.fileCache.getModifiedFiles();
     // add also all files that failed on the previous run
-    this.failures.forEach((file: string) => affectedFiles.add(file));
+    const failedFiles = Array.from(this.failures);
     this.failures.clear();
 
-    // console.log("affectedFiles", affectedFiles.values());
-    // console.log("fullCheckNecessary", fullCheckNecessary);
+    const minimalFiles = [...invalidatedFiles, ...modifiedFiles, ...failedFiles];
+    const fullCheckNecessary = minimalFiles.some((fileName: string) => this.fileCache.hasFileGlobalImpacts(fileName));
 
-    const fullCheckSourceFiles = allSourceFiles.filter(
-      (file: SourceFile) => !this.fileCache.isNodeModule(file.fileName)
-    );
-    const requiredCheckSourceFiles = fullCheckNecessary
-      ? fullCheckSourceFiles
-      : fullCheckSourceFiles.filter((file: SourceFile) => affectedFiles.has(file.fileName));
+    let sourceFilesToCheck = allSourceFiles;
+    if (!fullCheckNecessary) {
+      const affectedFiles = this.fileCache.getAffectedFiles(minimalFiles);
+      sourceFilesToCheck = sourceFilesToCheck.filter((file: SourceFile) => affectedFiles.has(file.fileName));
+    }
 
     this.logger.timeEnd("ts-checker-webpack-plugin:collect-sourcefiles");
 
     this.logger.time("ts-checker-webpack-plugin:check-types");
     const diagnostics: Array<ts.Diagnostic> = [];
-    requiredCheckSourceFiles.forEach(file =>
+    sourceFilesToCheck.forEach(file =>
       Array.prototype.push.apply(diagnostics, this.program.getSemanticDiagnostics(file))
     );
     this.logger.timeEnd("ts-checker-webpack-plugin:check-types");
