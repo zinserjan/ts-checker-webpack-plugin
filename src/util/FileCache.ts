@@ -155,7 +155,9 @@ export default class FileCache {
   }
 
   getInvalidatedFiles() {
-    return this.getFiles().filter(fileState => fileState.source == null).map(fileState => fileState.file);
+    return this.getFiles()
+      .filter(fileState => fileState.source == null)
+      .map(fileState => fileState.file);
   }
 
   getAddedFiles() {
@@ -172,8 +174,6 @@ export default class FileCache {
   }
 
   getAffectedFiles(modifiedFiles: Array<string>) {
-    // all dependencies of a file
-    const dependencyTree = new Map<string, Array<string>>();
     // all files that depent on a file
     const reverseDependencyTree = new Map<string, Array<string>>();
     // affected modules map
@@ -183,7 +183,6 @@ export default class FileCache {
 
     // build dependency & reverse dependency tree
     fileStates.forEach((fileState: FileState) => {
-      dependencyTree.set(fileState.file, fileState.dependencies);
       fileState.dependencies.forEach((fileName: string) => {
         if (!reverseDependencyTree.has(fileName)) {
           reverseDependencyTree.set(fileName, []);
