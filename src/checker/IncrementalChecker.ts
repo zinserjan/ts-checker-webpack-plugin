@@ -50,6 +50,7 @@ export default class IncrementalChecker {
 
     // receive source files
     const allSourceFiles: Array<SourceFile> = this.program.getSourceFiles();
+    const rootFiles = new Set<string>(this.program.getRootFileNames());
     // update dependencies of files with the new results provided by program
     this.fileCache.updateDependencies(allSourceFiles);
 
@@ -96,8 +97,8 @@ export default class IncrementalChecker {
       this.logger.timeEnd("ts-checker-webpack-plugin:create-linter");
 
       this.logger.time("ts-checker-webpack-plugin:collect-lintfiles");
-      const filesToLint = requiredCheckSourceFiles.filter((file: SourceFile) =>
-        this.fileCache.isFileLintable(file.fileName)
+      const filesToLint = allSourceFiles.filter(
+        (file: SourceFile) => rootFiles.has(file.fileName) && this.fileCache.isFileLintable(file.fileName)
       );
       this.logger.timeEnd("ts-checker-webpack-plugin:collect-lintfiles");
 
@@ -108,11 +109,10 @@ export default class IncrementalChecker {
       });
 
       // collect failed files
-      const failed = new Map<string, boolean>();
+      const failed = new Set<string>();
       linter.getResult().failures.forEach(lintResult => {
         lints.push(lintResult);
-        this.failures.add(lintResult.getFileName());
-        failed.set(lintResult.getFileName(), true);
+        failed.add(lintResult.getFileName());
       });
 
       // track files without errors as linted
