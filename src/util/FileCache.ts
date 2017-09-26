@@ -72,9 +72,8 @@ export default class FileCache {
 
     const state = this.get(file) as FileState;
 
-    if (state.typeDefinition) {
-      state.globalImpact = hasGlobalImpact(source);
-    }
+    // each source file can have a global impact
+    state.globalImpact = hasGlobalImpact(source);
   }
 
   get(file: string) {
