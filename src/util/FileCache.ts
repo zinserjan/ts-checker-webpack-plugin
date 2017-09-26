@@ -1,7 +1,6 @@
 import { SourceFile } from "typescript";
 import { getDependencies, hasGlobalImpact } from "./dependencies";
 
-const NODE_MODULE = /node_modules/;
 const TYPE_DEFINITION = /.*\.d\.ts$/;
 
 export interface FileState {
@@ -9,10 +8,6 @@ export interface FileState {
    * File path of file for reverse matching
    */
   readonly file: string;
-  /**
-   * Determines if this file is a node_module
-   */
-  readonly nodeModule: boolean;
   /**
    * Determines if this file is a type definition file
    */
@@ -41,7 +36,6 @@ export interface FileState {
 
 const createFile = (file: string): FileState => ({
   file,
-  nodeModule: NODE_MODULE.test(file),
   typeDefinition: TYPE_DEFINITION.test(file),
   source: null,
   dependencies: [],
@@ -114,14 +108,6 @@ export default class FileCache {
     if (this.exist(typeFile)) {
       this.remove(typeFile);
     }
-  }
-
-  isNodeModule(file: string) {
-    if (this.exist(file)) {
-      const fileState = this.files.get(file) as FileState;
-      return fileState.nodeModule;
-    }
-    return false;
   }
 
   hasFileGlobalImpacts(file: string) {
