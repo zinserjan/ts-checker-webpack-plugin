@@ -135,7 +135,7 @@ export default class FileCache {
   isFileLintable(file: string) {
     if (this.exist(file)) {
       const fileState = this.files.get(file) as FileState;
-      return !fileState.linted && !fileState.typeDefinition && !fileState.nodeModule;
+      return !fileState.linted && !fileState.typeDefinition;
     }
     return false;
   }
