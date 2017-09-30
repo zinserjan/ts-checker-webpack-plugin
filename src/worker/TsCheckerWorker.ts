@@ -67,7 +67,12 @@ export default class TsCheckerWorker {
         throw err;
       });
 
-      return Promise.resolve().then(() => this.init());
+      return Promise.resolve()
+        .then(() => this.init())
+        .catch(error => {
+          this.kill();
+          return Promise.reject(error);
+        });
     }
     return Promise.resolve();
   }
