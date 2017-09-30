@@ -1,9 +1,5 @@
 import webpack = require("webpack");
 
-export default function(stats: webpack.Stats) {
-  const statsJson = stats.toJson();
-
-  expect(statsJson.warnings).toHaveLength(0);
-  expect(statsJson.errors).toHaveLength(1);
-  expect(statsJson.errors[0]).toMatch(/TS5014|TS1005/);
+export function expectBuildError(error: Error) {
+  expect(error.message).toMatch(/Failed to parse file|expected/);
 }

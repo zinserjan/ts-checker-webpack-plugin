@@ -15,7 +15,23 @@ export function satisfiesVersionRequirements(path: string) {
   });
 }
 
-export function createAssertExpectation(path): (stats: webpack.Stats, run: number) => void {
+export function createExpectBuildError(path: string): (error: Error, run: number) => void {
+  const exists = fs.existsSync(path);
+  let helper = (error: Error, run: number) => {
+    expect(error).toMatchSnapshot();
+  };
+
+  if (exists) {
+    const mod = require(path);
+    if (mod.expectBuildError != null) {
+      helper = mod.expectBuildError;
+    }
+  }
+
+  return helper;
+}
+
+export function createExpectStats(path: string): (stats: webpack.Stats, run: number) => void {
   const exists = fs.existsSync(path);
   let helper = (stats: webpack.Stats, run: number) => {
     const normalizedStats = normalizeStats(stats);
@@ -23,8 +39,10 @@ export function createAssertExpectation(path): (stats: webpack.Stats, run: numbe
   };
 
   if (exists) {
-    const module = require(path);
-    helper = typeof module !== "function" && typeof module.default === "function" ? module.default : module;
+    const mod = require(path);
+    if (mod.expectStats != null) {
+      helper = mod.expectStats;
+    }
   }
 
   return helper;

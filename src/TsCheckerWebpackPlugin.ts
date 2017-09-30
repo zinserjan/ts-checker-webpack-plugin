@@ -49,30 +49,42 @@ class TsCheckerWebpackPlugin {
       tslintEmitErrors,
       tslint
     );
-    this.checker.start();
   }
 
   apply(compiler: Compiler) {
     this.compiler = compiler;
 
     const lastTimes: Map<string, number> = new Map<string, number>();
-    // detect watch mode
-    this.compiler.plugin("watch-run", (watching, callback) => {
+    // build without watch-mode
+    this.compiler.plugin("run", (_, callback) => {
+      this.checker
+        .start()
+        .then(callback)
+        .catch(callback);
+    });
+
+    // build with watch mode
+    this.compiler.plugin("watch-run", (_, callback) => {
       this.watchMode = true;
 
-      this.logger.time("ts-checker-webpack-plugin:determine-changed-files");
-      const currentTimes = watching.compiler.fileTimestamps;
-      // update file cache
-      const changed: Array<string> = Object.keys(currentTimes)
-        .filter(filePath => currentTimes[filePath] > (lastTimes.get(filePath) || this.startTime))
-        .map(filePath => {
-          lastTimes.set(filePath, currentTimes[filePath]);
-          return filePath;
-        });
+      this.checker
+        .start()
+        .then(() => {
+          this.logger.time("ts-checker-webpack-plugin:determine-changed-files");
+          const currentTimes = (this.compiler as any).fileTimestamps;
+          // update file cache
+          const changed: Array<string> = Object.keys(currentTimes)
+            .filter(filePath => currentTimes[filePath] > (lastTimes.get(filePath) || this.startTime))
+            .map(filePath => {
+              lastTimes.set(filePath, currentTimes[filePath]);
+              return filePath;
+            });
 
-      this.logger.timeEnd("ts-checker-webpack-plugin:determine-changed-files");
-      this.current = this.checker.invalidateFiles(changed, []);
-      callback();
+          this.logger.timeEnd("ts-checker-webpack-plugin:determine-changed-files");
+          this.current = this.checker.invalidateFiles(changed, []);
+        })
+        .then(callback)
+        .catch(callback);
     });
 
     // wait until all changed files are invalidated

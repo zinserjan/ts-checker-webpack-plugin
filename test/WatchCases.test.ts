@@ -3,7 +3,7 @@ import * as fs from "fs-extra";
 import webpack = require("webpack");
 import MemoryFs = require("memory-fs");
 import pDefer = require("p-defer");
-import { createAssertExpectation, satisfiesVersionRequirements } from "./_util/testHelper";
+import { createExpectStats, satisfiesVersionRequirements, createExpectBuildError } from "./_util/testHelper";
 import * as processMock from "./_util/processMock";
 
 const testCasesPath = path.join(__dirname, "watchCases");
@@ -57,7 +57,8 @@ describe("WatchCases", () => {
     const srcTarget = path.join(tmpTestPath, "src");
     const webpackConfigPath = path.join(tmpTestPath, "webpack.config.ts");
     const skipTest = !satisfiesVersionRequirements(path.join(testCasesPath, "versions.json"));
-    const assertExpectation = createAssertExpectation(path.join(testPath, "expectation.ts"));
+    const expectStats = createExpectStats(path.join(testPath, "expectation.ts"));
+    const expectBuildError = createExpectBuildError(path.join(testPath, "expectation.ts"));
 
     (skipTest ? it.skip : it)(testName, async () => {
       await fs.copy(testPath, tmpTestPath);
@@ -103,11 +104,13 @@ describe("WatchCases", () => {
           poll: 400,
         },
         (err, stats) => {
+          const run = stepCount - (steps.length + 1);
           if (err) {
-            return deferred.reject(err);
+            expectBuildError(err, run);
+            return process.nextTick(deferred.resolve);
           }
 
-          assertExpectation(stats, stepCount - (steps.length + 1));
+          expectStats(stats, run);
 
           if (steps.length > 0) {
             const nextStep = steps.shift() as string;

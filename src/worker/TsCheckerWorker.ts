@@ -1,5 +1,5 @@
 import { ChildProcess } from "child_process";
-import { deserializeWebpackBuildResult, WebpackBuildResult } from "../checker/resultSerializer";
+import { deserializeError, deserializeWebpackBuildResult, WebpackBuildResult } from "../checker/resultSerializer";
 import pDefer = require("p-defer");
 const supportsColor = require("supports-color");
 import { TsCheckerRuntimeConfig } from "./TsCheckerRuntime";
@@ -41,7 +41,7 @@ export default class TsCheckerWorker {
   /**
    * Starts the checker process
    */
-  start() {
+  start(): Promise<void> {
     if (this.process == null) {
       // terminate children when main process is going to die
       process.on("exit", this.exitListener);
@@ -66,7 +66,15 @@ export default class TsCheckerWorker {
       this.process.on("error", err => {
         throw err;
       });
+
+      return Promise.resolve()
+        .then(() => this.init())
+        .catch(error => {
+          this.kill();
+          return Promise.reject(error);
+        });
     }
+    return Promise.resolve();
   }
 
   /**
@@ -85,30 +93,38 @@ export default class TsCheckerWorker {
    * Pass files that were (re-)built by webpack and start type checking and linting
    */
   check(files: Array<string>): Promise<WebpackBuildResult> {
-    this.start();
     return this.sendAndWait("typeCheck", { files }).then(deserializeWebpackBuildResult);
   }
 
   /**
    * Invalidate all files that were changed in general (also non-webpack modules)
    */
-  invalidateFiles(changes: Array<string>, removals: Array<string>) {
-    this.start();
+  invalidateFiles(changes: Array<string>, removals: Array<string>): Promise<void> {
     return this.sendAndWait("invalidateFiles", { changes, removals }).then(() => undefined);
   }
 
   /**
    * Recevices all files that are relevant for type checking but unknown for webpack
    */
-  getTypeCheckRelatedFiles() {
-    this.start();
+  getTypeCheckRelatedFiles(): Promise<Array<string>> {
     return this.sendAndWait("typeCheckRelatedFiles").then(({ files }) => files);
+  }
+
+  private init(): Promise<void> {
+    return this.sendAndWait("init").then(() => undefined);
   }
 
   private sendAndWait(id: string, options: { [key: string]: any } = {}) {
     const deferred = pDefer<any>();
 
-    (this.process as ChildProcess).once("message", deferred.resolve);
+    (this.process as ChildProcess).once("message", message => {
+      if (message.id === "error") {
+        const error = deserializeError(message.error);
+        deferred.reject(error);
+      } else {
+        deferred.resolve(message);
+      }
+    });
     (this.process as ChildProcess).send({
       id,
       ...options,
