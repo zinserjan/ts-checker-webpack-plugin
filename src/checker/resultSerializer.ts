@@ -3,7 +3,6 @@ import diagnosticFormatter from "ts-diagnostic-formatter";
 import lintFormatter from "ts-tslint-formatter";
 import { Diagnostic, DiagnosticCategory } from "typescript";
 import { TsCheckerResult } from "./IncrementalChecker";
-const serializeError = require("serialize-error");
 
 export type WebpackBuildResult = {
   checkTime: number;
@@ -11,6 +10,9 @@ export type WebpackBuildResult = {
   errors: Array<Error>;
   warnings: Array<Error>;
 };
+
+export const serializeError = require("serialize-error");
+export const deserializeError = (err: object) => Object.assign(new Error(), { stack: undefined }, err);
 
 /**
  * Transforms TsCheckerResult into WebpackBuildResult
@@ -71,7 +73,7 @@ export const deserializeWebpackBuildResult = (result: any): WebpackBuildResult =
   return {
     checkTime: result.checkTime,
     lintTime: result.lintTime,
-    errors: result.errors.map((err: any) => Object.assign(new Error(), { stack: undefined }, err)),
-    warnings: result.warnings.map((err: any) => Object.assign(new Error(), { stack: undefined }, err)),
+    errors: result.errors.map(deserializeError),
+    warnings: result.warnings.map(deserializeError),
   };
 };

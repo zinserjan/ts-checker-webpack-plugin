@@ -1,7 +1,8 @@
 import * as path from "path";
+import * as os from "os";
 import * as ts from "typescript";
 import tslintTypes = require("tslint"); // Only imported for types, tslint will be required lazy
-import { SourceFile, Diagnostic } from "typescript";
+import { SourceFile, Diagnostic, flattenDiagnosticMessageText } from "typescript";
 import normalizePath = require("normalize-path");
 import FileCache from "../util/FileCache";
 import Logger from "../util/Logger";
@@ -20,15 +21,18 @@ export default class IncrementalChecker {
   private programConfig: ts.ParsedCommandLine;
   private tslintConfig: tslintTypes.Configuration.IConfigurationFile;
 
-  constructor(timings: boolean, tsconfigPath: string, tslintPath?: string) {
+  constructor(timings: boolean) {
     this.logger = new Logger();
     this.fileCache = new FileCache();
+    if (timings) {
+      this.logger.enable();
+    }
+  }
+
+  init(tsconfigPath: string, tslintPath?: string) {
     this.programConfig = IncrementalChecker.getProgramConfig(tsconfigPath);
     if (tslintPath != null) {
       this.tslintConfig = IncrementalChecker.getLintConfig(tslintPath);
-    }
-    if (timings) {
-      this.logger.enable();
     }
   }
 
@@ -150,8 +154,11 @@ export default class IncrementalChecker {
   }
 
   private static getProgramConfig(tsconfigPath: string) {
-    const config = ts.readConfigFile(tsconfigPath, ts.sys.readFile).config;
-    return ts.parseJsonConfigFileContent(config, ts.sys, path.dirname(tsconfigPath));
+    const result = ts.readConfigFile(tsconfigPath, ts.sys.readFile);
+    if (result.error != null) {
+      throw new Error(flattenDiagnosticMessageText(result.error.messageText, os.EOL));
+    }
+    return ts.parseJsonConfigFileContent(result.config, ts.sys, path.dirname(tsconfigPath));
   }
 
   private static getLintConfig(tslintPath: string) {

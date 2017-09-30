@@ -1,6 +1,10 @@
 import * as path from "path";
 import IncrementalChecker from "../checker/IncrementalChecker";
-import { transformToWebpackBuildResult, serializeWebpackBuildResult } from "../checker/resultSerializer";
+import {
+  transformToWebpackBuildResult,
+  serializeWebpackBuildResult,
+  serializeError,
+} from "../checker/resultSerializer";
 import { getProcess } from "./process";
 
 export interface TsCheckerRuntimeConfig {
@@ -21,10 +25,14 @@ process.on("SIGINT", function() {
 const config: TsCheckerRuntimeConfig = JSON.parse(process.env.TS_CHECKER_CONFIG);
 const contextPath = path.dirname(config.tsconfigPath);
 
-const incrementalChecker = new IncrementalChecker(config.timings, config.tsconfigPath, config.tslintPath);
+const incrementalChecker = new IncrementalChecker(config.timings);
 
 const messageOk = {
   id: "ok",
+};
+
+const messageError = {
+  id: "error",
 };
 
 const sendMessage = (...args: Array<any>) => {
@@ -33,6 +41,18 @@ const sendMessage = (...args: Array<any>) => {
 
 process.on("message", function(message: any) {
   switch (message.id) {
+    case "init": {
+      try {
+        incrementalChecker.init(config.tsconfigPath, config.tslintPath);
+        sendMessage(messageOk);
+      } catch (error) {
+        sendMessage({
+          ...messageError,
+          error: serializeError(error),
+        });
+      }
+      break;
+    }
     case "invalidateFiles": {
       incrementalChecker.invalidateFiles(message.changes, message.removals);
       sendMessage(messageOk);

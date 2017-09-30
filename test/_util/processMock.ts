@@ -35,17 +35,10 @@ export const register = () => {
   processUtil.getProcess.mockImplementation(() => childProcessMock);
   processUtil.forkProcess.mockImplementation((modulePath: string, args: string[], options: ForkOptions) => {
     env = options.env;
-    try {
-      if (args.length > 0) {
-        require(args[0]);
-      } else {
-        require(modulePath);
-      }
-    } catch (e) {
-      // todo error handling needs to be fixed (test case: tsconfig-syntax-error)
-      setTimeout(() => {
-        eventEmitter.emit("exit", 1, null);
-      }, 100);
+    if (args.length > 0) {
+      require(args[0]);
+    } else {
+      require(modulePath);
     }
     return childProcessMock;
   });
