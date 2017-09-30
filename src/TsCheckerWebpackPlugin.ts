@@ -69,22 +69,25 @@ class TsCheckerWebpackPlugin {
 
       this.checker
         .start()
-        .then(() => {
-          this.logger.time("ts-checker-webpack-plugin:determine-changed-files");
-          const currentTimes = (this.compiler as any).fileTimestamps;
-          // update file cache
-          const changed: Array<string> = Object.keys(currentTimes)
-            .filter(filePath => currentTimes[filePath] > (lastTimes.get(filePath) || this.startTime))
-            .map(filePath => {
-              lastTimes.set(filePath, currentTimes[filePath]);
-              return filePath;
-            });
-
-          this.logger.timeEnd("ts-checker-webpack-plugin:determine-changed-files");
-          this.current = this.checker.invalidateFiles(changed, []);
-        })
         .then(callback)
         .catch(callback);
+    });
+
+    // handle file invalidation
+    this.compiler.plugin("before-compile", (_, callback) => {
+      this.logger.time("ts-checker-webpack-plugin:determine-changed-files");
+      const currentTimes = (this.compiler as any).fileTimestamps;
+      // update file cache
+      const changed: Array<string> = Object.keys(currentTimes)
+        .filter(filePath => currentTimes[filePath] > (lastTimes.get(filePath) || this.startTime))
+        .map(filePath => {
+          lastTimes.set(filePath, currentTimes[filePath]);
+          return filePath;
+        });
+
+      this.logger.timeEnd("ts-checker-webpack-plugin:determine-changed-files");
+      this.current = this.checker.invalidateFiles(changed, []);
+      callback();
     });
 
     // wait until all changed files are invalidated
@@ -94,8 +97,8 @@ class TsCheckerWebpackPlugin {
         callback();
         return;
       }
-      this.logger.time("ts-checker-webpack-plugin:wait-for-file-invalidation");
       if (this.current !== null) {
+        this.logger.time("ts-checker-webpack-plugin:wait-for-file-invalidation");
         this.current
           .then(() => {
             this.logger.timeEnd("ts-checker-webpack-plugin:wait-for-file-invalidation");
@@ -104,7 +107,6 @@ class TsCheckerWebpackPlugin {
           .catch(callback);
         this.current = null;
       } else {
-        this.logger.timeEnd("ts-checker-webpack-plugin:wait-for-file-invalidation");
         callback();
       }
     });
