@@ -40,6 +40,11 @@ export default class IncrementalChecker {
 
   run(): TsCheckerResult {
     const checkStart = Date.now();
+    // invalidate all files that failed before (necessary to recover from "module not found" error)
+    const failedFiles = Array.from(this.failures);
+    this.failures.clear();
+    this.invalidateFiles(failedFiles, []);
+
     this.logger.time("ts-checker-webpack-plugin:create-program");
     const invalidatedFiles = this.fileCache.getInvalidatedFiles();
     // console.log("invalidatedFiles", invalidatedFiles);
@@ -54,12 +59,8 @@ export default class IncrementalChecker {
     // update dependencies of files with the new results provided by program
     this.fileCache.updateDependencies(allSourceFiles);
 
-    // collect files that were added or modified
+    // collect files that were added or modified and also all files that failed on the previous run
     const modifiedFiles = this.fileCache.getModifiedFiles();
-    // add also all files that failed on the previous run
-    const failedFiles = Array.from(this.failures);
-    this.failures.clear();
-
     const minimalFiles = [...invalidatedFiles, ...modifiedFiles, ...failedFiles];
     const fullCheckNecessary = minimalFiles.some((fileName: string) => this.fileCache.hasFileGlobalImpacts(fileName));
 
