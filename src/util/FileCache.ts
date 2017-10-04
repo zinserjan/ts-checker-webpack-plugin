@@ -14,6 +14,10 @@ export interface FileState {
    */
   readonly typeDefinition: boolean;
   /**
+   * Determines if this file is a ts file
+   */
+  readonly ts: boolean;
+  /**
    * Source for TS checker
    */
   source: SourceFile | null;
@@ -34,6 +38,7 @@ export interface FileState {
 const createFile = (file: string): FileState => ({
   file,
   typeDefinition: TYPE_DEFINITION.test(file),
+  ts: TS_FILE.test(file),
   source: null,
   dependencies: [],
   globalImpact: false,
@@ -124,10 +129,10 @@ export default class FileCache {
     const files = new Set<string>();
 
     this.getFiles()
-      .filter(fileState => TS_FILE.test(fileState.file))
+      .filter(fileState => fileState.ts)
       .forEach(fileState => {
         files.add(fileState.file);
-        fileState.dependencies.filter(file => TS_FILE.test(file)).forEach(dep => files.add(dep));
+        fileState.dependencies.filter(file => !files.has(file) && TS_FILE.test(file)).forEach(dep => files.add(dep));
       });
 
     return Array.from(files);
