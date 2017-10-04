@@ -1,7 +1,6 @@
 import { Compiler } from "webpack";
 import TsCheckerWorker from "./worker/TsCheckerWorker";
 import Logger from "./util/Logger";
-import { stripLoader } from "./util/webpackModule";
 import { WebpackBuildResult } from "./checker/resultSerializer";
 
 export interface TsCheckerWebpackPluginOptions {
@@ -21,7 +20,6 @@ class TsCheckerWebpackPlugin {
   private logger: Logger;
   private checker: TsCheckerWorker;
   private current: Promise<WebpackBuildResult | void> | null = null;
-  private builtFiles: Array<string> = [];
   private startTime: number = Date.now();
 
   constructor(options: TsCheckerWebpackPluginOptions) {
@@ -122,12 +120,6 @@ class TsCheckerWebpackPlugin {
 
       // compilation for modules almost finished, start type checking
       compilation.plugin("seal", () => {
-        const buildFiles = compilation.modules
-          .filter((module: any) => module.built && module.request)
-          .map((module: any) => stripLoader(module.request));
-
-        Array.prototype.push.apply(this.builtFiles, buildFiles);
-
         // skip type checking when already checked or when there are build errors
         if (checked || compilation.errors.length > 0) {
           return;
@@ -136,7 +128,7 @@ class TsCheckerWebpackPlugin {
         // start type checking
         this.logger.timeEnd("ts-checker-webpack-plugin:wait-for-built-of-modules");
         this.logger.time("ts-checker-webpack-plugin:type-checking-process");
-        this.current = this.checker.check(this.builtFiles);
+        this.current = this.checker.check();
         checked = true;
       });
     });
@@ -154,8 +146,6 @@ class TsCheckerWebpackPlugin {
       (this.current as Promise<WebpackBuildResult>)
         .then((result: any) => {
           this.logger.timeEnd("ts-checker-webpack-plugin:wait-for-type-checker:results");
-          // reset built files
-          this.builtFiles.length = 0;
           // pass errors/warnings to webpack
           const { errors, warnings } = result;
           errors.forEach((error: Error) => compilation.errors.push(error));
@@ -165,11 +155,13 @@ class TsCheckerWebpackPlugin {
           this.logger.time("ts-checker-webpack-plugin:wait-for-type-checker:files");
           return this.checker.getTypeCheckRelatedFiles();
         })
-        .then(filesToWatch => {
-          this.logger.timeEnd("ts-checker-webpack-plugin:wait-for-type-checker:files");
-          // let webpack watch type definition files which are not part of the dependency graph
+        .then(filesToCheck => {
+          // let webpack watch TypeScript files which are not part of the dependency graph
           // to rebuild on changes automatically
+          const fileDependencies = new Set(compilation.fileDependencies);
+          const filesToWatch = filesToCheck.filter(f => !fileDependencies.has(f));
           Array.prototype.push.apply(compilation.fileDependencies, filesToWatch);
+          this.logger.timeEnd("ts-checker-webpack-plugin:wait-for-type-checker:files");
           this.logger.timeEnd("ts-checker-webpack-plugin:wait-for-type-checker");
           this.logger.timeEnd("ts-checker-webpack-plugin:type-checking-process");
         })

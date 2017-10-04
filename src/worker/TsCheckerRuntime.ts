@@ -67,7 +67,6 @@ process.on("message", function(message: any) {
       break;
     }
     case "typeCheck": {
-      incrementalChecker.updateBuiltFiles(message.files);
       const result = incrementalChecker.run();
 
       if (config.ignoreDiagnostics.length) {

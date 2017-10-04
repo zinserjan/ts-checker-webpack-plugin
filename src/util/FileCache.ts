@@ -2,6 +2,7 @@ import { SourceFile } from "typescript";
 import { getDependencies, hasGlobalImpact } from "./dependencies";
 
 const TYPE_DEFINITION = /.*\.d\.ts$/;
+const TS_FILE = /.*\.tsx?$/;
 
 export interface FileState {
   /**
@@ -21,10 +22,6 @@ export interface FileState {
    */
   dependencies: Array<string>;
   /**
-   * Determines if this file was built by webpack
-   */
-  built: boolean;
-  /**
    * Determines if this file has global impacts
    */
   globalImpact: boolean;
@@ -39,7 +36,6 @@ const createFile = (file: string): FileState => ({
   typeDefinition: TYPE_DEFINITION.test(file),
   source: null,
   dependencies: [],
-  built: false,
   globalImpact: false,
   linted: false,
 });
@@ -72,16 +68,6 @@ export default class FileCache {
 
   get(file: string) {
     return this.files.get(file);
-  }
-
-  built(file: string) {
-    this.update(file, {
-      source: null,
-      dependencies: [],
-      built: true,
-      globalImpact: false,
-      linted: false,
-    });
   }
 
   linted(file: string) {
@@ -133,11 +119,18 @@ export default class FileCache {
   }
 
   getTypeCheckRelatedFiles() {
-    // type definitions are always relevant for type checking
-    // other files with types can be determined with the built flag
-    return this.getFiles()
-      .filter(fileState => fileState.typeDefinition || !fileState.built)
-      .map(fileState => fileState.file);
+    // all TypeScript files are relevant for type checking
+    // in addition we need to collect also all dependencies cause a module may does not exist yet
+    const files = new Set<string>();
+
+    this.getFiles()
+      .filter(fileState => TS_FILE.test(fileState.file))
+      .forEach(fileState => {
+        files.add(fileState.file);
+        fileState.dependencies.filter(file => TS_FILE.test(file)).forEach(dep => files.add(dep));
+      });
+
+    return Array.from(files);
   }
 
   getInvalidatedFiles() {

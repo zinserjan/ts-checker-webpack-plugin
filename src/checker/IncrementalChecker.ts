@@ -129,17 +129,6 @@ export default class IncrementalChecker {
     };
   }
 
-  updateBuiltFiles(changes: Array<string>) {
-    changes.forEach(file => {
-      // normalize system path style to unix style
-      const normalizedFile = normalizePath(file);
-      // invalidate file
-      this.fileCache.built(normalizedFile);
-      // remove type definitions for files like css-modules, cause file watcher may detect changes to late
-      this.fileCache.removeTypeDefinitionOfFile(normalizedFile);
-    });
-  }
-
   invalidateFiles(changed: Array<string>, removed: Array<string>) {
     // todo prefill cache for invalidated files to get another performance boost
     changed.forEach(file => {
