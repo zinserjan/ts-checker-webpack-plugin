@@ -100,6 +100,7 @@ export default class FileCache {
   }
 
   remove(file: string) {
+    this.added.delete(file);
     this.files.delete(file);
   }
 
