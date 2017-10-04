@@ -4,16 +4,16 @@ const hasNodeGlobalImpact = (node: Node): boolean => {
   if (node.kind === SyntaxKind.DeclareKeyword) {
     return true;
   }
-  const nodes: Array<Node> = [];
-  node.forEachChild((node: Node) => {
-    nodes.push(node);
-  });
-  return nodes.some(hasNodeGlobalImpact);
+  return getNodes(node).some(hasNodeGlobalImpact);
 };
 
-export const getNodes = (sourceFile: SourceFile): Array<Node> => {
+const hasModules = (sourceFile: SourceFile): boolean => {
+  return /import |export |module.exports|exports/.test(sourceFile.text);
+};
+
+export const getNodes = (item: { forEachChild: (cbNode: (node: Node) => void) => void }): Array<Node> => {
   const nodes: Array<Node> = [];
-  sourceFile.forEachChild((node: Node) => {
+  item.forEachChild((node: Node) => {
     nodes.push(node);
   });
   return nodes;
@@ -21,7 +21,7 @@ export const getNodes = (sourceFile: SourceFile): Array<Node> => {
 
 export const hasGlobalImpact = (sourceFile: SourceFile): boolean => {
   const nodes = getNodes(sourceFile);
-  return nodes.some(hasNodeGlobalImpact);
+  return nodes.some(hasNodeGlobalImpact) || !hasModules(sourceFile);
 };
 
 export const getDependencies = (sourceFile: SourceFile) => {
