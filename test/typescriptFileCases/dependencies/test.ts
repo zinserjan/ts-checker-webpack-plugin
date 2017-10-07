@@ -4,7 +4,7 @@ import normalizePath = require("normalize-path");
 import { getDependencies } from "../../../src/util/dependencies";
 
 export function expectSourceFiles(sourceFiles: Array<SourceFile>) {
-  const entry = path.join(__dirname, "./src/entry.ts");
+  const entry = normalizePath(path.join(__dirname, "./src/entry.ts"));
 
   const dependencies = [
     path.join(__dirname, "./src/modules/interface.ts"),
@@ -14,7 +14,7 @@ export function expectSourceFiles(sourceFiles: Array<SourceFile>) {
 
   const requireDependencies = [path.join(__dirname, "./src/modules/module3.ts")].map(normalizePath);
 
-  const entrySource = sourceFiles.find(file => normalizePath(file.fileName) === entry);
+  const entrySource = sourceFiles.find(file => file.fileName === entry);
 
   const entryDependencies = getDependencies(entrySource);
 
