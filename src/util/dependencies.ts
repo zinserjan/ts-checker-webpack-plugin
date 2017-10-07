@@ -11,7 +11,7 @@ const hasModules = (sourceFile: SourceFile): boolean => {
   return /import |export |module.exports|exports/.test(sourceFile.text);
 };
 
-export const getNodes = (item: { forEachChild: (cbNode: (node: Node) => void) => void }): Array<Node> => {
+const getNodes = (item: { forEachChild: (cbNode: (node: Node) => void) => void }): Array<Node> => {
   const nodes: Array<Node> = [];
   item.forEachChild((node: Node) => {
     nodes.push(node);
