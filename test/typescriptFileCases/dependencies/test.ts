@@ -14,7 +14,7 @@ export function expectSourceFiles(sourceFiles: Array<SourceFile>) {
 
   const requireDependencies = [path.join(__dirname, "./src/modules/module3.ts")].map(normalizePath);
 
-  const entrySource = sourceFiles.find(file => file.fileName === entry);
+  const entrySource = sourceFiles.find(file => normalizePath(file.fileName) === entry);
 
   const entryDependencies = getDependencies(entrySource);
 
