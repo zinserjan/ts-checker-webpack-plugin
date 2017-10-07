@@ -1,6 +1,6 @@
+import * as path from "path";
 import { SourceFile } from "typescript";
 import normalizePath = require("normalize-path");
-import * as path from "path";
 import { getDependencies } from "../../../src/util/dependencies";
 
 export function expectSourceFiles(sourceFiles: Array<SourceFile>) {
