@@ -92,8 +92,8 @@ export default class TsCheckerWorker {
   /**
    * Pass files that were (re-)built by webpack and start type checking and linting
    */
-  check(files: Array<string>): Promise<WebpackBuildResult> {
-    return this.sendAndWait("typeCheck", { files }).then(deserializeWebpackBuildResult);
+  check(): Promise<WebpackBuildResult> {
+    return this.sendAndWait("typeCheck").then(deserializeWebpackBuildResult);
   }
 
   /**

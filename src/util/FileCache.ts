@@ -1,7 +1,8 @@
 import { SourceFile } from "typescript";
+import { getDependencies, hasGlobalImpact } from "./dependencies";
 
-const NODE_MODULE = /node_modules/;
 const TYPE_DEFINITION = /.*\.d\.ts$/;
+const TS_FILE = /.*\.tsx?$/;
 
 export interface FileState {
   /**
@@ -9,21 +10,25 @@ export interface FileState {
    */
   readonly file: string;
   /**
-   * Determines if this file is a node_module
-   */
-  readonly nodeModule: boolean;
-  /**
    * Determines if this file is a type definition file
    */
   readonly typeDefinition: boolean;
+  /**
+   * Determines if this file is a ts file
+   */
+  readonly ts: boolean;
   /**
    * Source for TS checker
    */
   source: SourceFile | null;
   /**
-   * Determines if this file was built by webpack
+   * Dependencies of this file
    */
-  built: boolean;
+  dependencies: Array<string>;
+  /**
+   * Determines if this file has global impacts
+   */
+  globalImpact: boolean;
   /**
    * Determines if this file was already linted
    */
@@ -32,18 +37,21 @@ export interface FileState {
 
 const createFile = (file: string): FileState => ({
   file,
-  nodeModule: NODE_MODULE.test(file),
   typeDefinition: TYPE_DEFINITION.test(file),
+  ts: TS_FILE.test(file),
   source: null,
-  built: false,
+  dependencies: [],
+  globalImpact: false,
   linted: false,
 });
 
 export default class FileCache {
   private files: Map<string, FileState>;
+  private added: Map<string, string>;
 
   constructor() {
     this.files = new Map();
+    this.added = new Map();
   }
 
   exist(file: string) {
@@ -51,17 +59,20 @@ export default class FileCache {
   }
 
   add(file: string, source: SourceFile) {
+    this.added.set(file, file);
     this.update(file, {
       source,
+      dependencies: [], // dependencies will be set later, see updateDependencies
     });
+
+    const state = this.get(file) as FileState;
+
+    // each source file can have a global impact
+    state.globalImpact = hasGlobalImpact(source);
   }
 
-  built(file: string) {
-    this.update(file, {
-      source: null,
-      built: true,
-      linted: false,
-    });
+  get(file: string) {
+    return this.files.get(file);
   }
 
   linted(file: string) {
@@ -73,11 +84,14 @@ export default class FileCache {
   invalidate(file: string) {
     this.update(file, {
       source: null,
+      dependencies: [],
+      globalImpact: false,
       linted: false,
     });
   }
 
   remove(file: string) {
+    this.added.delete(file);
     this.files.delete(file);
   }
 
@@ -88,10 +102,10 @@ export default class FileCache {
     }
   }
 
-  isFileTypeCheckable(file: string) {
+  hasFileGlobalImpacts(file: string) {
     if (this.exist(file)) {
       const fileState = this.files.get(file) as FileState;
-      return !fileState.nodeModule;
+      return fileState.globalImpact;
     }
     return false;
   }
@@ -99,7 +113,7 @@ export default class FileCache {
   isFileLintable(file: string) {
     if (this.exist(file)) {
       const fileState = this.files.get(file) as FileState;
-      return !fileState.linted && !fileState.typeDefinition && !fileState.nodeModule;
+      return !fileState.linted && !fileState.typeDefinition;
     }
     return false;
   }
@@ -110,11 +124,85 @@ export default class FileCache {
   }
 
   getTypeCheckRelatedFiles() {
-    // type definitions are always relevant for type checking
-    // other files with types can be determined with the built flag
-    return Array.from(this.files.values())
-      .filter(fileState => fileState.typeDefinition || !fileState.built)
+    // all TypeScript files are relevant for type checking
+    // in addition we need to collect also all dependencies cause a module may does not exist yet
+    const files = new Set<string>();
+
+    this.getFiles()
+      .filter(fileState => fileState.ts)
+      .forEach(fileState => {
+        files.add(fileState.file);
+        fileState.dependencies.filter(file => !files.has(file) && TS_FILE.test(file)).forEach(dep => files.add(dep));
+      });
+
+    return Array.from(files);
+  }
+
+  getInvalidatedFiles() {
+    return this.getFiles()
+      .filter(fileState => fileState.source == null)
       .map(fileState => fileState.file);
+  }
+
+  getModifiedFiles() {
+    return Array.from(this.added.values());
+  }
+
+  updateDependencies(sourceFiles: Array<SourceFile>) {
+    sourceFiles.forEach((source: SourceFile) => {
+      this.update(source.fileName, {
+        source,
+        dependencies: getDependencies(source),
+      });
+    });
+  }
+
+  getAffectedFiles(modifiedFiles: Array<string>) {
+    // all files that depent on a file
+    const reverseDependencyTree = new Map<string, Array<string>>();
+    // affected modules map
+    const affectedModules = new Set<string>();
+
+    const fileStates = this.getFiles();
+
+    // build dependency & reverse dependency tree
+    fileStates.forEach((fileState: FileState) => {
+      fileState.dependencies.forEach((fileName: string) => {
+        if (!reverseDependencyTree.has(fileName)) {
+          reverseDependencyTree.set(fileName, []);
+        }
+        (reverseDependencyTree.get(fileName) as Array<string>).push(fileState.file);
+      });
+    });
+
+    // collect affected files
+    const affectedCollector = (fileName: string) => {
+      if (affectedModules.has(fileName)) {
+        // already collected, skip
+        return;
+      }
+
+      affectedModules.add(fileName);
+      // loop through all parents and mark them
+      if (reverseDependencyTree.has(fileName)) {
+        (reverseDependencyTree.get(fileName) as Array<string>).forEach(affectedCollector);
+      }
+    };
+    modifiedFiles.forEach(affectedCollector);
+
+    return affectedModules;
+  }
+
+  cleanup() {
+    this.added.clear();
+    this.getInvalidatedFiles().forEach(file => {
+      this.remove(file);
+      this.removeTypeDefinitionOfFile(file);
+    });
+  }
+
+  private getFiles() {
+    return Array.from(this.files.values());
   }
 
   private update(file: string, options: Partial<FileState>) {
