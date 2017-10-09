@@ -213,6 +213,23 @@ Object {
 }
 `;
 
+exports[`WatchCases full-check 1`] = `
+Object {
+  "errors": Array [
+    "xfile
+(1,7): error TS2322",
+  ],
+  "warnings": Array [],
+}
+`;
+
+exports[`WatchCases full-check 2`] = `
+Object {
+  "errors": Array [],
+  "warnings": Array [],
+}
+`;
+
 exports[`WatchCases ignore-child-compiler-no-error 1`] = `
 Object {
   "errors": Array [],

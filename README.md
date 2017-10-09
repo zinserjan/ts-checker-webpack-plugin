@@ -73,6 +73,7 @@ new TsCheckerWebpackPlugin(options: object)
 
 |Name|Type|Description|
 |:--|:--:|:----------|
+|**`incremental`**|`boolean`|Allows to disable incremental type checking. <br>Default: `true`|
 |**`tsconfig`**|`string`|Absolute path to tsconfig.json file.|
 |**`tslint`**|`string`|Absolute path to tslint.json file. <br>Default: `undefined`|
 |**`tslintEmitErrors`**|`boolean`|Report all TSLint failures as webpack errors regardless of the rule severity. <br>Default: `false`|
