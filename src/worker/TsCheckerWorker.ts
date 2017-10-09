@@ -58,6 +58,7 @@ export default class TsCheckerWorker {
           cwd: process.cwd(),
           execArgv: [`--max-old-space-size=${this.memoryLimit}`],
           env: {
+            ...process.env,
             FORCE_COLOR: Number(supportsColor),
             TS_CHECKER_CONFIG: JSON.stringify(this.runtimeConfig),
           },
