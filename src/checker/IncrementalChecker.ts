@@ -40,14 +40,11 @@ export default class IncrementalChecker {
 
   run(): TsCheckerResult {
     const checkStart = Date.now();
-    // invalidate all files that failed before (necessary to recover from "module not found" error)
+    // collect failed & invalidated files
     const failedFiles = Array.from(this.failures);
-    this.failures.clear();
-    this.invalidateFiles(failedFiles, []);
-
-    this.logger.time("ts-checker-webpack-plugin:create-program");
     const invalidatedFiles = this.fileCache.getInvalidatedFiles();
     // console.log("invalidatedFiles", invalidatedFiles);
+    this.logger.time("ts-checker-webpack-plugin:create-program");
     this.program = this.createProgram(this.program);
     this.logger.timeEnd("ts-checker-webpack-plugin:create-program");
 
@@ -61,12 +58,14 @@ export default class IncrementalChecker {
 
     // collect files that were added or modified and also all files that failed on the previous run
     const modifiedFiles = this.fileCache.getModifiedFiles();
-    const minimalFiles = [...invalidatedFiles, ...modifiedFiles, ...failedFiles];
+    const changedFiles = [...invalidatedFiles, ...modifiedFiles];
+    const minimalFiles = [...changedFiles, ...failedFiles];
     const fullCheckNecessary = minimalFiles.some((fileName: string) => this.fileCache.hasFileGlobalImpacts(fileName));
 
     let sourceFilesToCheck = allSourceFiles;
     if (!fullCheckNecessary) {
-      const affectedFiles = this.fileCache.getAffectedFiles(minimalFiles);
+      const affectedFiles = this.fileCache.getAffectedFiles(changedFiles);
+      failedFiles.forEach(file => affectedFiles.add(file));
       sourceFilesToCheck = sourceFilesToCheck.filter((file: SourceFile) => affectedFiles.has(file.fileName));
     }
 
@@ -80,6 +79,8 @@ export default class IncrementalChecker {
     this.logger.timeEnd("ts-checker-webpack-plugin:check-types");
     const checkEnd = Date.now();
 
+    // collect failures
+    this.failures.clear();
     diagnostics.forEach((diagnostic: ts.Diagnostic) => diagnostic.file && this.failures.add(diagnostic.file.fileName));
 
     const lintStart = Date.now();
@@ -161,10 +162,13 @@ export default class IncrementalChecker {
     const originalGetSourceFile = host.getSourceFile;
 
     host.getSourceFile = (filePath, languageVersion, onError): SourceFile => {
-      // try to read file from cache
-      const source = this.fileCache.getSource(filePath);
-      if (source !== null) {
-        return source;
+      // read only from cache when the file didn't failed before (necessary to recover from "module not found" error)
+      if (!this.failures.has(filePath)) {
+        // try to read file from cache
+        const source = this.fileCache.getSource(filePath);
+        if (source !== null) {
+          return source;
+        }
       }
 
       // get source from file as files cache isn't prefilled yet
