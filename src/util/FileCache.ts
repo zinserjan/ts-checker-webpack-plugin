@@ -59,7 +59,10 @@ export default class FileCache {
   }
 
   add(file: string, source: SourceFile) {
-    this.added.set(file, file);
+    if (this.getSource(file) == null) {
+      this.added.set(file, file);
+    }
+
     this.update(file, {
       source,
       dependencies: [], // dependencies will be set later, see updateDependencies
