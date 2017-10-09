@@ -85,7 +85,7 @@ new TsCheckerWebpackPlugin(options: object)
 
 ## Motivation
 
-First off all the approach is based on the idea of [fork-ts-checker-webpack-plugin](https://github.com/Realytics/fork-ts-checker-webpack-plugin) to run the type checking process independently of the actual transpiling of the files with [ts-loader](https://github.com/TypeStrong/ts-loader) to speed things up. 
+First off all the approach is based on the idea of [fork-ts-checker-webpack-plugin](https://github.com/Realytics/fork-ts-checker-webpack-plugin) to run the type checking process independently of the actual transpiling of the files with [ts-loader](https://github.com/TypeStrong/ts-loader) to speed things up.
 But the main motivation for this plugin was to support CSS-Modules with type definitions properly without using any workarounds ([1](https://github.com/Jimdo/typings-for-css-modules-loader/issues/33#issuecomment-303330819), [2](https://github.com/Quramy/typed-css-modules/issues/2#issuecomment-260391196)).
 
 Differences to fork-ts-checker-webpack-plugin
@@ -93,6 +93,17 @@ Differences to fork-ts-checker-webpack-plugin
 - works well with create-react-app in watch mode cause type checking errors will be forwarded to webpack
 - files are cached internally until they will be invalidated by webpack
 
+## Performance tips
+You can improve the type checking performance even more with some tweaks in your `tsconfig.json`.
+
+### Skip type checking of all declaration files
+
+You can skip type checking of all declaration files with `skipLibCheck: true`. See [TypeScript Compiler Options](https://www.typescriptlang.org/docs/handbook/compiler-options.html).
+
+### Reduce files to check
+This plugin processes every file that was found by your `tsconfig.json`. You can reduce the files to process by this plugin with the `files`, `includes` and/or `exclude` option in your `tsconfig.json`. See [TypeScript tsconfig.json](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html).
+
+For example you could exclude your tests, when your test runner checks them already.  
 
 ## License
 
