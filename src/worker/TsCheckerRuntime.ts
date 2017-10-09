@@ -8,6 +8,7 @@ import {
 import { getProcess } from "./process";
 
 export interface TsCheckerRuntimeConfig {
+  incremental: boolean;
   tsconfigPath: string;
   diagnosticFormatter: string;
   tslintPath?: string;
@@ -25,7 +26,7 @@ process.on("SIGINT", function() {
 const config: TsCheckerRuntimeConfig = JSON.parse(process.env.TS_CHECKER_CONFIG);
 const contextPath = path.dirname(config.tsconfigPath);
 
-const incrementalChecker = new IncrementalChecker(config.timings);
+const incrementalChecker = new IncrementalChecker(config.incremental, config.timings);
 
 const messageOk = {
   id: "ok",

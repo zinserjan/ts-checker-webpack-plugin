@@ -12,6 +12,7 @@ export default class TsCheckerWorker {
   private runtimeConfig: TsCheckerRuntimeConfig;
 
   constructor(
+    incremental: boolean,
     memoryLimit: number,
     timings: boolean,
     tsconfigPath: string,
@@ -23,6 +24,7 @@ export default class TsCheckerWorker {
   ) {
     this.memoryLimit = memoryLimit;
     this.runtimeConfig = {
+      incremental,
       tsconfigPath,
       diagnosticFormatter,
       tslintPath,

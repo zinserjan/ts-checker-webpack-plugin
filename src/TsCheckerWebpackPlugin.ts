@@ -4,6 +4,7 @@ import Logger from "./util/Logger";
 import { WebpackBuildResult } from "./checker/resultSerializer";
 
 export interface TsCheckerWebpackPluginOptions {
+  incremental?: boolean;
   tsconfig: string;
   tslint?: string;
   tslintEmitErrors?: boolean;
@@ -24,6 +25,7 @@ class TsCheckerWebpackPlugin {
 
   constructor(options: TsCheckerWebpackPluginOptions) {
     const {
+      incremental = true,
       tsconfig,
       tslint,
       tslintEmitErrors = false,
@@ -38,6 +40,7 @@ class TsCheckerWebpackPlugin {
       this.logger.enable();
     }
     this.checker = new TsCheckerWorker(
+      incremental,
       memoryLimit,
       timings,
       tsconfig,

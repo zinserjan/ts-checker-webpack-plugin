@@ -21,8 +21,10 @@ export default class IncrementalChecker {
   private program: ts.Program;
   private programConfig: ts.ParsedCommandLine;
   private tslintConfig: tslintTypes.Configuration.IConfigurationFile;
+  private incremental: boolean;
 
-  constructor(timings: boolean) {
+  constructor(incremental: boolean, timings: boolean) {
+    this.incremental = incremental;
     this.logger = new Logger();
     this.fileCache = new FileCache();
     this.failures = new Set<string>();
@@ -53,20 +55,23 @@ export default class IncrementalChecker {
     // receive source files
     const allSourceFiles: Array<SourceFile> = this.program.getSourceFiles();
     const rootFiles = new Set<string>(this.program.getRootFileNames());
-    // update dependencies of files with the new results provided by program
-    this.fileCache.updateDependencies(allSourceFiles);
-
-    // collect files that were added or modified and also all files that failed on the previous run
-    const modifiedFiles = this.fileCache.getModifiedFiles();
-    const changedFiles = [...invalidatedFiles, ...modifiedFiles];
-    const minimalFiles = [...changedFiles, ...failedFiles];
-    const fullCheckNecessary = minimalFiles.some((fileName: string) => this.fileCache.hasFileGlobalImpacts(fileName));
-
     let sourceFilesToCheck = allSourceFiles;
-    if (!fullCheckNecessary) {
-      const affectedFiles = this.fileCache.getAffectedFiles(changedFiles);
-      failedFiles.forEach(file => affectedFiles.add(file));
-      sourceFilesToCheck = sourceFilesToCheck.filter((file: SourceFile) => affectedFiles.has(file.fileName));
+
+    if (this.incremental) {
+      // update dependencies of files with the new results provided by program
+      this.fileCache.updateDependencies(allSourceFiles);
+
+      // collect files that were added or modified and also all files that failed on the previous run
+      const modifiedFiles = this.fileCache.getModifiedFiles();
+      const changedFiles = [...invalidatedFiles, ...modifiedFiles];
+      const minimalFiles = [...changedFiles, ...failedFiles];
+      const fullCheckNecessary = minimalFiles.some((fileName: string) => this.fileCache.hasFileGlobalImpacts(fileName));
+
+      if (!fullCheckNecessary) {
+        const affectedFiles = this.fileCache.getAffectedFiles(changedFiles);
+        failedFiles.forEach(file => affectedFiles.add(file));
+        sourceFilesToCheck = sourceFilesToCheck.filter((file: SourceFile) => affectedFiles.has(file.fileName));
+      }
     }
 
     this.logger.timeEnd("ts-checker-webpack-plugin:collect-sourcefiles");
