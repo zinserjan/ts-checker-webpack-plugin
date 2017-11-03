@@ -27,14 +27,20 @@ matrix:
     - os: linux
       node_js: 6
       env: WEBPACK_VERSION=3 TYPESCRIPT_VERSION=2.5 MOCK_PROCESS_FOR_COVERAGE=false
+    - os: linux
+      node_js: 6
+      env: WEBPACK_VERSION=3 TYPESCRIPT_VERSION=2.6 MOCK_PROCESS_FOR_COVERAGE=true
+    - os: linux
+      node_js: 6
+      env: WEBPACK_VERSION=3 TYPESCRIPT_VERSION=2.6 MOCK_PROCESS_FOR_COVERAGE=false
     # node 8 with webpack 3 and latest typescript
     - os: linux
       node_js: 8
-      env: WEBPACK_VERSION=3 TYPESCRIPT_VERSION=2.5
+      env: WEBPACK_VERSION=3 TYPESCRIPT_VERSION=2.6
     # webpack 2
     - os: linux
       node_js: 6
-      env: WEBPACK_VERSION=2 TYPESCRIPT_VERSION=2.5
+      env: WEBPACK_VERSION=2 TYPESCRIPT_VERSION=2.6
   fast_finish: true
 
 # Test scripts

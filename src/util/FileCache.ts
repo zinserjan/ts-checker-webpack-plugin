@@ -151,7 +151,7 @@ export default class FileCache {
     return Array.from(this.added.values());
   }
 
-  updateDependencies(sourceFiles: Array<SourceFile>) {
+  updateDependencies(sourceFiles: ReadonlyArray<SourceFile>) {
     sourceFiles.forEach((source: SourceFile) => {
       this.update(source.fileName, {
         source,

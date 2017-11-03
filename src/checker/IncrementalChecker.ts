@@ -53,7 +53,7 @@ export default class IncrementalChecker {
     this.logger.time("ts-checker-webpack-plugin:collect-sourcefiles");
 
     // receive source files
-    const allSourceFiles: Array<SourceFile> = this.program.getSourceFiles();
+    const allSourceFiles: ReadonlyArray<SourceFile> = this.program.getSourceFiles();
     const rootFiles = new Set<string>(this.program.getRootFileNames());
     let sourceFilesToCheck = allSourceFiles;
 
@@ -177,7 +177,7 @@ export default class IncrementalChecker {
       }
 
       // get source from file as files cache isn't prefilled yet
-      this.fileCache.add(filePath, originalGetSourceFile(filePath, languageVersion, onError));
+      this.fileCache.add(filePath, originalGetSourceFile(filePath, languageVersion, onError) as SourceFile);
       return this.fileCache.getSource(filePath) as SourceFile;
     };
 
